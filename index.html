@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="light dark">
+<title>AI職場實作課 學員實作頁</title>
+<style>
+:root{
+  --bg:#F5F7FA;--surface:#FFFFFF;--panel:#EEF2F8;--ink:#1B2434;--muted:#5D687A;--line:#D5DCE7;
+  --navy:#1F5C3A;--navy-soft:#E4F2EA;--gold:#A97B1F;--gold-soft:#F6EEDC;--ok:#2E6B4F;--ok-soft:#E3F0E8;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1626;--surface:#171F33;--panel:#1E2941;--ink:#E9EDF5;--muted:#9AA6BC;--line:#2C3B58;
+    --navy:#7FD1A3;--navy-soft:#1F2E4D;--gold:#DDAE55;--gold-soft:#2F2A1B;--ok:#7CC7A2;--ok-soft:#1C2F26;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1626;--surface:#171F33;--panel:#1E2941;--ink:#E9EDF5;--muted:#9AA6BC;--line:#2C3B58;
+  --navy:#7FD1A3;--navy-soft:#1F2E4D;--gold:#DDAE55;--gold-soft:#2F2A1B;--ok:#7CC7A2;--ok-soft:#1C2F26;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;font-size:16px;line-height:1.6}
+.top{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.top .bar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 6px}
+.top h1{font-size:17px;margin:0;font-weight:800;letter-spacing:.02em}
+.top .sub{font-size:12px;color:var(--muted)}
+.tabs{display:flex;gap:6px;padding:0 10px 10px;overflow-x:auto}
+.tabs button{flex:1 0 auto;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:8px 14px;font-size:14px;font-weight:700;white-space:nowrap}
+.tabs button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+:root[data-theme="dark"] .tabs button.on,:root:not([data-theme="light"]) .tabs button.on{color:#0F1626}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .tabs button.on{color:#fff}}
+.wrap{max-width:640px;margin:0 auto;padding:14px 12px 80px}
+section.part{display:none}
+section.part.on{display:block}
+.ph{margin:6px 0 12px}
+.ph .k{font-size:12px;letter-spacing:.14em;color:var(--gold);font-weight:800}
+.ph h2{margin:2px 0 4px;font-size:22px;font-weight:900}
+.ph p{margin:0;color:var(--muted);font-size:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 14px 12px;margin:12px 0}
+.card .head{display:flex;align-items:baseline;gap:10px}
+.card .num{flex:0 0 auto;background:var(--navy);color:#fff;border-radius:8px;font-weight:800;font-size:13px;padding:2px 8px}
+.card h3{margin:0;font-size:17px;font-weight:800;flex:1}
+.card .do{margin:8px 0 10px;font-size:15px}
+.card .do b{color:var(--navy)}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.btn{appearance:none;border:0;border-radius:10px;padding:11px 14px;font-size:15px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:pointer;text-decoration:none}
+.btn.p{background:var(--navy);color:#fff}
+.btn.s{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
+.btn.g{background:var(--gold-soft);color:var(--ink);border:1px solid var(--gold)}
+.btn.w{width:100%;justify-content:center}
+.btn:active{transform:scale(.98)}
+details{border:1px solid var(--line);border-radius:10px;background:var(--panel);margin:8px 0}
+summary{padding:10px 12px;font-weight:700;font-size:14.5px;cursor:pointer;list-style:none;display:flex;justify-content:space-between}
+summary::after{content:"＋";color:var(--muted)}
+details[open] summary::after{content:"－"}
+details .in{padding:0 12px 12px}
+pre{margin:0;white-space:pre-wrap;word-break:break-word;font-family:inherit;font-size:14px;line-height:1.7;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.ask{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.ask button{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14.5px;color:var(--ink)}
+.ask button::before{content:"追問 ▸ ";color:var(--gold);font-weight:800}
+.chk{margin:10px 0 0;padding:10px 12px;background:var(--ok-soft);border-left:3px solid var(--ok);border-radius:0 10px 10px 0}
+.chk .t{font-size:12.5px;font-weight:800;color:var(--ok);letter-spacing:.08em;margin-bottom:4px}
+.chk label{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;padding:5px 0}
+.chk input{width:22px;height:22px;flex:0 0 auto;accent-color:var(--ok)}
+.note{font-size:13.5px;color:var(--muted);margin:6px 0 0}
+.warn{background:var(--gold-soft);border:1px solid var(--gold);border-radius:10px;padding:10px 12px;font-size:14px;margin:8px 0}
+.mat h3{font-size:16px;margin:16px 0 6px}
+.mat table,.card table{border-collapse:collapse;width:100%;font-size:13.5px;background:var(--surface)}
+.mat th,.mat td,.card th,.card td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.mat th,.card th{background:var(--panel)}
+.tw{overflow-x:auto;border-radius:8px}
+.map input,.map select{width:100%;border:1px solid var(--line);border-radius:8px;padding:9px 10px;font-size:15px;background:var(--surface);color:var(--ink);margin:4px 0}
+.map .r{border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0;background:var(--panel)}
+.map .r b{font-size:13px;color:var(--gold)}
+#toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:14px;font-weight:700;opacity:0;transition:.2s;pointer-events:none;z-index:50}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.foot{color:var(--muted);font-size:12.5px;margin:24px 0 0;text-align:center}
+@media (prefers-reduced-motion: reduce){#toast,.btn{transition:none}}
+
+.card ol{margin:6px 0 8px;padding-left:22px}
+.card ol li{margin:2px 0}
+.tabs button[data-tab$="f"]{color:#1D4E89;border-color:#9DB9DE}
+.tabs button[data-tab$="f"].on{background:#1D4E89;border-color:#1D4E89;color:#fff}
+section[id$="f"] .card .num{background:#1D4E89}
+section[id$="f"] .ph .k{color:#1D4E89}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tabs button[data-tab$="f"]{color:#8DB8EA}}
+
+[hidden]{display:none!important}
+.route-pending .tabs button[data-tab$="o"],.route-pending .tabs button[data-tab$="f"]{display:none}
+.route-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:4px 14px 10px}
+.route-bar .btn{font-size:14px;padding:7px 12px}
+[data-route][aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.route-choices{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.route-choices .btn{flex:1;justify-content:center;min-width:120px}
+.card .head{flex-wrap:wrap}
+.card h3{min-width:0}
+.research-source{margin:12px 0;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);overflow-wrap:anywhere}
+.formula-block{margin:10px 0}
+.formula-block pre{font-family:ui-monospace,monospace;font-size:13px}
+.formula-block .btn{margin:8px 0}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+@media(min-width:960px){.wrap{max-width:800px}}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.p,:root:not([data-theme="light"]) [data-route][aria-pressed="true"]{color:#0F1626}}
+:root[data-theme="dark"] .btn.p,:root[data-theme="dark"] [data-route][aria-pressed="true"]{color:#0F1626}
+</style>
+</head>
+<body class="route-pending">
+<div class="top">
+  <div class="bar">
+    <div><h1>AI 職場實作課・實作頁</h1><div class="sub">Haleon 台灣・2026/10/02・先選路線，再跟著講師做</div></div>
+    <div class="sub">教學用虛構素材</div>
+  </div>
+  <div class="route-bar" role="group" aria-label="切換學習路線">
+    <span class="sub">我的路線</span>
+    <button type="button" class="btn s" data-route="office" aria-pressed="false">內勤</button>
+    <button type="button" class="btn s" data-route="field" aria-pressed="false">外勤</button>
+    <button type="button" class="btn s" data-route="all" aria-pressed="false">看全部</button>
+    <span class="sub" id="route-status" role="status" aria-live="polite">請先選擇內勤或外勤</span>
+  </div>
+  <div class="tabs" role="navigation" aria-label="課程單元">
+    <button data-tab="s0" class="on">0 開始</button>
+    <button data-tab="s1">1 認識</button>
+    <button data-tab="s2o">2 寫（內）</button>
+    <button data-tab="s2f">2 寫（外）</button>
+    <button data-tab="s3o">3 畫（內）</button>
+    <button data-tab="s3f">3 畫（外）</button>
+    <button data-tab="s4o">4 查（內）</button>
+    <button data-tab="s4f">4 查（外）</button>
+    <button data-tab="s5o">5 算（內）</button>
+    <button data-tab="s5f">5 算（外）</button>
+    <button data-tab="s6o">6 報（內）</button>
+    <button data-tab="s6f">6 報（外）</button>
+    <button data-tab="s7">7 問</button>
+    <button data-tab="s8o">8 合（內）</button>
+    <button data-tab="s8f">8 合（外）</button>
+    <button data-tab="s9">9 帶走</button>
+    <button data-tab="mat">素材</button>
+    <button data-tab="downloads">下載</button>
+  </div>
+</div>
+
+<div class="wrap">
+<!-- ================= 0 開始 ================= -->
+<section class="part on" id="s0">
+  <div class="ph"><div class="k">單元 0・開始</div><h2>第一次用這一頁</h2><p>先選自己的路線。0 開始、1 認識、7 問與 9 帶走共用；從「2 寫」開始，只顯示你要做的分頁。</p></div>
+  <div class="card">
+    <div class="head"><span class="num">C0-01</span><h3>今天你是哪一種角色？</h3></div>
+    <div class="route-choices" role="group" aria-label="選擇我的工作角色">
+      <button type="button" class="btn s" data-route="office" aria-pressed="false">我是內勤</button>
+      <button type="button" class="btn s" data-route="field" aria-pressed="false">我是外勤</button>
+    </div>
+    <p class="note">內勤：行銷、通路、財務、供應鏈與客服。外勤：客戶拜訪與業務。上方可隨時切換，講師可選「看全部」。</p>
+    <div class="row"><button class="btn p" type="button" data-go="s1">前往 1 認識</button></div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">C0-02</span><h3>怎麼用這一頁</h3></div>
+    <div class="do">依卡片標示開啟工具，複製提詞與素材後送出；「6 報」會使用對話、NotebookLM、繪圖與網頁製作工具。</div>
+    <div class="note"><b>每頁練習完整列出，請由上往下依序完成。切換內勤／外勤可查看另一條路線。</b></div>
+    <div class="note"><b>全課只需兩份 Excel</b>：內勤下載「內勤_實作練習.xlsx」，外勤下載「外勤_實作練習.xlsx」。每人只需要自己的那一份。</div>
+    <div class="row"><button class="btn p" data-go="downloads">開啟全部下載</button><a class="btn s" href="downloads/course-materials.zip" download="Haleon_1002_學員素材包.zip">下載全部學員素材 ZIP</a></div>
+    <div class="row">
+      <a class="btn s" href="downloads/excel/%E5%85%A7%E5%8B%A4_%E5%AF%A6%E4%BD%9C%E7%B7%B4%E7%BF%92.xlsx" download="內勤_實作練習.xlsx">下載內勤 Excel</a>
+      <a class="btn s" href="downloads/excel/%E5%A4%96%E5%8B%A4_%E5%AF%A6%E4%BD%9C%E7%B7%B4%E7%BF%92.xlsx" download="外勤_實作練習.xlsx">下載外勤 Excel</a>
+    </div>
+    <p class="note">所有檔案都可在本站「下載」分頁取得，也可以直接下載素材整包。同一對話可沿用檔案；開新對話時要重新上傳。文字練習的素材仍由卡片複製。</p>
+    <ol class="steps"><li>筆電開兩個分頁：Copilot Chat（看得到盾牌）＋這一頁。<b>複製按鈕在筆電上按</b>，手機只拿來看卡。</li><li>有「一鍵複製提詞＋素材」的卡：按一下，貼進 Copilot 後送出。</li><li>其他卡照 ①②③ 操作；需要分開貼素材的，全部貼齊再送出。分析三步則等 AI 回完，再送下一步。</li><li>想再改：直接在同一個對話打字告訴 AI 要改哪裡。</li></ol>
+    <div class="note">編號規則：A＝內勤、B＝外勤、C＝共用；後接單元與兩位序號，例如 A2-01。素材另以 M-01 起編號。卡內的 ①②③ 是操作步驟。</div>
+    <div class="note">每則提詞都是五段：<b>你是</b>／<b>請你</b>／<b>要注意</b>／<b>請輸出</b>／最後一句「資料不清楚就先問我，不要自己猜。」</div>
+    <details><summary>看不懂卡上的字？點這裡</summary><div class="in tw"><table><tr><th>卡上的字</th><th>意思</th></tr><tr><td>盾牌</td><td>盾牌表示企業資料保護；能否輸入某份資料，仍依公司資料分級與工具規定</td></tr><tr><td>開新對話</td><td>在 Copilot 按「新聊天」，AI 就不會混到上一題</td></tr><tr><td>〔請改：…〕</td><td>換成你自己的內容</td></tr><tr><td>【…】</td><td>AI 要標的記號，照原樣留著</td></tr><tr><td>防呆句</td><td>提詞裡那句「資料不清楚就先問我，不要自己猜」</td></tr><tr><td>抓說謊</td><td>故意問資料裡沒有的事；AI 說「沒提到」才對</td></tr><tr><td>轉 Medical</td><td>醫學問題不自己答，交給公司醫學資訊部門回覆</td></tr><tr><td>AE</td><td>病人用產品後的身體不適（不良反應）</td></tr><tr><td>提詞庫</td><td>存好用提詞的自己的檔案（素材區有範本）</td></tr><tr><td>【需確認】、待確認</td><td>AI 沒把握的地方，要你去問人確認</td></tr><tr><td>列號</td><td>Excel 最左邊的列數字，用來回 Excel 找原始資料</td></tr></table></div></details>
+    <div class="note">課前可先下載「全部練習與提詞」，離線也能查看操作步驟與文字提詞。</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">C0-03</span><h3>四個規則</h3></div>
+    <div class="do">整天都照這四條做。</div>
+    <ol><li>公司資料只使用公司核准帳號與工具，依資料分級規定輸入最少必要資料；盾牌用來確認企業資料保護。個人帳號只放公開或教學用虛構資料。</li><li>病人姓名、病況不輸入。有人提到用產品後身體不適（AE），原句保留、放最上面，依公司規定通報。</li><li>產品說法只用公司核准訊息（今天在素材「產品重點卡」）。醫學問題不自己回答，改用下面的轉介話術。</li><li>交出去前做四查：事實（找得到原文）、數字（挑一個對原檔）、合規（沒有核准以外的說法）、AE（原句在最上面）。</li></ol>
+    <div class="note">轉介話術：「這個問題我請公司醫學資訊部門正式回覆您，我會在【約定時間】內幫您轉達。」</div>
+  </div>
+</section>
+
+<!-- ================= 1 認識 ================= -->
+<section class="part" id="s1">
+  <div class="ph"><div class="k">單元 1・共用</div><h2>認識 AI：文字、圖像與小工具</h2><p>依序練習文字回覆、畫圖、資料紅綠燈，再製作 HTML 小工具。</p></div>
+  <div class="warn">使用公司核准的 Copilot 帳號，確認企業資料保護，並依公司資料分級規定輸入最少必要資料。</div>
+  <div class="card" aria-labelledby="ai-tools-title">
+    <div class="head"><span class="num">C1-01</span><h3 id="ai-tools-title">開啟 AI 工具</h3></div>
+    <p class="note">點選工具，在新分頁開啟；本課主要使用公司 Copilot Chat。</p>
+    <div class="row" aria-label="AI 工具入口">
+      <a class="btn p" href="https://m365.cloud.microsoft/chat" target="_blank" rel="noopener noreferrer">Copilot Chat ↗</a>
+      <a class="btn s" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">ChatGPT ↗</a>
+      <a class="btn s" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">Gemini ↗</a>
+      <a class="btn s" href="https://notebooklm.google.com/" target="_blank" rel="noopener noreferrer">NotebookLM ↗</a>
+      <a class="btn s" href="https://claude.ai/" target="_blank" rel="noopener noreferrer">Claude ↗</a>
+    </div>
+    <p class="note">其他工具與個人帳號僅使用公開或教學用虛構資料。</p>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">C1-02</span><h3>AI 回你一段文字</h3></div>
+    <div class="do">用公司筆電登入 Copilot Chat，找到盾牌，送出第一句話。</div>
+    <ol class="steps"><li>筆電開 Copilot Chat，找到盾牌圖示</li><li>按 ① 複製提詞，貼進輸入框</li><li>〔請改：我的職能〕改成你的職能（例：行銷、業務），送出</li></ol>
+    <div class="row"><button class="btn p w" data-copy="C1_P">① 複製提詞：第一句話</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-C1_P"></pre></div></details>
+    <div class="note">有回覆放綠杯；找不到盾牌或卡住換紅杯。</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">C1-03</span><h3>請 AI 畫一張圖</h3></div>
+    <div class="do">同一個 Copilot 也會畫圖：用一段完整的描述請它畫。</div>
+    <ol class="steps"><li>每桌推 1 人，在 Copilot 按 ① 複製提詞</li><li>貼進輸入框送出，等 20–60 秒</li><li>全桌一起看圖</li></ol>
+    <div class="row"><button class="btn p w" data-copy="C1B_P">① 複製提詞：畫一張圖</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-C1B_P"></pre></div></details>
+    <div class="note">生圖次數有限，每桌 1 人做；「3 畫」每人再練。</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">C1-04</span><h3>資料紅綠燈</h3></div>
+    <div class="do">看投影 4 題，用手指表態：1 指綠、2 指黃、3 指紅。</div>
+    <div class="tw"><table><tr><th>題</th><th>這份資料能不能貼？</th></tr><tr><td>Q1</td><td>拜訪紀錄裡有病人姓名與病況，想貼進 Copilot 整理</td></tr><tr><td>Q2</td><td>用公司 Copilot 把醫師姓名與診所地址排成拜訪行程</td></tr><tr><td>Q3</td><td>貼上未公開的新品代號，要 Copilot「上網查競品」</td></tr><tr><td>Q4</td><td>用私人手機的個人版 AI 貼客服紀錄</td></tr></table></div>
+    <details><summary>看答案（講師揭曉後再打開）</summary><div class="in tw"><table><tr><th>題</th><th>燈號</th><th>為什麼</th></tr><tr><td>Q1</td><td><b>紅燈</b></td><td>病人健康資料不輸入；提到不良反應依公司通報流程</td></tr><tr><td>Q2</td><td><b>黃燈</b></td><td>公司工具可用，只放完成工作所需的最小資料</td></tr><tr><td>Q3</td><td><b>黃燈</b></td><td>搜尋字詞會送出公司外；先關網頁搜尋，或改用一般說法</td></tr><tr><td>Q4</td><td><b>紅燈</b></td><td>個人帳號沒有企業資料保護</td></tr></table></div></details>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">C1-05</span><h3>製作一個小工具（HTML）</h3></div>
+    <div class="do">用一句需求，請 AI 做出可以在瀏覽器操作的「待辦清單」小工具。</div>
+    <ol class="steps"><li>開新對話，按「① 複製提詞」，貼上送出。</li><li>將 AI 提供的完整程式碼存成 <b>todo.html</b>（純文字檔，副檔名是 .html），再用瀏覽器開啟；若工具提供預覽，也可先在預覽中操作。</li><li>新增一筆待辦、勾選完成，再刪除，確認按鈕都有作用。</li><li>在同一個對話貼上「② 修改需求」，看看 AI 如何調整小工具。</li></ol>
+    <div class="row"><button class="btn p w" data-copy="C3_P">① 複製提詞：製作 HTML 小工具</button><button class="btn s w" data-copy="C3_P2">② 複製提詞：修改需求</button></div>
+    <details><summary>看製作提詞</summary><div class="in"><pre id="t-C3_P"></pre></div></details>
+    <div class="note">跟著提詞製作並修改小工具。練習可輸入「準備會議資料」「整理桌面」等範例。</div>
+  </div>
+  <div class="foot">本節對應：Wired for excellence（strategic driver）</div>
+</section>
+
+<!-- ================= 2 寫（內） ================= -->
+<section class="part" id="s2o">
+  <div class="ph"><div class="k">單元 2・內勤</div><h2>讓 AI 幫你寫</h2><p>從一句話摘要開始，依序練習會議摘要、兩封通知信、兩封到貨延遲信與社群貼文，最後整理四查與固定句。</p></div>
+  
+  <div class="warn">原文有人說身體不適（AE）：原句保留、放最上面，通報由人做。</div>
+  <div class="card">
+    <div class="head"><span class="num">A2-01</span><h3>一句話摘要</h3></div>
+    <div class="do">用一句話請 AI 摘要，看它給什麼。</div>
+    <ol class="steps"><li>在 Copilot 的課堂練習對話操作。</li><li>按「一鍵複製提詞＋素材」，貼上後直接送出。</li><li>等 AI 回覆，再依本卡下方提示操作。</li></ol>
+    <div class="row"><button type="button" class="btn p w" data-copy-bundle="W_A1 M_A1">一鍵複製提詞＋素材</button></div>
+    <details><summary>分開複製提詞或素材</summary><div class="in"><div class="row"><button class="btn p w" data-copy="W_A1">① 複製提詞</button><button class="btn s w" data-copy="M_A1">② 複製素材：會議逐字稿</button></div></div></details>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-W_A1"></pre></div></details>
+    <div class="note">做完接 A2-02 完整版，比較差在哪。</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">A2-02</span><h3>會議摘要</h3></div>
+    <div class="do">做出一份會議摘要：顧客不適原句在最上面，附待辦表。</div>
+    <ol class="steps"><li>在 Copilot 的課堂練習對話操作。</li><li>按「一鍵複製提詞＋素材」，貼上後直接送出。</li><li>AI 先反問：回「不知道的寫待確認」</li></ol>
+    <div class="row"><button type="button" class="btn p w" data-copy-bundle="A1_P M_A1">一鍵複製提詞＋素材</button></div>
+    <details><summary>分開複製提詞或素材</summary><div class="in"><div class="row"><button class="btn p w" data-copy="A1_P">① 複製提詞</button><button class="btn s w" data-copy="M_A1">② 複製素材：會議逐字稿</button></div></div></details>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-A1_P"></pre></div></details>
+    <div class="note">做完和暖身那份比一比，差在哪？</div>
+    <div class="row"><button type="button" class="btn s w" data-copy="VERIFY_SOURCE">追問：期限與負責人有原文依據嗎？</button></div>
+  </div>
+  
+  <div class="card"><div class="head"><span class="num">A2-03</span><h3>內部通知信：報名通知</h3></div><div class="do">寫一封內部教育訓練報名通知，看 AI 會不會先問缺的日期。</div><ol class="steps"><li>開新對話，按 ① 複製提詞，貼上送出。</li><li>AI 問日期時，回「先寫待確認」。</li><li>保留通知信，接著練習下一張預算填報提醒。</li></ol><div class="row"><button type="button" class="btn p w" data-copy="A3_P">① 複製提詞：報名通知</button></div><details><summary>看提詞內容</summary><div class="in"><pre id="t-A3_P"></pre></div></details><div class="note">情境已寫在提詞裡，不用貼素材。</div></div>
+  <div class="card"><div class="head"><span class="num">A2-04</span><h3>內部通知信：預算填報提醒</h3></div><div class="do">寫一封預算填報提醒，缺少的期限標待確認。</div><ol class="steps"><li>開新對話，按 ① 複製提詞，貼上送出。</li><li>缺少的日期或資訊回「先寫待確認」。</li><li>比較兩封通知信的對象、語氣與待辦。</li></ol><div class="row"><button type="button" class="btn p w" data-copy="A3_P2">① 複製提詞：預算填報提醒</button></div><details><summary>看提詞內容</summary><div class="in"><pre id="t-A3_P2"></pre></div></details><div class="note">情境已寫在提詞裡，不用貼素材。</div></div>
+  <div class="card"><div class="head"><span class="num">A2-05</span><h3>到貨延遲：供應商確認信</h3></div><div class="do">寫信向供應商確認到貨資訊，缺的日期標待確認。</div><ol class="steps"><li>開新對話，按 ① 複製提詞，貼上送出。</li><li>看 AI 是否先詢問缺漏，是否自行編造日期。</li><li>保留確認信，接著練習內部溝通信。</li></ol><div class="row"><button type="button" class="btn p w" data-copy="A2_P2">① 複製提詞：供應商確認信</button></div><details><summary>看提詞內容</summary><div class="in"><pre id="t-A2_P2"></pre></div></details><div class="note">情境已寫在提詞裡，不用貼素材。</div></div>
+  <div class="card"><div class="head"><span class="num">A2-06</span><h3>到貨延遲：內部溝通信</h3></div><div class="do">向內部同仁說明到貨延遲與下一步，未確認的日期不做承諾。</div><ol class="steps"><li>開新對話，按 ① 複製提詞，貼上送出。</li><li>看有沒有自行編造日期與責任分工。</li><li>比較對供應商與對內部同仁的寫法。</li></ol><div class="row"><button type="button" class="btn p w" data-copy="A2_P">① 複製提詞：內部溝通信</button></div><details><summary>看提詞內容</summary><div class="in"><pre id="t-A2_P"></pre></div></details><div class="note">情境已寫在提詞裡，不用貼素材。</div></div>
+  <div class="card">
+    <div class="head"><span class="num">A2-07</span><h3>社群貼文</h3></div>
+    <div class="do">寫 3 版社群貼文，每一句都對得回核准訊息。</div>
+    <ol class="steps"><li>按 ① 複製提詞，貼到 Copilot</li><li>按 ② 複製重點卡，貼在後面送出</li><li>Ctrl+F 搜「最」「根治」</li></ol>
+    <div class="row"><button class="btn p w" data-copy="A4_P">① 複製提詞</button><button class="btn s w" data-copy="M_PRODUCT">② 複製素材：產品重點卡</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-A4_P"></pre></div></details>
+    <div class="note">只搜 AI 寫的貼文，你貼的提詞不算。</div>
+  </div>
+  
+  <div class="card">
+    <div class="head"><span class="num">A2-08</span><h3>四查與固定句</h3></div>
+    <div class="do">交出去前做四查；三句固定句存進你的提詞庫。</div>
+    <div class="row"><button class="btn p w" data-copy="C4_q2">複製：不清楚先問我（防呆句）</button><button class="btn s w" data-copy="C4_q3">複製：身體不適原句放最上面</button><button class="btn s w" data-copy="C4_q4">複製：只用核准說法</button></div>
+    <details><summary>四查怎麼查</summary><div class="in tw"><table><tr><th>四查</th><th>怎麼查</th></tr><tr><td>① 事實</td><td>每句都找得到原文；找不到的標【需確認】</td></tr><tr><td>② 數字</td><td>挑 1 個數字回原檔驗算</td></tr><tr><td>③ 合規</td><td>沒有核准訊息以外的功效、比較；沒有「最、根治、治療」</td></tr><tr><td>④ 身體不適（AE）</td><td>身體不適的原句保留，放最上面</td></tr></table></div></details>
+    <div class="note">第 1 句每張都放；第 2 句用在摘要、分析；第 3 句用在寫產品。</div>
+  </div>
+  <div class="foot">本節對應：Collaborate for impact</div>
+</section>
+
+<!-- ================= 2 寫（外） ================= -->
+<section class="part" id="s2f">
+  <div class="ph"><div class="k">單元 2・外勤</div><h2>讓 AI 幫你寫</h2><p>從一句話追蹤訊息開始，依序練習拜訪追蹤、邀約、產品說法與醫學問題分類，最後整理四查與固定句。</p></div>
+  
+  <div class="warn">寫給醫師的內容都是草稿，標 DRAFT；正式對外走公司核准流程。</div>
+  <div class="card">
+    <div class="head"><span class="num">B2-01</span><h3>一句話追蹤訊息</h3></div>
+    <div class="do">用一句話請 AI 寫，看它給你什麼。</div>
+    <ol class="steps"><li>在 Copilot 的課堂練習對話操作。</li><li>按「一鍵複製提詞＋素材」，貼上後直接送出。</li><li>等 AI 回覆，再依本卡下方提示操作。</li></ol>
+    <div class="row"><button type="button" class="btn p w" data-copy-bundle="W_B4 M_B4">一鍵複製提詞＋素材</button></div>
+    <details><summary>分開複製提詞或素材</summary><div class="in"><div class="row"><button class="btn p w" data-copy="W_B4">① 複製提詞</button><button class="btn s w" data-copy="M_B4">② 複製素材：拜訪筆記</button></div></div></details>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-W_B4"></pre></div></details>
+    <div class="note">看到問題很正常，下一張 B2-02 教你怎麼防。</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">B2-02</span><h3>拜訪後追蹤訊息</h3></div>
+    <div class="do">把甲診所拜訪筆記整理成摘要、待辦和一則 LINE 草稿。</div>
+    <ol class="steps"><li>開新對話。</li><li>按「一鍵複製提詞＋素材」，貼上後直接送出。</li><li>等 AI 回覆，再依本卡下方提示操作。</li></ol>
+    <div class="row"><button type="button" class="btn p w" data-copy-bundle="B4_P M_B4">一鍵複製提詞＋素材</button></div>
+    <details><summary>分開複製提詞或素材</summary><div class="in"><div class="row"><button class="btn p w" data-copy="B4_P">① 複製提詞</button><button class="btn s w" data-copy="M_B4">② 複製素材：拜訪筆記</button></div></div></details>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-B4_P"></pre></div></details>
+    <div class="note">按下方追問，核對期限與負責人；原文沒寫的應標「待確認」。</div>
+    <div class="row"><button type="button" class="btn s w" data-copy="VERIFY_SOURCE">追問：期限與負責人有原文依據嗎？</button></div>
+  </div>
+  
+  <div class="card">
+    <div class="head"><span class="num">B2-03</span><h3>交流會邀約訊息</h3></div>
+    <div class="do">寫一則交流會邀約，看 AI 會不會先問你缺的資訊。</div>
+    <ol class="steps"><li>按 ① 複製提詞，貼上送出</li><li>AI 問日期地點？回「11/14（六）14:00–16:30，南港某會議中心，名額 40 人」</li></ol>
+    <div class="row"><button class="btn p w" data-copy="B1_P">① 複製提詞</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-B1_P"></pre></div></details>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">B2-04</span><h3>30 秒產品說法</h3></div>
+    <div class="do">把產品重點卡的核准訊息改成 30 秒口說版。</div>
+    <ol class="steps"><li>按 ① 複製提詞，貼進輸入框</li><li>按 ② 複製素材，貼在下面，送出</li><li>唸一遍計時</li></ol>
+    <div class="row"><button class="btn p w" data-copy="B2_P">① 複製提詞</button><button class="btn s w" data-copy="M_PRODUCT">② 複製素材：產品重點卡</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-B2_P"></pre></div></details>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">B2-05</span><h3>醫學問題怎麼回</h3></div>
+    <div class="do">把 5 個醫師提問分成：能答、轉 Medical、不能答。</div>
+    <ol class="steps"><li>按 ① 複製提詞，貼進輸入框</li><li>按 ② 複製素材，貼在下面，送出</li><li>看每題分類</li></ol>
+    <div class="row"><button class="btn p w" data-copy="B3_P">① 複製提詞</button><button class="btn s w" data-copy="M_PRODUCT">② 複製素材：產品重點卡</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-B3_P"></pre></div></details>
+  </div>
+  
+  <div class="card">
+    <div class="head"><span class="num">B2-06</span><h3>四查與三句防呆</h3></div>
+    <div class="do">交出去前做四查；自己寫提詞時，把這三句加在最後。</div>
+    <div class="row"><button class="btn p w" data-copy="C4_q2">複製防呆句：不清楚先問我</button><button class="btn s w" data-copy="C4_q3">複製 AE 句：身體不適照抄置頂</button><button class="btn s w" data-copy="C4_q4">複製產品句：只用核准訊息</button></div>
+    <details><summary>看四查怎麼查</summary><div class="in tw"><table><tr><th>四查</th><th>看什麼</th></tr><tr><td>① 事實</td><td>每句找得到原文；找不到就刪或標【需確認】</td></tr><tr><td>② 數字</td><td>挑 1 個數字回原檔驗算</td></tr><tr><td>③ 合規</td><td>沒有核准訊息以外的功效；沒有「最、根治、保證、治療」</td></tr><tr><td>④ AE</td><td>身體不適那句原樣保留、放最上面</td></tr></table></div></details>
+    <details><summary>看三句什麼時候放</summary><div class="in tw"><table><tr><th>固定句</th><th>什麼時候放</th></tr><tr><td><b>防呆句</b></td><td>每一張提詞都放</td></tr><tr><td><b>AE 句</b></td><td>摘要、分析、整理紀錄</td></tr><tr><td><b>產品句</b></td><td>內容提到產品時</td></tr></table></div></details>
+    <div class="note">AI 反問你也答不出來：請它標待確認。</div>
+  </div>
+  <div class="foot">本節對應：Collaborate for impact</div>
+</section>
+
+<!-- ================= 3 畫（內） ================= -->
+<section class="part" id="s3o">
+  <div class="ph"><div class="k">單元 3・內勤</div><h2>讓 AI 幫你畫</h2><p>先用六要素描述畫面，再依序完成海報、陳列插圖、流程圖與貨架卡需求單，練習生圖與修圖。</p></div>
+  
+  <div class="warn">圖裡不要有真人、商標和療效對比。</div>
+  <div class="card">
+    <div class="head"><span class="num">A3-01</span><h3>六要素寫一句</h3></div>
+    <div class="do">用六要素寫一段圖的描述，不畫圖。</div>
+    <ol class="steps"><li>按 ① 複製提詞，貼到 Copilot 送出</li><li>看主角、動作、環境、構圖、光影、風格</li><li>存下合成的那一段</li></ol>
+    <div class="row"><button class="btn p w" data-copy="W_IMG_A">① 複製提詞</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-W_IMG_A"></pre></div></details>
+    <div class="note">只寫字，不用生圖額度。</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">A3-02</span><h3>活動海報</h3></div>
+    <div class="do">做一張沒有字的 Q4 內部啟動海報底圖，再修 1 次。</div>
+    <ol class="steps"><li>按 ① 複製提詞，生成 1 張圖</li><li>挑一個要修的地方</li><li>按 ② 複製修圖，修 1 次</li></ol>
+    <div class="row"><button class="btn p w" data-copy="A5_P">① 複製提詞：海報</button><button class="btn s w" data-copy="A5_P2">② 複製修圖：移除白板上的字</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-A5_P"></pre></div></details>
+    <div class="note">白板沒字？改用 A3-06的修圖模板。</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">A3-03</span><h3>陳列插圖</h3></div>
+    <div class="do">做一張給新人看的通路陳列教學插圖，再修 1 次。</div>
+    <ol class="steps"><li>按 ① 複製提詞，生成 1 張圖</li><li>看紙盒、平板有沒有字，手指正不正常</li><li>按 ② 複製修圖，修 1 次</li></ol>
+    <div class="row"><button class="btn p w" data-copy="A6_P">① 複製提詞：陳列插圖</button><button class="btn s w" data-copy="A6_P2">② 複製修圖：改手指</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-A6_P"></pre></div></details>
+    <div class="note">接著完成流程圖，再做貨架卡需求單。</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">A3-04</span><h3>流程圖（SVG）</h3></div>
+    <div class="do">直接請 AI 繪製「訂單到出貨」SVG 流程圖，在同一對話加圖示、修改，再存成 .svg 檔案。</div>
+    <ol class="steps"><li>開新對話，按 ① 複製提詞，請 AI 直接繪製 SVG 流程圖。</li><li>在同一對話按 ②，請 AI 把線條圖示加入每個流程節點。</li><li>接著按 ③，修改第一個節點的圖示，保留流程文字與箭頭。</li><li>下載 AI 提供的 flowchart.svg；若只有程式碼，複製完整 SVG，存成 UTF-8 純文字檔 flowchart.svg，再用瀏覽器開啟。</li></ol>
+    <div class="row"><button class="btn p w" data-copy="A7_P">① 複製提詞：繪製 SVG 流程圖</button></div>
+    <div class="row"><button class="btn s" data-copy="A7_P2">② 複製提詞：加入 SVG 圖示</button><button class="btn s" data-copy="A7_P3">③ 複製提詞：修改 SVG 圖示</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-A7_P"></pre></div></details>
+    <details><summary>SVG 怎麼預覽與儲存</summary><div class="in"><ol><li>AI 介面有預覽時，直接看流程圖；有檔案下載時，下載 flowchart.svg。</li><li>若只有 SVG 程式碼，複製從 &lt;svg …&gt; 到 &lt;/svg&gt; 的完整內容，不包含程式碼區塊外的說明或反引號。</li><li>用純文字編輯器以 UTF-8 儲存，檔名為 flowchart.svg，避免多出 .txt 副檔名。</li><li>用瀏覽器開啟檔案；修改後下載或儲存 AI 重新提供的完整 SVG。</li></ol></div></details>
+    <div class="note">流程框、箭頭、文字與圖示都由 AI 直接繪製成 SVG 向量內容。流程是教學示意，實際步驟與窗口依公司規定。</div>
+  </div>
+  
+  <div class="card">
+    <div class="head"><span class="num">A3-05</span><h3>貨架卡需求單</h3></div>
+    <div class="do">寫一份貨架卡需求單，再畫陳列概念圖並修改。</div>
+    <ol class="steps"><li>按 ①＋② 貼在一起送出，出需求單</li><li>看尺寸、交期有沒有標需確認</li><li>接著按 ③ 畫陳列概念圖，再按 ④ 修圖</li></ol>
+    <div class="row"><button class="btn p w" data-copy="A8_P">① 複製提詞：需求單</button><button class="btn s w" data-copy="M_PRODUCT">② 複製素材：產品重點卡</button></div>
+    <div class="row"><button class="btn s w" data-copy="A8_P2">③ 複製提詞：陳列概念圖</button><button class="btn s w" data-copy="A8_P3">④ 複製修圖：換成白框</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-A8_P"></pre></div></details>
+    <div class="note">先做完 A3-03 再做這張。</div>
+  </div>
+  
+  <div class="card">
+    <div class="head"><span class="num">A3-06</span><h3>六要素＋修圖五指令</h3></div>
+    <div class="do">自己出圖用六要素模板；修圖一次只改一個地方。</div>
+    <div class="row"><button class="btn p w" data-copy="C5_q1">複製六要素模板</button><button class="btn s w" data-copy="C5_q2">複製修圖模板</button></div>
+    <details><summary>六要素例句</summary><div class="in tw"><table><tr><th>要素</th><th>問自己</th><th>例句（陳列插圖）</th></tr><tr><td>主角</td><td>畫面核心是誰／什麼？</td><td>一位穿深綠色 polo 衫的資深店員和一位新進店員</td></tr><tr><td>動作</td><td>正在做什麼？</td><td>資深店員指著與視線同高的第二層貨架，向新人說明</td></tr><tr><td>環境</td><td>在哪裡？什麼氛圍？</td><td>明亮整齊、營業前沒有顧客的藥妝店口腔護理區</td></tr><tr><td>構圖</td><td>鏡頭角度與距離？留白在哪？</td><td>平視中景，人物在左側三分之一，右側四分之一留白</td></tr><tr><td>光影</td><td>光從哪裡來？什麼質感？</td><td>天花板均勻的白光，陰影柔和</td></tr><tr><td>風格</td><td>整體藝術風格？</td><td>乾淨的扁平向量教學插圖，黑白綠配色</td></tr></table></div></details>
+    <details><summary>修圖五指令</summary><div class="in tw"><table><tr><th>指令</th><th>用途</th><th>例句（位置要講清楚）</th></tr><tr><td>添加 Add</td><td>畫面加新元素</td><td>在左下角空白區添加一個淺灰色空白方框，預留 QR code 位置</td></tr><tr><td>移除 Remove</td><td>刪掉不要的東西</td><td>移除背景白板上所有像文字的筆畫，改成空白</td></tr><tr><td>改變 Change</td><td>改顏色、大小、姿勢</td><td>把左側同仁指向貨架的手改成自然的五指</td></tr><tr><td>替換 Replace</td><td>把 A 換成 B</td><td>把第 1 列第 1 格的信封圖示替換成購物車圖示</td></tr><tr><td>變成 Make</td><td>調整整體氛圍與狀態</td><td>把整張圖變成睡前暖黃燈光，位置都不變</td></tr></table></div></details>
+    <details><summary>圖出來後看這四點</summary><div class="in tw"><table><tr><th>圖像四點檢查</th><th>看哪裡</th><th>出問題怎麼修</th></tr><tr><td>中文亂碼</td><td>白板、日曆、紙盒、招牌、文字框有沒有像字的筆畫</td><td>移除，改成空白；字用 PPT 後製</td></tr><tr><td>仿冒 Logo／包裝</td><td>有沒有 AI 自己畫的牙膏管、盒子或標誌</td><td>替換成純白空框，官方檔後製</td></tr><tr><td>手指、牙齒異常</td><td>手指數量、關節、笑容裡的牙齒</td><td>改變該處成自然狀態</td></tr><tr><td>暗示療效</td><td>前後對比、X 光、剖面、白袍拿產品</td><td>移除；嚴重就換構圖重來</td></tr></table></div></details>
+    <div class="note">位置講不清楚：在 PPT 畫紅框，截圖上傳（依課前實測）。</div>
+  </div>
+  <div class="foot">本節對應：Consumer first, always</div>
+</section>
+
+<!-- ================= 3 畫（外） ================= -->
+<section class="part" id="s3f">
+  <div class="ph"><div class="k">單元 3・外勤</div><h2>讓 AI 幫你畫</h2><p>先用六要素描述畫面，再依序完成交流會邀請卡、刷牙情境配圖與候診區小卡，練習生圖與修圖。</p></div>
+  
+  <div class="warn">圖裡不要有真人、商標和療效對比。</div>
+  <div class="card">
+    <div class="head"><span class="num">B3-01</span><h3>用六句話描述畫面</h3></div>
+    <div class="do">用文字描述一張圖，這題不生圖。</div>
+    <ol class="steps"><li>按 ① 複製提詞，貼上送出</li><li>看 AI 寫的六句</li></ol>
+    <div class="row"><button class="btn p w" data-copy="W_IMG_B">① 複製提詞</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-W_IMG_B"></pre></div></details>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">B3-02</span><h3>交流會邀請卡</h3></div>
+    <div class="do">生成一張無字的邀請卡底圖，再修一次加 QR 預留框。</div>
+    <ol class="steps"><li>按 ① 複製提詞，貼上送出（只生 1 次）</li><li>按 ② 修圖 1 次</li><li>活動日期、地點之後在 PPT 自己打上</li></ol>
+    <div class="row"><button class="btn p w" data-copy="B5_P">① 複製提詞：生成底圖</button><button class="btn s w" data-copy="B5_P2">② 複製修圖提詞：加 QR 框</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-B5_P"></pre></div></details>
+    <div class="note">AI 先反問？回「照提詞內容直接生成」。</div>
+  </div>
+  
+  <div class="card">
+    <div class="head"><span class="num">B3-03</span><h3>刷牙情境配圖</h3></div>
+    <div class="do">生成無品牌的刷牙配圖，再改成睡前版。</div>
+    <ol class="steps"><li>按 ① 複製提詞，貼上送出（只生 1 次）</li><li>按 ② 改成睡前版</li></ol>
+    <div class="row"><button class="btn p w" data-copy="B6_P">① 複製提詞：生成配圖</button><button class="btn s w" data-copy="B6_P2">② 複製修圖提詞：變睡前版</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-B6_P"></pre></div></details>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">B3-04</span><h3>候診區小卡</h3></div>
+    <div class="do">生成三個文字框全空白的小卡版面，字之後在 PPT 放。</div>
+    <ol class="steps"><li>按 ① 複製提詞，貼上送出（只生 1 次）</li><li>框裡有字或亂碼？按 ② 修圖清掉</li></ol>
+    <div class="row"><button class="btn p w" data-copy="B7_P">① 複製提詞：生成小卡</button><button class="btn s w" data-copy="B7_P2">② 複製修圖提詞：清掉框內字</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-B7_P"></pre></div></details>
+  </div>
+  
+  <div class="card">
+    <div class="head"><span class="num">B3-05</span><h3>畫圖與修圖模板</h3></div>
+    <div class="do">要自己出圖：按第一顆，換掉〔請改〕；要修圖：按第二顆。</div>
+    <div class="row"><button class="btn p w" data-copy="C5_q1">複製畫圖模板（六要素）</button><button class="btn s w" data-copy="C5_q2">複製修圖模板（五個指令）</button></div>
+    <details><summary>看六要素例句（主角到風格）</summary><div class="in tw"><table><tr><th>要素</th><th>例句（陳列插圖）</th></tr><tr><td>主角</td><td>一位穿深綠色 polo 衫的資深店員和一位新進店員</td></tr><tr><td>動作</td><td>資深店員指著與視線同高的第二層貨架，向新人說明</td></tr><tr><td>環境</td><td>明亮整齊、營業前沒有顧客的藥妝店口腔護理區</td></tr><tr><td>構圖</td><td>平視中景，人物在左側三分之一，右側四分之一留白</td></tr><tr><td>光影</td><td>天花板均勻的白光，陰影柔和</td></tr><tr><td>風格</td><td>乾淨的扁平向量教學插圖，黑白綠配色</td></tr></table></div></details>
+    <details><summary>看五個修圖指令</summary><div class="in tw"><table><tr><th>指令</th><th>例句（位置要講清楚）</th></tr><tr><td>添加</td><td>在左下角空白區添加一個淺灰色空白方框</td></tr><tr><td>移除</td><td>移除背景白板上所有像文字的筆畫</td></tr><tr><td>改變</td><td>把左側同仁指向貨架的手改成自然的五指</td></tr><tr><td>替換</td><td>把第 1 列第 1 格的信封圖示替換成購物車圖示</td></tr><tr><td>變成</td><td>把整張圖變成睡前暖黃燈光，位置都不變</td></tr></table></div></details>
+    <div class="note">生圖次數有限：修 1 次比整張重畫省。</div>
+  </div>
+  <div class="foot">本節對應：Consumer first, always</div>
+</section>
+
+<!-- ================= 4 查（內） ================= -->
+<section class="part" id="s4o">
+  <div class="ph"><div class="k">單元 4・內勤</div><h2>查資料：找可靠的來源</h2><p>依序練習官方資料查詢、產品比較、公開市場趨勢，以及 NotebookLM 文獻第二大腦，並核對原始來源。</p></div>
+  
+  <div class="warn">開網頁搜尋時只打一般名稱，不打內部代號、客戶名和數字。</div>
+  <div class="card">
+    <div class="head"><span class="num">A4-01</span><h3>查鈣和維生素D 攝取量</h3></div>
+    <div class="do">查台灣成人鈣與維生素D 攝取量，每一列都附官方網址。</div>
+    <ol class="steps"><li>開新對話，確認網頁搜尋是開的</li><li>按 ① 複製提詞，貼上送出</li><li>點開 2 個來源，核對數字和日期</li></ol>
+    <div class="row"><button class="btn p w" data-copy="A9_P">① 複製提詞</button><button class="btn s w" data-copy="M_OFFICIAL_A9">② 搜尋被關才按：官方節錄，貼在最後</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-A9_P"></pre></div></details>
+    <div class="note">接著完成產品比較表、公開市場趨勢與 NotebookLM 文獻第二大腦，再前往「5 算（內）」。</div>
+  </div>
+  
+  <div class="card">
+    <div class="head"><span class="num">A4-02</span><h3>產品比較表</h3></div>
+    <div class="do">先做虛構產品比較表；查公開市場趨勢時，另開一個對話。</div>
+    <ol class="steps"><li>先關網頁搜尋，按 ①＋② 一起貼上，整理產品比較表。</li><li>另開新對話，開啟網頁搜尋，只貼「③ 公開市場趨勢」，不貼產品卡或內部資料。</li><li>點開來源核對數字、統計期間與日期。</li></ol>
+    <div class="row"><button class="btn p w" data-copy="A10_P">① 複製提詞</button><button class="btn s w" data-copy="M_PRODUCT">② 複製素材：產品重點卡</button></div>
+    <div class="row"><button class="btn s w" data-copy="A10_SEARCH">③ 複製：公開市場趨勢（另開新對話）</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-A10_P"></pre></div></details>
+    <div class="note">重點卡本來就沒有成分數據。</div>
+  </div>
+  
+  <div class="card">
+    <div class="head"><span class="num">A4-03</span><h3>NotebookLM：文獻第二大腦</h3></div>
+    <div class="do">把兩篇公開研究放進同一個筆記本，做成<b>能追問、能回查來源、下次找得到</b>的知識庫。完成文獻卡、研究比較、內勤文獻摘要與知識索引。</div>
+    <div class="note">本題只匯入下列公開 PDF；另建筆記本，不加入前面的虛構產品卡、公司內部資料或病人資料。</div>
+    <div class="research-source">
+      <b>文獻 1｜2019：敏感牙齒與口腔健康生活品質</b>
+      <p class="note">Mason 等，BMC Oral Health，19:226。24 週單組研究，沒有對照組；研究使用德國版 Sensodyne Repair and Protect Daily Repair（氟化亞錫配方）。</p>
+      <p class="note">DOI：10.1186/s12903-019-0919-x｜PDF 共 11 頁</p>
+      <div class="row"><a class="btn s" href="downloads/research/sensodyne-2019.pdf" download target="_blank" rel="noopener noreferrer">文獻 1：下載 PDF</a><a class="btn s" href="https://link.springer.com/article/10.1186/s12903-019-0919-x" target="_blank" rel="noopener noreferrer">期刊原文</a></div>
+    </div>
+    <div class="research-source">
+      <b>文獻 2｜2023：不同抗敏感牙膏的隨機對照試驗</b>
+      <p class="note">Jang 等，Scientific Reports，13:5271。4 週、三組隨機雙盲試驗；韓國版 Sensodyne Original（氯化鍶配方）是其中一個比較組。</p>
+      <p class="note">DOI：10.1038/s41598-023-31616-6｜PDF 共 9 頁</p>
+      <div class="row"><a class="btn s" href="downloads/research/sensodyne-2023.pdf" download target="_blank" rel="noopener noreferrer">文獻 2：下載 PDF</a><a class="btn s" href="https://www.nature.com/articles/s41598-023-31616-6" target="_blank" rel="noopener noreferrer">期刊原文</a></div>
+    </div>
+    <p class="note">Sensodyne 為 <a href="https://www.haleon.com/our-brands" target="_blank" rel="noopener noreferrer">Haleon 旗下品牌</a>。兩篇研究的產品配方與設計不同，不能直接比較產品優劣，也不能套用為台灣所有品項的核准宣稱。</p>
+    <ol class="steps">
+      <li>依序按下兩個 PDF 下載按鈕，將本站的兩份文獻存檔。</li>
+      <li>開啟 NotebookLM，登入後建立「Haleon 公開文獻｜牙齒敏感」筆記本，新增來源並上傳兩份 PDF。確認兩篇都載入且勾選。</li>
+      <li>依序貼上提詞 ①、②，每次等回答完成後再貼下一段。</li>
+      <li>點開至少 2 個引用，回到 PDF 核對產品配方、研究設計或結果數字；有誤時請 AI 依原文修正。</li>
+      <li>貼上提詞 ③，完成內勤文獻摘要；再貼提詞 ④，整理可重複提問的知識索引。</li>
+      <li>將核對後的摘要與索引分別按「儲存至記事」，命名為「牙齒敏感｜內勤文獻摘要」與「牙齒敏感｜文獻索引」。從索引挑一題重新提問，再點引用確認仍能回查原始研究。</li>
+    </ol>
+    <div class="row"><a class="btn p w" href="https://notebooklm.google.com/" target="_blank" rel="noopener noreferrer">開啟 NotebookLM</a></div>
+    <div class="row"><button class="btn p w" data-copy="NLM_SOURCES">① 複製提詞：建立文獻卡</button></div>
+    <details><summary>看提詞 1：建立文獻卡</summary><div class="in"><pre id="t-NLM_o_1"></pre></div></details>
+    <div class="row"><button class="btn s w" data-copy="NLM_COMPARE">② 複製提詞：比較研究與證據限制</button></div>
+    <details><summary>看提詞 2：比較研究與證據限制</summary><div class="in"><pre id="t-NLM_o_2"></pre></div></details>
+    <div class="row"><button class="btn s w" data-copy="NLM_OFFICE">③ 複製提詞：內勤文獻摘要</button></div>
+    <details><summary>看提詞 3：內勤文獻摘要</summary><div class="in"><pre id="t-NLM_o_3"></pre></div></details>
+    <div class="row"><button class="btn s w" data-copy="NLM_INDEX">④ 複製提詞：整理第二大腦索引</button></div>
+    <details><summary>看提詞 4：整理第二大腦索引</summary><div class="in"><pre id="t-NLM_o_4"></pre></div></details>
+    <p class="note">下次繼續使用同一筆記本；新增公開研究時，套用索引中的整理模板，保留研究年份、產品配方及限制。操作說明：<a href="https://support.google.com/notebooklm/answer/16215270?hl=zh-Hant" target="_blank" rel="noopener noreferrer">匯入 PDF</a>・<a href="https://support.google.com/notebooklm/answer/16179559?hl=zh-Hant" target="_blank" rel="noopener noreferrer">來源引用與儲存記事</a>。</p>
+  </div>
+
+  <div class="foot">本節對應：Unlock value, at pace</div>
+</section>
+
+<!-- ================= 4 查（外） ================= -->
+<section class="part" id="s4f">
+  <div class="ph"><div class="k">單元 4・外勤</div><h2>查資料：找可靠的來源</h2><p>依序練習牙科資訊查詢、產品 FAQ，以及 NotebookLM 文獻第二大腦，核對來源與核准說法。</p></div>
+  
+  <div class="warn">網頁搜尋的字詞會送出公司外：不放客戶名與內部數字。</div>
+  <div class="card">
+    <div class="head"><span class="num">B4-01</span><h3>查一個牙科資訊</h3></div>
+    <div class="do">開網頁搜尋，查牙齒敏感的原因與照護，每列附來源。</div>
+    <ol class="steps"><li>開新對話，打開網頁搜尋</li><li>按 ① 複製提詞，貼上送出</li><li>點開 2 個來源網址，核對原句</li></ol>
+    <div class="row"><button class="btn p w" data-copy="B8_P">① 複製提詞</button><button class="btn s w" data-copy="M_OFFICIAL_B8">搜尋不能用？複製官方節錄</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-B8_P"></pre></div></details>
+    <div class="note">搜尋不能用：把官方節錄貼在提詞下面再送出。</div>
+  </div>
+  
+  <div class="card">
+    <div class="head"><span class="num">B4-02</span><h3>產品 FAQ 10 題</h3></div>
+    <div class="do">整理 10 題醫師常問 FAQ，只用核准訊息或轉 Medical。</div>
+    <ol class="steps"><li>開新對話，按 ① 複製提詞貼上</li><li>按 ② 複製素材，貼在下面，送出</li><li>逐題對照核准原句</li></ol>
+    <div class="row"><button class="btn p w" data-copy="B9_P">① 複製提詞</button><button class="btn s w" data-copy="M_PRODUCT">② 複製素材：產品重點卡</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-B9_P"></pre></div></details>
+    <div class="note">開新對話做，不要接在 B4-01、B5-01 後面。</div>
+  </div>
+  
+  <div class="card">
+    <div class="head"><span class="num">B4-03</span><h3>NotebookLM：文獻第二大腦</h3></div>
+    <div class="do">把兩篇公開研究放進同一個筆記本，做成<b>能追問、能回查來源、下次找得到</b>的知識庫。完成文獻卡、研究比較、外勤拜訪前學習卡與知識索引。</div>
+    <div class="note">本題只匯入下列公開 PDF；另建筆記本，不加入前面的虛構產品卡、公司內部資料或病人資料。</div>
+    <div class="research-source">
+      <b>文獻 1｜2019：敏感牙齒與口腔健康生活品質</b>
+      <p class="note">Mason 等，BMC Oral Health，19:226。24 週單組研究，沒有對照組；研究使用德國版 Sensodyne Repair and Protect Daily Repair（氟化亞錫配方）。</p>
+      <p class="note">DOI：10.1186/s12903-019-0919-x｜PDF 共 11 頁</p>
+      <div class="row"><a class="btn s" href="downloads/research/sensodyne-2019.pdf" download target="_blank" rel="noopener noreferrer">文獻 1：下載 PDF</a><a class="btn s" href="https://link.springer.com/article/10.1186/s12903-019-0919-x" target="_blank" rel="noopener noreferrer">期刊原文</a></div>
+    </div>
+    <div class="research-source">
+      <b>文獻 2｜2023：不同抗敏感牙膏的隨機對照試驗</b>
+      <p class="note">Jang 等，Scientific Reports，13:5271。4 週、三組隨機雙盲試驗；韓國版 Sensodyne Original（氯化鍶配方）是其中一個比較組。</p>
+      <p class="note">DOI：10.1038/s41598-023-31616-6｜PDF 共 9 頁</p>
+      <div class="row"><a class="btn s" href="downloads/research/sensodyne-2023.pdf" download target="_blank" rel="noopener noreferrer">文獻 2：下載 PDF</a><a class="btn s" href="https://www.nature.com/articles/s41598-023-31616-6" target="_blank" rel="noopener noreferrer">期刊原文</a></div>
+    </div>
+    <p class="note">Sensodyne 為 <a href="https://www.haleon.com/our-brands" target="_blank" rel="noopener noreferrer">Haleon 旗下品牌</a>。兩篇研究的產品配方與設計不同，不能直接比較產品優劣，也不能套用為台灣所有品項的核准宣稱。</p>
+    <ol class="steps">
+      <li>依序按下兩個 PDF 下載按鈕，將本站的兩份文獻存檔。</li>
+      <li>開啟 NotebookLM，登入後建立「Haleon 公開文獻｜牙齒敏感」筆記本，新增來源並上傳兩份 PDF。確認兩篇都載入且勾選。</li>
+      <li>依序貼上提詞 ①、②，每次等回答完成後再貼下一段。</li>
+      <li>點開至少 2 個引用，回到 PDF 核對產品配方、研究設計或結果數字；有誤時請 AI 依原文修正。</li>
+      <li>貼上提詞 ③，完成外勤拜訪前學習卡；再貼提詞 ④，整理可重複提問的知識索引。</li>
+      <li>將核對後的摘要與索引分別按「儲存至記事」，命名為「牙齒敏感｜外勤拜訪前學習卡」與「牙齒敏感｜文獻索引」。從索引挑一題重新提問，再點引用確認仍能回查原始研究。</li>
+    </ol>
+    <div class="row"><a class="btn p w" href="https://notebooklm.google.com/" target="_blank" rel="noopener noreferrer">開啟 NotebookLM</a></div>
+    <div class="row"><button class="btn p w" data-copy="NLM_SOURCES">① 複製提詞：建立文獻卡</button></div>
+    <details><summary>看提詞 1：建立文獻卡</summary><div class="in"><pre id="t-NLM_f_1"></pre></div></details>
+    <div class="row"><button class="btn s w" data-copy="NLM_COMPARE">② 複製提詞：比較研究與證據限制</button></div>
+    <details><summary>看提詞 2：比較研究與證據限制</summary><div class="in"><pre id="t-NLM_f_2"></pre></div></details>
+    <div class="row"><button class="btn s w" data-copy="NLM_FIELD">③ 複製提詞：外勤拜訪前學習卡</button></div>
+    <details><summary>看提詞 3：外勤拜訪前學習卡</summary><div class="in"><pre id="t-NLM_f_3"></pre></div></details>
+    <div class="row"><button class="btn s w" data-copy="NLM_INDEX">④ 複製提詞：整理第二大腦索引</button></div>
+    <details><summary>看提詞 4：整理第二大腦索引</summary><div class="in"><pre id="t-NLM_f_4"></pre></div></details>
+    <p class="note">下次繼續使用同一筆記本；新增公開研究時，套用索引中的整理模板，保留研究年份、產品配方及限制。操作說明：<a href="https://support.google.com/notebooklm/answer/16215270?hl=zh-Hant" target="_blank" rel="noopener noreferrer">匯入 PDF</a>・<a href="https://support.google.com/notebooklm/answer/16179559?hl=zh-Hant" target="_blank" rel="noopener noreferrer">來源引用與儲存記事</a>。</p>
+  </div>
+
+  <div class="foot">本節對應：Unlock value, at pace</div>
+</section>
+
+<!-- ================= 5 算（內） ================= -->
+<section class="part" id="s5o">
+  <div class="ph"><div class="k">單元 5・內勤</div><h2>算資料：讓 AI 分析 Excel</h2><p>使用同一份內勤 Excel，依序練習促銷、預算、訂單庫存與客服分析，再整理專家提詞表。每題在同一對話完成 ①②③，換題時開新對話。</p></div>
+  
+  <div class="row"><a class="btn p w" href="downloads/excel/%E5%85%A7%E5%8B%A4_%E5%AF%A6%E4%BD%9C%E7%B7%B4%E7%BF%92.xlsx" download="內勤_實作練習.xlsx">下載內勤共用檔：內勤_實作練習.xlsx</a></div>
+  <p class="note">四題共用同一份檔案，依序使用各卡指定的工作表。每題開新對話並重新上傳同一份檔案。也可從本站「下載」分頁取得同一份檔案。</p>
+  <div class="warn">AI 算出的數字，先用 Excel 驗算 1 個再用。</div>
+  <div class="card">
+    <div class="head"><span class="num">A5-01</span><h3>促銷成效</h3></div>
+    <p class="note workbook-source">使用檔案：內勤_實作練習.xlsx｜工作表：通路銷售與促銷｜資料 A3:I45，共 43 筆。</p><div class="do">算出 Q3 各通路銷售額／促銷費用倍數，找出重複與缺漏，再比較假設情境。</div>
+    <ol class="steps"><li>開新對話，上傳內勤共用檔，只用「通路銷售與促銷」工作表</li><li>依序按 ①、②、③；等 AI 回覆後，再在同一對話送下一步</li><li>展開下方「Excel 驗算」，複製公式核對原始資料</li></ol>
+    <div class="row"><button class="btn p" data-copy="A11_P">① 辨識檔案＋看全貌</button><button class="btn s" data-copy="A11_P2">② 找問題</button><button class="btn s" data-copy="A11_P3">③ 比較假設與建議</button></div>
+    <div class="row"><button class="btn s w" data-copy="M_A11">上傳失敗才按：A5-01 資料，貼在 ① 後面</button></div>
+    <details><summary>看三步提詞內容（與上方複製按鈕相同）</summary><div class="in"><p class="note">① 看全貌</p><pre id="t-A11_P"></pre><p class="note">② 找問題</p><pre id="t-A11_P2"></pre><p class="note">③ 比較假設與建議</p><pre id="t-A11_P3"></pre></div></details>
+    <p class="note">原始數據與假設試算分開看；異常費用要向資料提供者確認，不能自行更正後當定案。</p>
+    <details class="formula-block"><summary>Excel 驗算：連鎖藥局甲 Q3 原始銷售額</summary><div class="in">
+      <p class="note">開啟本題 Excel，在同一活頁簿新增「驗算」工作表，選 A1 貼上公式。原資料工作表「通路銷售與促銷」保留不動。</p>
+      <pre>=SUMIF('通路銷售與促銷'!C3:C45,"連鎖藥局甲",'通路銷售與促銷'!G3:G45)</pre>
+      <button type="button" class="btn s" data-copy="CHECK_A11">複製驗算公式</button>
+      <details><summary>核對參考結果</summary><div class="in"><b>3,165,056 元</b><p class="note">包含原始重複列。這裡核對第①步原始合計，不是第③步的假設試算。</p></div></details>
+    </div></details>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">A5-02</span><h3>預算差異</h3></div>
+    <p class="note workbook-source">使用檔案：內勤_實作練習.xlsx｜工作表：預算與實際｜資料 A3:G38，共 36 筆。</p><div class="do">算出 1–9 月各科目預算差異，抓出算錯的那一列。</div>
+    <ol class="steps"><li>開新對話，上傳內勤共用檔，只用「預算與實際」工作表</li><li>依序按 ①、②、③；等 AI 回覆後，再在同一對話送下一步</li><li>展開下方「Excel 驗算」，複製公式核對原始資料</li></ol>
+    <div class="row"><button class="btn p" data-copy="A12_P">① 辨識檔案＋看全貌</button><button class="btn s" data-copy="A12_P2">② 找問題</button><button class="btn s" data-copy="A12_P3">③ 給建議</button></div>
+    <div class="row"><button class="btn s w" data-copy="M_A12">上傳失敗才按：A5-02 資料，貼在 ① 後面</button></div>
+    <details><summary>看三步提詞內容（與上方複製按鈕相同）</summary><div class="in"><p class="note">① 看全貌</p><pre id="t-A12_P"></pre><p class="note">② 找問題</p><pre id="t-A12_P2"></pre><p class="note">③ 給建議</p><pre id="t-A12_P3"></pre></div></details>
+    <details class="formula-block"><summary>Excel 驗算：樣品科目 1–9 月實際支出</summary><div class="in">
+      <p class="note">開啟本題 Excel，在同一活頁簿新增「驗算」工作表，選 A1 貼上公式。原資料工作表「預算與實際」保留不動。</p>
+      <pre>=SUMIF('預算與實際'!C3:C38,"樣品",'預算與實際'!E3:E38)</pre>
+      <button type="button" class="btn s" data-copy="CHECK_A12">複製驗算公式</button>
+      <details><summary>核對參考結果</summary><div class="in"><b>1,502,900 元</b><p class="note">核對 E 欄實際支出，不加總既有差異欄。</p></div></details>
+    </div></details>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">A5-03</span><h3>訂單庫存</h3></div>
+    <p class="note workbook-source">使用檔案：內勤_實作練習.xlsx｜工作表：模擬訂單與庫存｜資料 A3:I38，共 36 筆。</p><div class="do">找出三個品項的缺貨風險，抓出單位不一致的列。</div>
+    <ol class="steps"><li>開新對話，上傳內勤共用檔，只用「模擬訂單與庫存」工作表</li><li>依序按 ①、②、③；等 AI 回覆後，再在同一對話送下一步</li><li>展開下方「Excel 驗算」，複製公式核對原始資料</li></ol>
+    <div class="row"><button class="btn p" data-copy="A13_P">① 辨識檔案＋看全貌</button><button class="btn s" data-copy="A13_P2">② 找問題</button><button class="btn s" data-copy="A13_P3">③ 給建議</button></div>
+    <div class="row"><button class="btn s w" data-copy="M_A13">上傳失敗才按：A5-03 資料，貼在 ① 後面</button></div>
+    <details><summary>看三步提詞內容（與上方複製按鈕相同）</summary><div class="in"><p class="note">① 看全貌</p><pre id="t-A13_P"></pre><p class="note">② 找問題</p><pre id="t-A13_P2"></pre><p class="note">③ 給建議</p><pre id="t-A13_P3"></pre></div></details>
+    <details class="formula-block"><summary>Excel 驗算：X-S160 7–9 月訂單合計</summary><div class="in">
+      <p class="note">開啟本題 Excel，在同一活頁簿新增「驗算」工作表，選 A1 貼上公式。原資料工作表「模擬訂單與庫存」保留不動。</p>
+      <pre>=SUM('模擬訂單與庫存'!D30,'模擬訂單與庫存'!D33,'模擬訂單與庫存'!D36)</pre>
+      <button type="button" class="btn s" data-copy="CHECK_A13">複製驗算公式</button>
+      <details><summary>核對參考結果</summary><div class="in"><b>23,700（原資料數量）</b><p class="note">三列分別是 6,700、7,800、9,200；依 SKU 與月份核對，單位以原資料說明為準，不混入其他 SKU 或單位不同的列。</p></div></details>
+    </div></details>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">A5-04</span><h3>客服紀錄</h3></div>
+    <p class="note workbook-source">使用檔案：內勤_實作練習.xlsx｜工作表：客服紀錄｜資料 A3:J42，共 40 筆。</p><div class="do">整理客服紀錄分類，找出身體不適案件，寫 3 點消費者洞察。</div>
+    <ol class="steps"><li>開內勤共用檔的「客服紀錄」，逐筆閱讀描述，記下身體不適案件的編號與列號。</li><li>開新對話上傳內勤共用檔，只用「客服紀錄」，依序按 ①②③</li><li>對照你記的編號，Excel 驗算筆數</li></ol>
+    <div class="row"><button class="btn p" data-copy="A14_P">① 辨識檔案＋看全貌</button><button class="btn s" data-copy="A14_P2">② 找問題</button><button class="btn s" data-copy="A14_P3">③ 給建議</button></div>
+    <div class="row"><button class="btn s w" data-copy="M_A14">上傳失敗才按：A5-04 資料，貼在 ① 後面</button></div>
+    <details><summary>看三步提詞內容（與上方複製按鈕相同）</summary><div class="in"><p class="note">① 看全貌</p><pre id="t-A14_P"></pre><p class="note">② 找問題</p><pre id="t-A14_P2"></pre><p class="note">③ 給建議</p><pre id="t-A14_P3"></pre></div></details>
+    <details class="formula-block"><summary>Excel 驗算：原始「缺貨配送」類別筆數</summary><div class="in">
+      <p class="note">開啟本題 Excel，在同一活頁簿新增「驗算」工作表，選 A1 貼上公式。原資料工作表「客服紀錄」保留不動。</p>
+      <pre>=COUNTIF('客服紀錄'!G3:G42,"缺貨配送")</pre>
+      <button type="button" class="btn s" data-copy="CHECK_A14">複製驗算公式</button>
+      <details><summary>核對參考結果</summary><div class="in"><b>13 筆</b><p class="note">含重複案件；去重後為 12 筆。本公式核對第①步原始資料。</p></div></details>
+    </div></details>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">A5-05</span><h3>專家提詞表</h3></div>
+    <div class="do">A5-01–A5-04 的 ① 是填好的範例；複製填空版，改 3 格並存入自己的提詞庫。</div>
+    <div class="row"><button class="btn p w" data-copy="C6_OFFICE">複製專家提詞表（填空版）</button></div>
+    <details><summary>七格怎麼填（A5-01 範例）</summary><div class="in tw"><table><tr><th>格子</th><th>要寫什麼</th><th>範例：A5-01 通路分析師</th></tr><tr><td>我是誰</td><td>職務角色＋報告對象</td><td>通路分析師，報告給 TMK／GTN 主管</td></tr><tr><td>做什麼</td><td>一句話任務＋資料範圍</td><td>算 7–9 月各通路銷售額、促銷費用及兩者倍數</td></tr><tr><td>怎麼做</td><td>3–5 個步驟，先檢查再計算</td><td>資料說明 → 概況表 → 計算過程表</td></tr><tr><td>注意事項</td><td>A2-08的固定句（寫產品才加第 3 句）</td><td>缺資訊先問我；身體不適原文放最上面</td></tr><tr><td>資料來源</td><td>只用我提供的資料</td><td>只用內勤共用檔的「通路銷售與促銷」，不上網</td></tr><tr><td>規範邊界</td><td>不能做的事</td><td>缺的數字不自己填、不改原表、圖表文字用英文</td></tr><tr><td>完成定義</td><td>做到什麼才算完成</td><td>概況表＋計算過程表＋待確認的列</td></tr></table></div></details>
+    <div class="note">①②③ 都在同一個對話接著貼。</div>
+  </div>
+  <div class="foot">本節對應：Unlock value, at pace</div>
+</section>
+
+<!-- ================= 5 算（外） ================= -->
+<section class="part" id="s5f">
+  <div class="ph"><div class="k">單元 5・外勤</div><h2>算資料：讓 AI 分析拜訪紀錄</h2><p>使用外勤 Excel，依序完成 ① 看全貌 → ② 找問題 → ③ 排下週，再練習填寫專家提詞表。</p></div>
+  
+  <div class="row"><a class="btn p w" href="downloads/excel/%E5%A4%96%E5%8B%A4_%E5%AF%A6%E4%BD%9C%E7%B7%B4%E7%BF%92.xlsx" download="外勤_實作練習.xlsx">下載外勤共用檔：外勤_實作練習.xlsx</a></div>
+  <p class="note">本題使用同一份外勤 Excel 的「拜訪紀錄」與「診所清單」。依序完成三步，開新對話時重新上傳本檔。文字備援也包含這兩張工作表。</p>
+  <div class="warn">AI 算出的數字，先用 Excel 驗算 1 個再用。</div>
+  <div class="card">
+    <div class="head"><span class="num">B5-01</span><h3>拜訪紀錄分析</h3></div>
+    <p class="note workbook-source">使用檔案：外勤_實作練習.xlsx｜工作表：拜訪紀錄｜資料 A3:M42，共 40 筆。 同檔「診所清單」A3:F14（12 家），用於核對診所與排程。</p><div class="do">上傳同一份外勤共用檔，分析 40 筆拜訪紀錄，並用 12 家診所清單核對與排程。</div>
+    <ol class="steps"><li>開新對話，關閉網頁搜尋，上傳外勤_實作練習.xlsx；本題會使用「拜訪紀錄」與「診所清單」。</li><li>依序按 ①、②、③；每一步等 AI 回覆後，再在同一對話送下一步。</li><li>展開下方「Excel 驗算」，核對逾期筆數</li></ol>
+    <div class="row"><button class="btn p" data-copy="B10_P">① 辨識檔案＋看全貌</button><button class="btn s" data-copy="B10_P2">② 複製：找問題</button><button class="btn s" data-copy="B10_P3">③ 複製：排下週</button></div>
+    <div class="row"><button class="btn s w" data-copy-bundle="M_B10 M_CLINICS">上傳失敗：複製拜訪紀錄＋診所清單</button></div>
+    <details><summary>看三步提詞內容（與上方複製按鈕相同）</summary><div class="in"><p class="note">① 看全貌</p><pre id="t-B10_P"></pre><p class="note">② 找問題</p><pre id="t-B10_P2"></pre><p class="note">③ 排下週</p><pre id="t-B10_P3"></pre></div></details>
+    <div class="note">AI 反問？回「缺的寫期限缺漏，請繼續」。</div>
+    <details class="formula-block"><summary>Excel 驗算：截至 2026/10/02 的逾期待辦</summary><div class="in">
+      <p class="note">開啟本題 Excel，在同一活頁簿新增「驗算」工作表，選 A1 貼上公式。原資料工作表「拜訪紀錄」保留不動。</p>
+      <pre>=COUNTIFS('拜訪紀錄'!K3:K42,"&lt;"&amp;DATE(2026,10,2),'拜訪紀錄'!K3:K42,"&gt;0",'拜訪紀錄'!L3:L42,"&lt;&gt;已完成")</pre>
+      <button type="button" class="btn s" data-copy="CHECK_B10">複製驗算公式</button>
+      <details><summary>核對參考結果</summary><div class="in"><b>3 筆</b><p class="note">對應第 19、26、31 列。公式排除期限空白的列；日期固定為課程日。</p></div></details>
+    </div></details>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">B5-02</span><h3>專家提詞表</h3></div>
+    <div class="do">B5-01 的「① 看全貌」是寫好的範例；複製填空版，填入工作情境並存入提詞庫。</div>
+    <div class="row"><button class="btn p w" data-copy="C6_FIELD">複製專家提詞表（填空版）</button></div>
+    <details><summary>看七格怎麼填</summary><div class="in tw"><table><tr><th>格子</th><th>要寫什麼</th><th>範例：B5-01 拜訪行程助理</th></tr><tr><td>我是誰</td><td>職務角色＋報告對象</td><td>牙科通路外勤業務的拜訪行程助理</td></tr><tr><td>做什麼</td><td>一句話任務＋資料範圍</td><td>分析 8–9 月 40 筆拜訪紀錄，整理需求與待辦</td></tr><tr><td>怎麼做</td><td>3–5 步，先檢查再計算</td><td>資料說明 → 概況表 → 需求分群 → 待辦清單</td></tr><tr><td>注意事項</td><td>防呆句＋AE 句</td><td>缺資訊先問我；疑似 AE 原文置頂</td></tr><tr><td>資料來源</td><td>只用我提供的資料</td><td>使用「拜訪紀錄」分析，以「診所清單」核對；每筆標工作表名稱與列號，不上網。</td></tr><tr><td>規範邊界</td><td>不能做的事</td><td>期限空白不補日期；不改原始資料</td></tr><tr><td>完成定義</td><td>做到什麼才算完成</td><td>資料說明＋概況表＋分群表＋待辦清單＋計算過程表</td></tr></table></div></details>
+    <div class="note">填空版要改 3 處〔請改：…〕，存進提詞庫。</div>
+  </div>
+  <div class="foot">本節對應：Unlock value, at pace</div>
+</section>
+
+<!-- ================= 6 報（內） ================= -->
+<section class="part" id="s6o">
+  <div class="ph"><div class="k">單元 6・內勤</div><h2>報：同一份資料，四種呈現方式</h2><p>本頁主題是「主管活動提案」。依序體驗直接對話、NotebookLM、繪圖與網頁，每張卡都可從頭獨立開始。</p></div>
+  <div class="do"><b>本節直接使用卡片附上的 M-20 活動企劃草案。</b>不需要 Excel、先前分析結果或其他練習產出。四種做法都有完整素材與操作提詞。</div>
+  <div class="note">本題素材為教學用虛構資料，可用於本課的個人學習工具；四種成果均供內部練習。</div>
+  <details><summary>看本節共用素材：活動企劃草案</summary><div class="in"><pre id="t-REPORT_O_SOURCE"></pre></div></details>
+  <div class="card">
+    <div class="head"><span class="num">A6-01</span><h3>直接對話製作簡報</h3></div>
+    <div class="do">透過對話直接生成 6 頁「主管活動提案」，再用一句話修改版面，取得完成的投影片。</div>
+    <p class="note">直接在 AI 對話中下指令，製作有完整內容與版面的投影片。</p>
+    <ol class="steps">
+      <li>開啟 AI 工具的新對話。</li>
+      <li>按 ① 一鍵複製提詞＋素材，貼上送出，讓 AI 直接建立投影片。</li>
+      <li>按 ② 在同一對話調整字量與版面，查看更新後的簡報。</li>
+      <li>開啟完成的投影片，下載或儲存簡報。</li>
+    </ol>
+    <div class="row"><button type="button" class="btn p w" data-copy-bundle="REPORT_O_CHAT M_QUESTIONS">① 一鍵複製：製作簡報＋完整素材</button></div>
+    <details><summary>看提詞：直接生成簡報</summary><div class="in"><pre id="t-REPORT_O_CHAT"></pre></div></details>
+    <div class="row"><button type="button" class="btn s w" data-copy="REPORT_O_REVISE">② 複製：用對話修改字量與版面</button></div>
+    <details><summary>看提詞：修改簡報</summary><div class="in"><pre id="t-REPORT_O_REVISE"></pre></div></details>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">A6-02</span><h3>NotebookLM 製作簡報</h3></div>
+    <div class="do">將本題素材匯入新筆記本，直接使用「簡報」功能產生投影片，下載 PDF 展示。</div>
+    <p class="note">使用工具：NotebookLM 網頁版。成果：一份有完整內容與版面的簡報 PDF。</p>
+    <ol class="steps">
+      <li>開啟 NotebookLM，新建「報・主管活動提案」筆記本。</li>
+      <li>按 ① 複製素材，在「新增來源 → 貼上文字」匯入，命名為「M-20 活動企劃草案」，並勾選這份來源。</li>
+      <li>在 Studio／工作室找到「簡報（Slide Deck）」的自訂／鉛筆圖示，選講者用投影片、繁體中文及較短篇幅。</li>
+      <li>按 ② 複製製作要求，貼進簡報自訂欄，再按生成；這段貼在簡報設定，素材則已放在來源區。</li>
+      <li>開啟簡報查看日期、報名人數與待確認文字，再從簡報的「⋯」選單下載 PDF，並使用播放模式展示。</li>
+    </ol>
+    <div class="row"><a class="btn s" href="https://notebooklm.google.com/" target="_blank" rel="noopener noreferrer">開啟 NotebookLM</a></div>
+    <div class="row"><button type="button" class="btn p w" data-copy="M_QUESTIONS">① 複製素材：貼到新增來源</button><button type="button" class="btn s w" data-copy="REPORT_O_NLM">② 複製要求：貼到簡報自訂欄</button></div>
+    <details><summary>看提詞：NotebookLM 簡報製作要求</summary><div class="in"><pre id="t-REPORT_O_NLM"></pre></div></details>
+    <p class="note">本題另建筆記本，不需要「查」單元的文獻或前一題簡報。功能入口與使用額度依帳號而異；若個人帳號當下無法生成，與同桌在可用帳號共同操作本題。<a href="https://support.google.com/notebooklm/answer/16757456?hl=zh-Hant" target="_blank" rel="noopener noreferrer">簡報功能官方說明</a></p>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">A6-03</span><h3>用繪圖製作圖片簡報</h3></div>
+    <div class="do">直接請 AI 畫出 3 張 16:9 簡報圖片，每張都有指定文案與構圖，組成一份視覺簡報。</div>
+    <p class="note">使用工具：Gemini 的建立圖片功能。成果：3 張簡報圖片，放入 3 頁 PowerPoint。</p>
+    <ol class="steps">
+      <li>開啟 Gemini 新對話，選「建立圖片／生成圖片」。</li>
+      <li>依序使用下方第 1、2、3 頁按鈕；每次送出一頁，等圖片完成再做下一頁。每份提詞已包含完整素材。</li>
+      <li>下載 3 張圖片；文字或數字有誤時，使用下方修圖提詞，依指定文案修正。</li>
+      <li>在 PowerPoint 建立 3 張 16:9 空白投影片，一頁插入一張圖並等比例鋪滿，播放展示。</li>
+    </ol>
+    <div class="row"><a class="btn s" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">開啟 Gemini</a></div>
+    <div class="row"><button type="button" class="btn p w" data-copy-bundle="REPORT_O_IMAGE_1 M_QUESTIONS">① 一鍵複製：第 1 頁「活動目標」＋素材</button></div>
+    <details><summary>看第 1 頁繪圖提詞</summary><div class="in"><pre id="t-REPORT_O_IMAGE_1"></pre></div></details>
+    <div class="row"><button type="button" class="btn s w" data-copy-bundle="REPORT_O_IMAGE_2 M_QUESTIONS">② 一鍵複製：第 2 頁「邀請進度」＋素材</button></div>
+    <details><summary>看第 2 頁繪圖提詞</summary><div class="in"><pre id="t-REPORT_O_IMAGE_2"></pre></div></details>
+    <div class="row"><button type="button" class="btn s w" data-copy-bundle="REPORT_O_IMAGE_3 M_QUESTIONS">③ 一鍵複製：第 3 頁「需要決定的事」＋素材</button></div>
+    <details><summary>看第 3 頁繪圖提詞</summary><div class="in"><pre id="t-REPORT_O_IMAGE_3"></pre></div></details>
+
+    <div class="row"><button type="button" class="btn s w" data-copy="REPORT_O_IMAGE_FIX">複製修圖提詞：修正文字與數字</button></div>
+    <p class="note">這種做法的文字會成為圖片的一部分；要改內容時回到 AI 修圖再替換。三頁各自提供完整提詞，不必先完成對話簡報或 NotebookLM。</p>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">A6-04</span><h3>製作網頁簡報</h3></div>
+    <div class="do">請 AI 把素材直接做成可切換頁面、展開講稿、列印 PDF 的 HTML 簡報網頁。</div>
+    <p class="note">使用工具：Gemini Canvas。成果：可在瀏覽器開啟的 office-briefing.html。</p>
+    <ol class="steps">
+      <li>開啟 Gemini 新對話，選 Canvas；按下方按鈕，貼上完整提詞與素材。</li>
+      <li>開啟 AI 產生的網頁預覽，操作導覽、開始簡報、上一頁／下一頁與講稿按鈕。</li>
+      <li>下載 HTML；若只提供程式碼，複製完整 HTML，用純文字編輯器以 UTF-8 存成 <b>office-briefing.html</b>，檔名結尾須是 .html。</li>
+      <li>用瀏覽器開啟檔案，操作「列印／另存 PDF」存下一份完整 6 頁版本，再以簡報模式展示。</li>
+    </ol>
+    <div class="row"><a class="btn s" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">開啟 Gemini</a></div>
+    <div class="row"><button type="button" class="btn p w" data-copy-bundle="REPORT_O_WEB M_QUESTIONS">一鍵複製：製作網頁＋完整素材</button></div>
+    <details><summary>看提詞：完整 HTML 網頁簡報</summary><div class="in"><pre id="t-REPORT_O_WEB"></pre></div></details>
+    <p class="note">HTML 內已包含內容與程式；存檔後可離線展示，本題不需要上架網站。沒有 Canvas 時可在能輸出程式碼的對話工具貼同一份提詞，依第 3 步存檔。</p>
+  </div>
+  <div class="foot">本節對應：Unlock value, at pace</div>
+</section>
+
+<!-- ================= 6 報（外） ================= -->
+<section class="part" id="s6f">
+  <div class="ph"><div class="k">單元 6・外勤</div><h2>報：同一份資料，四種呈現方式</h2><p>本頁主題是「業務團隊行前說明」。依序體驗直接對話、NotebookLM、繪圖與網頁，每張卡都可從頭獨立開始。</p></div>
+  <div class="do"><b>本節直接使用卡片附上的 M-20 活動企劃草案。</b>不需要 Excel、先前分析結果或其他練習產出。四種做法都有完整素材與操作提詞。</div>
+  <div class="note">本題素材為教學用虛構資料，可用於本課的個人學習工具；四種成果均供內部練習。</div>
+  <details><summary>看本節共用素材：活動企劃草案</summary><div class="in"><pre id="t-REPORT_F_SOURCE"></pre></div></details>
+  <div class="card">
+    <div class="head"><span class="num">B6-01</span><h3>直接對話製作簡報</h3></div>
+    <div class="do">透過對話直接生成 6 頁「業務團隊行前說明」，再用一句話修改版面，取得完成的投影片。</div>
+    <p class="note">直接在 AI 對話中下指令，製作有完整內容與版面的投影片。</p>
+    <ol class="steps">
+      <li>開啟 AI 工具的新對話。</li>
+      <li>按 ① 一鍵複製提詞＋素材，貼上送出，讓 AI 直接建立投影片。</li>
+      <li>按 ② 在同一對話調整字量與版面，查看更新後的簡報。</li>
+      <li>開啟完成的投影片，下載或儲存簡報。</li>
+    </ol>
+    <div class="row"><button type="button" class="btn p w" data-copy-bundle="REPORT_F_CHAT M_QUESTIONS">① 一鍵複製：製作簡報＋完整素材</button></div>
+    <details><summary>看提詞：直接生成簡報</summary><div class="in"><pre id="t-REPORT_F_CHAT"></pre></div></details>
+    <div class="row"><button type="button" class="btn s w" data-copy="REPORT_F_REVISE">② 複製：用對話修改字量與版面</button></div>
+    <details><summary>看提詞：修改簡報</summary><div class="in"><pre id="t-REPORT_F_REVISE"></pre></div></details>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">B6-02</span><h3>NotebookLM 製作簡報</h3></div>
+    <div class="do">將本題素材匯入新筆記本，直接使用「簡報」功能產生投影片，下載 PDF 展示。</div>
+    <p class="note">使用工具：NotebookLM 網頁版。成果：一份有完整內容與版面的簡報 PDF。</p>
+    <ol class="steps">
+      <li>開啟 NotebookLM，新建「報・業務團隊行前說明」筆記本。</li>
+      <li>按 ① 複製素材，在「新增來源 → 貼上文字」匯入，命名為「M-20 活動企劃草案」，並勾選這份來源。</li>
+      <li>在 Studio／工作室找到「簡報（Slide Deck）」的自訂／鉛筆圖示，選講者用投影片、繁體中文及較短篇幅。</li>
+      <li>按 ② 複製製作要求，貼進簡報自訂欄，再按生成；這段貼在簡報設定，素材則已放在來源區。</li>
+      <li>開啟簡報查看日期、報名人數與待確認文字，再從簡報的「⋯」選單下載 PDF，並使用播放模式展示。</li>
+    </ol>
+    <div class="row"><a class="btn s" href="https://notebooklm.google.com/" target="_blank" rel="noopener noreferrer">開啟 NotebookLM</a></div>
+    <div class="row"><button type="button" class="btn p w" data-copy="M_QUESTIONS">① 複製素材：貼到新增來源</button><button type="button" class="btn s w" data-copy="REPORT_F_NLM">② 複製要求：貼到簡報自訂欄</button></div>
+    <details><summary>看提詞：NotebookLM 簡報製作要求</summary><div class="in"><pre id="t-REPORT_F_NLM"></pre></div></details>
+    <p class="note">本題另建筆記本，不需要「查」單元的文獻或前一題簡報。功能入口與使用額度依帳號而異；若個人帳號當下無法生成，與同桌在可用帳號共同操作本題。<a href="https://support.google.com/notebooklm/answer/16757456?hl=zh-Hant" target="_blank" rel="noopener noreferrer">簡報功能官方說明</a></p>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">B6-03</span><h3>用繪圖製作圖片簡報</h3></div>
+    <div class="do">直接請 AI 畫出 3 張 16:9 簡報圖片，每張都有指定文案與構圖，組成一份視覺簡報。</div>
+    <p class="note">使用工具：Gemini 的建立圖片功能。成果：3 張簡報圖片，放入 3 頁 PowerPoint。</p>
+    <ol class="steps">
+      <li>開啟 Gemini 新對話，選「建立圖片／生成圖片」。</li>
+      <li>依序使用下方第 1、2、3 頁按鈕；每次送出一頁，等圖片完成再做下一頁。每份提詞已包含完整素材。</li>
+      <li>下載 3 張圖片；文字或數字有誤時，使用下方修圖提詞，依指定文案修正。</li>
+      <li>在 PowerPoint 建立 3 張 16:9 空白投影片，一頁插入一張圖並等比例鋪滿，播放展示。</li>
+    </ol>
+    <div class="row"><a class="btn s" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">開啟 Gemini</a></div>
+    <div class="row"><button type="button" class="btn p w" data-copy-bundle="REPORT_F_IMAGE_1 M_QUESTIONS">① 一鍵複製：第 1 頁「活動時間」＋素材</button></div>
+    <details><summary>看第 1 頁繪圖提詞</summary><div class="in"><pre id="t-REPORT_F_IMAGE_1"></pre></div></details>
+    <div class="row"><button type="button" class="btn s w" data-copy-bundle="REPORT_F_IMAGE_2 M_QUESTIONS">② 一鍵複製：第 2 頁「邀請進度」＋素材</button></div>
+    <details><summary>看第 2 頁繪圖提詞</summary><div class="in"><pre id="t-REPORT_F_IMAGE_2"></pre></div></details>
+    <div class="row"><button type="button" class="btn s w" data-copy-bundle="REPORT_F_IMAGE_3 M_QUESTIONS">③ 一鍵複製：第 3 頁「拜訪前要確認」＋素材</button></div>
+    <details><summary>看第 3 頁繪圖提詞</summary><div class="in"><pre id="t-REPORT_F_IMAGE_3"></pre></div></details>
+
+    <div class="row"><button type="button" class="btn s w" data-copy="REPORT_F_IMAGE_FIX">複製修圖提詞：修正文字與數字</button></div>
+    <p class="note">這種做法的文字會成為圖片的一部分；要改內容時回到 AI 修圖再替換。三頁各自提供完整提詞，不必先完成對話簡報或 NotebookLM。</p>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">B6-04</span><h3>製作網頁簡報</h3></div>
+    <div class="do">請 AI 把素材直接做成可切換頁面、展開講稿、列印 PDF 的 HTML 簡報網頁。</div>
+    <p class="note">使用工具：Gemini Canvas。成果：可在瀏覽器開啟的 field-briefing.html。</p>
+    <ol class="steps">
+      <li>開啟 Gemini 新對話，選 Canvas；按下方按鈕，貼上完整提詞與素材。</li>
+      <li>開啟 AI 產生的網頁預覽，操作導覽、開始簡報、上一頁／下一頁與講稿按鈕。</li>
+      <li>下載 HTML；若只提供程式碼，複製完整 HTML，用純文字編輯器以 UTF-8 存成 <b>field-briefing.html</b>，檔名結尾須是 .html。</li>
+      <li>用瀏覽器開啟檔案，操作「列印／另存 PDF」存下一份完整 6 頁版本，再以簡報模式展示。</li>
+    </ol>
+    <div class="row"><a class="btn s" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">開啟 Gemini</a></div>
+    <div class="row"><button type="button" class="btn p w" data-copy-bundle="REPORT_F_WEB M_QUESTIONS">一鍵複製：製作網頁＋完整素材</button></div>
+    <details><summary>看提詞：完整 HTML 網頁簡報</summary><div class="in"><pre id="t-REPORT_F_WEB"></pre></div></details>
+    <p class="note">HTML 內已包含內容與程式；存檔後可離線展示，本題不需要上架網站。沒有 Canvas 時可在能輸出程式碼的對話工具貼同一份提詞，依第 3 步存檔。</p>
+  </div>
+  <div class="foot">本節對應：Unlock value, at pace</div>
+</section>
+
+<!-- ================= 7 問 ================= -->
+<section class="part" id="s7">
+  <div class="ph"><div class="k">單元 7・共用</div><h2>問：先想講稿，再準備問題</h2><p>內勤與外勤使用同一份活動企劃，先請 AI 幫忙想講稿，再從五種角色準備問題與初步答案。兩題都附完整素材。</p></div>
+  <div class="card">
+    <div class="head"><span class="num">C7-01</span><h3>請 AI 幫忙想講稿</h3></div>
+    <div class="do">用本題附上的活動企劃，請 AI 幫你想<b>怎麼開場、先講什麼、如何轉場與收尾</b>，做出可直接朗讀的講稿。</div>
+    <ol class="steps">
+      <li>開新對話，關閉網頁搜尋；按 ① 複製提詞＋完整素材，貼上送出。</li>
+      <li>閱讀 AI 建議的核心訊息與重點順序，再朗讀約 3 分鐘版本，找出不像自己說話的句子。</li>
+      <li>按 ② 在同一對話改成約 90 秒口語版，對照長短兩版的重點與說法。</li>
+      <li>用自己的語氣念一次；目標、暫定、預估與待確認仍要說清楚。</li>
+    </ol>
+    <div class="row"><button type="button" class="btn p w" data-copy-bundle="Q_SPEECH M_QUESTIONS">① 一鍵複製：幫我想講稿＋完整素材</button></div>
+    <details><summary>看提詞：講法設計與 3 分鐘講稿</summary><div class="in"><pre id="t-Q_SPEECH"></pre></div></details>
+    <details><summary>看素材：M-20 活動企劃草案</summary><div class="in"><pre id="t-Q_SPEECH_SOURCE"></pre><div class="row"><button class="btn s w" data-copy="M_QUESTIONS">只複製素材</button></div></div></details>
+    <div class="row"><button type="button" class="btn s w" data-copy="Q_SPEECH_SHORT">② 複製：改成 90 秒口語版</button></div>
+    <details><summary>看提詞：精簡與口語化</summary><div class="in"><pre id="t-Q_SPEECH_SHORT"></pre></div></details>
+    <p class="note">本題已附完整資料，可直接開始。講稿不用依賴「算」或「報」的成果；實際長度以自己的朗讀速度調整。</p>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">C7-02</span><h3>同一份資料，五種角色問答</h3></div>
+    <div class="do">你即將討論一場「口腔照護知識交流會」。請 AI 模擬<b>主管、財務、業務、醫師／藥師、活動執行</b>會問什麼，替你準備初步答案。</div>
+    <div class="tw"><table>
+      <tr><th>模擬角色</th><th>從什麼角度問</th></tr>
+      <tr><td>主管</td><td>活動目的、效益與執行必要性</td></tr>
+      <tr><td>財務</td><td>費用依據、預算與未計入的成本</td></tr>
+      <tr><td>業務</td><td>邀請進度、客戶時間與後續溝通</td></tr>
+      <tr><td>醫師／藥師</td><td>參加價值、議程與實際需求</td></tr>
+      <tr><td>活動執行</td><td>流程、分工、期限與備案</td></tr>
+    </table></div>
+    <ol class="steps">
+      <li>開新對話，關閉網頁搜尋。按 ① 一鍵複製提詞＋素材，貼上送出；得到每個角色 3 題、共 15 題問題與初步答案。</li>
+      <li>按 ② 貼到同一對話，讓每個角色針對答案再深入追問 1 題，找出還沒準備好的地方。</li>
+      <li>按 ③ 整理成會前問答準備單，保留 5 題優先問題、初步答案及需補充的資料。</li>
+      <li>對照素材段落，確認答案有依據、未知處寫「待確認」。同桌分別扮演上述角色提問，練習用準備單回答。</li>
+    </ol>
+    <div class="row"><button type="button" class="btn p w" data-copy-bundle="Q_ROLES M_QUESTIONS">① 一鍵複製：多角色提問＋活動企劃</button></div>
+    <details><summary>看提詞：五種角色的問題與初步答案</summary><div class="in"><pre id="t-Q_ROLES"></pre><div class="row"><button class="btn s w" data-copy="Q_ROLES">只複製提詞</button></div></div></details>
+    <details><summary>看素材：M-20 活動企劃草案</summary><div class="in"><pre id="t-M_QUESTIONS_CARD"></pre><div class="row"><button class="btn s w" data-copy="M_QUESTIONS">只複製素材</button></div></div></details>
+    <div class="row"><button class="btn s w" data-copy="Q_PROBE">② 複製追問：每個角色再問深一點</button></div>
+    <details><summary>看提詞：深入追問與初步回應</summary><div class="in"><pre id="t-Q_PROBE"></pre></div></details>
+    <div class="row"><button class="btn s w" data-copy="Q_PREP">③ 複製提詞：整理會前問答準備單</button></div>
+    <details><summary>看提詞：優先問題、初步答案與補資料清單</summary><div class="in"><pre id="t-Q_PREP"></pre></div></details>
+    <p class="note">完成後保留一份會前問答準備單。答案要分清楚「草案已寫的事實」「仍待確認的資訊」與「AI 提出的建議」。</p>
+    <div class="row"><button type="button" class="btn s" data-go="s8o">前往 8 合（內勤）</button><button type="button" class="btn s" data-go="s8f">前往 8 合（外勤）</button></div>
+  </div>
+</section>
+
+<!-- ================= 8 合（內） ================= -->
+<section class="part" id="s8o">
+  <div class="ph"><div class="k">單元 8・內勤</div><h2>接交接單，帶走地圖</h2><p>依序練習整理交接單、接外勤桌的交接單，再合併成追蹤表。完成本頁後前往「9 帶走」，整理工作地圖與學習規劃。</p></div>
+  
+  <div class="warn">真實工作中，身體不適（AE）不能只貼 Teams，要依公司流程通報。</div>
+  <div class="card">
+    <div class="head"><span class="num">A8-01</span><h3>整理 1 張交接單</h3></div>
+    <div class="do">把 1 張交接單整理成追蹤表，並寫好回覆信。</div>
+    <ol class="steps"><li>按 ① 複製提詞，貼到 Copilot</li><li>按你座位號的那張 ②，貼在後面送出</li><li>看「疑似AE」欄一字不差</li></ol>
+    <div class="row"><button class="btn p w" data-copy="A18_P">① 複製提詞</button></div>
+    <div class="row"><button class="btn s w" data-copy="M_A18_1">② 交接單 1（座位 1、4 號）</button><button class="btn s w" data-copy="M_A18_2">② 交接單 2（座位 2、5 號）</button><button class="btn s w" data-copy="M_A18_3">② 交接單 3（座位 3、6 號）</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-A18_P"></pre></div></details>
+    <div class="note">不知道座位號？問桌長。</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">A8-02</span><h3>接外勤桌的交接單</h3></div>
+    <div class="do">把外勤桌貼在 Teams 的交接單，用同一段提詞再跑一次。</div>
+    <ol class="steps"><li>桌長在 Teams 回「我接」，告訴全桌</li><li>開新對話，按 ① 貼上，再貼 Teams 那則</li><li>桌內互看「疑似AE」欄和醫學問題</li></ol>
+    <div class="row"><button class="btn p w" data-copy="A18_P">① 複製提詞（和 A8-01 同一段）</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-A18_P_2"></pre></div></details>
+    <div class="note">接哪一桌，看投影片。</div>
+  </div>
+  
+  <div class="card">
+    <div class="head"><span class="num">A8-03</span><h3>合併成一張追蹤表</h3></div>
+    <div class="do">把多張交接單合併成一張追蹤表，給主管每週看。</div>
+    <ol class="steps"><li>在 A8-02 的對話按 ① 貼上</li><li>按 ② 複製 3 張交接單，貼在後面送出</li><li>看「疑似AE」那幾列在最上面</li></ol>
+    <div class="row"><button class="btn p w" data-copy="A18_P2">① 複製提詞：合併追蹤表</button><button class="btn s w" data-copy="M_A18">② 複製素材：3 張交接單</button></div>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-A18_P2"></pre></div></details>
+    <div class="note">開了新對話：再從 Teams 複製認領的交接。</div>
+  </div>
+  
+  <div class="foot">本節對應：Grow myself and others／Collaborate for impact</div>
+</section>
+
+<!-- ================= 8 合（外） ================= -->
+<section class="part" id="s8f">
+  <div class="ph"><div class="k">單元 8・外勤</div><h2>交棒與帶走</h2><p>把拜訪結果寫成交接單，與內勤桌完成交接；接著到「9 帶走」完成工作地圖與學習規劃。</p></div>
+  
+  <div class="warn">Teams 群組只由桌長貼一份，第一行寫「外勤桌＋桌號」。</div>
+  <div class="card">
+    <div class="head"><span class="num">B8-01</span><h3>拜訪＋交接單</h3></div>
+    <div class="do">把今天拜訪結果寫成給內勤的交接單和 Teams 訊息。</div>
+    <ol class="steps"><li>開新對話。</li><li>按「一鍵複製提詞＋素材」，貼上後直接送出。</li><li>桌長貼一份到 Teams；其他人互看 AE 欄</li></ol>
+    <div class="row"><button type="button" class="btn p w" data-copy-bundle="B14_P M_B14 M_HANDOFF">一鍵複製提詞＋素材</button></div>
+    <details><summary>分開複製提詞或素材</summary><div class="in"><div class="row"><button class="btn p w" data-copy="B14_P">① 複製提詞</button><button class="btn s w" data-copy="M_B14">② 複製素材：本次拜訪結果</button><button class="btn s w" data-copy="M_HANDOFF">③ 複製素材：交接單範本</button></div></div></details>
+    <details><summary>看提詞內容</summary><div class="in"><pre id="t-B14_P"></pre></div></details>
+    <div class="note">貼 Teams 時，換行用 Shift＋Enter。</div>
+  </div>
+  <div class="foot">本節對應：Grow myself and others／Collaborate for impact</div>
+</section>
+
+<!-- ================= 9 帶走 ================= -->
+<section class="part" id="s9">
+  <div class="ph"><div class="k">單元 9・共用</div><h2>把今天帶回去</h2><p>填你的 AI 工作地圖，看推薦工具與之後怎麼學。</p></div>
+  <div class="card map">
+    <div class="head"><span class="num">C9-01</span><h3>我的 AI 工作地圖</h3></div>
+    <div class="do">填 3 列工作地圖，按「複製我的地圖」存起來。</div>
+    <div id="map"></div>
+    <div class="row"><button class="btn p w" id="copyMap">複製我的地圖</button></div>
+    <div class="row"><button class="btn s w" data-copy="C8_P">複製四要素填空（寫自己的提詞）</button><button class="btn s w" data-copy="C8_q1">複製 30 天提詞挑戰</button></div>
+    <details><summary>30 天提詞挑戰（每天 5 分鐘）</summary><div class="in tw"><table><tr><th>天數</th><th>做這件事</th><th>對應卡</th></tr><tr><td>第 1–7 天</td><td>每天用 Copilot Chat 做 1 件小事，提詞加防呆句</td><td>A2-02、A2-03、A2-04、B2-02</td></tr><tr><td>第 8–14 天</td><td>把最好用的 3 則提詞存進提詞庫</td><td>A2-08／B2-06</td></tr><tr><td>第 15–21 天</td><td>用專家提詞表做 1 份分析，驗算 1 個數字</td><td>A5-01～A5-05／B5-01～B5-02</td></tr><tr><td>第 22–28 天</td><td>用一份資料，練習對話、NotebookLM、圖片與網頁四種呈現</td><td>A6-01～A6-04／B6-01～B6-04</td></tr><tr><td>第 29–30 天</td><td>分享好用的提詞與一份簡報成果給同事或 Copilot Champions</td><td>C9-02</td></tr></table></div></details>
+    <div class="note">只寫工作情境，不寫客戶、病人或未公開資料。</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">C9-02</span><h3>推薦工具與學習路徑</h3></div>
+    <div class="do">公司資料只放第 1 層工具；再挑下週要做的第一件事。</div>
+    <div class="tw"><table><tr><th>層級</th><th>工具</th><th>可以放的資料</th></tr><tr><td>① 公司核准</td><td>Copilot Chat（公司帳號、看得到盾牌）</td><td>依公司資料分級允許的資料（只放最少必要內容）</td></tr><tr><td>② 個人學習用</td><td>Gemini、NotebookLM、ChatGPT 等</td><td>只放公開或虛構資料</td></tr><tr><td>③ 公司停用或受限</td><td>依公司 Copilot FAQ 與 IT 公告</td><td>不使用</td></tr></table></div>
+    <details><summary>後續學習路徑</summary><div class="in tw"><table><tr><th>路徑</th><th>做什麼</th><th>提醒</th></tr><tr><td>申請授權 ①</td><td>完成 Copilot readiness module</td><td>必修</td></tr><tr><td>申請授權 ②</td><td>通過測驗</td><td>—</td></tr><tr><td>申請授權 ③</td><td>ServiceNow 申請 M365 Copilot</td><td>資格以公司公告為準；EW 需主管核准</td></tr><tr><td>自學</td><td>DataCamp 入門</td><td>—</td></tr><tr><td>同儕支援</td><td>Copilot Champions</td><td>卡關先問身邊的 Champion</td></tr><tr><td>提案</td><td>GenAI Hub</td><td>好點子向 GenAI Hub 提案</td></tr><tr><td>每天練</td><td>我的提詞庫＋30 天提詞挑戰</td><td>見 C9-01</td></tr></table></div></details>
+    <div class="note">授權資格和工具開放狀態以公司公告為準。</div>
+  </div>
+</section>
+
+<!-- ================= 素材 ================= -->
+<section class="part" id="downloads">
+  <div class="ph"><div class="k">學員下載</div><h2>所有練習素材，這裡直接下載</h2><p>選自己的 Excel，再依課程使用提詞、文字素材與研究 PDF。所有檔案都在本站。</p></div>
+  <div class="card"><h3>先下載這些</h3><div class="row"><a class="btn p" href="downloads/excel/%E5%85%A7%E5%8B%A4_%E5%AF%A6%E4%BD%9C%E7%B7%B4%E7%BF%92.xlsx" download="內勤_實作練習.xlsx">內勤 Excel</a><a class="btn p" href="downloads/excel/%E5%A4%96%E5%8B%A4_%E5%AF%A6%E4%BD%9C%E7%B7%B4%E7%BF%92.xlsx" download="外勤_實作練習.xlsx">外勤 Excel</a><a class="btn p" href="downloads/course-materials.zip" download="Haleon_1002_學員素材包.zip">全部學員素材 ZIP</a><a class="btn s" href="downloads/prompts/all-exercises.txt" download="Haleon_全部練習與提詞.txt">全部練習與提詞（最新版）</a></div><p class="note">只需下載自己路線的那份 Excel；整包包含兩份 Excel、全部文字素材、提詞、文獻與原始學員參考附件。</p></div>
+  <div class="card"><h3>NotebookLM 研究 PDF</h3><div class="row"><a class="btn s" href="downloads/research/sensodyne-2019.pdf" download>文獻 1：2019 年研究 PDF</a><a class="btn s" href="downloads/research/sensodyne-2023.pdf" download>文獻 2：2023 年研究 PDF</a><a class="btn s" href="downloads/research/SOURCES.txt" download>來源與授權</a></div><p class="note">兩篇原始 PDF 均依 CC BY 4.0 提供，未修改內容；作者、期刊與原文連結見來源與授權。</p></div>
+  <div class="card"><h3>依單元下載練習與提詞</h3><div class="row"><a class="btn s" href="downloads/prompts/s0.txt" download>0 開始</a><a class="btn s" href="downloads/prompts/s1.txt" download>1 認識</a><a class="btn s" href="downloads/prompts/s2o.txt" download>2 寫（內）</a><a class="btn s" href="downloads/prompts/s2f.txt" download>2 寫（外）</a><a class="btn s" href="downloads/prompts/s3o.txt" download>3 畫（內）</a><a class="btn s" href="downloads/prompts/s3f.txt" download>3 畫（外）</a><a class="btn s" href="downloads/prompts/s4o.txt" download>4 查（內）</a><a class="btn s" href="downloads/prompts/s4f.txt" download>4 查（外）</a><a class="btn s" href="downloads/prompts/s5o.txt" download>5 算（內）</a><a class="btn s" href="downloads/prompts/s5f.txt" download>5 算（外）</a><a class="btn s" href="downloads/prompts/s6o.txt" download>6 報（內）</a><a class="btn s" href="downloads/prompts/s6f.txt" download>6 報（外）</a><a class="btn s" href="downloads/prompts/s7.txt" download>7 問</a><a class="btn s" href="downloads/prompts/s8o.txt" download>8 合（內）</a><a class="btn s" href="downloads/prompts/s8f.txt" download>8 合（外）</a><a class="btn s" href="downloads/prompts/s9.txt" download>9 帶走</a></div></div>
+  <div class="card"><h3>M-01～M-20 文字素材</h3><div class="row"><a class="btn s" href="downloads/materials/m-01.txt" download>M-01 會議逐字稿</a><a class="btn s" href="downloads/materials/m-02.txt" download>M-02 產品重點卡</a><a class="btn s" href="downloads/materials/m-03.txt" download>M-03 通路銷售與促銷</a><a class="btn s" href="downloads/materials/m-04.txt" download>M-04 預算與實際</a><a class="btn s" href="downloads/materials/m-05.txt" download>M-05 訂單與庫存</a><a class="btn s" href="downloads/materials/m-06.txt" download>M-06 客服紀錄</a><a class="btn s" href="downloads/materials/m-07.txt" download>M-07 官方資料節錄：鈣與維生素D</a><a class="btn s" href="downloads/materials/m-08.txt" download>M-08 Y 牌鈣D錠檔期資料</a><a class="btn s" href="downloads/materials/m-09.txt" download>M-09 交接單 1：訂貨配送</a><a class="btn s" href="downloads/materials/m-10.txt" download>M-10 交接單 2：試用品</a><a class="btn s" href="downloads/materials/m-11.txt" download>M-11 交接單 3：醫學問題</a><a class="btn s" href="downloads/materials/m-12.txt" download>M-12 交接單 3 張合併</a><a class="btn s" href="downloads/materials/m-13.txt" download>M-13 我的提詞庫範本</a><a class="btn s" href="downloads/materials/m-14.txt" download>M-14 甲診所拜訪筆記</a><a class="btn s" href="downloads/materials/m-15.txt" download>M-15 牙齒敏感官方節錄</a><a class="btn s" href="downloads/materials/m-16.txt" download>M-16 拜訪紀錄 40 筆</a><a class="btn s" href="downloads/materials/m-17.txt" download>M-17 丙診所筆記</a><a class="btn s" href="downloads/materials/m-18.txt" download>M-18 甲診所本次拜訪結果</a><a class="btn s" href="downloads/materials/m-19.txt" download>M-19 交接單範本</a><a class="btn s" href="downloads/materials/m-20.txt" download>M-20 活動企劃草案：簡報與多角色提問</a><a class="btn s" href="downloads/materials/field-clinics.txt" download>外勤診所清單</a></div></div>
+  <div class="card"><h3>原始學員參考附件</h3><p class="note">原始手冊與簡報保留當時內容，部分題號及流程較舊；上課請依本站與「全部練習與提詞」最新版。</p><div class="row"><a class="btn s" href="downloads/handouts/student-handbook-original.pdf" download>原始學員手冊 PDF</a><a class="btn s" href="downloads/handouts/student-handbook-original.docx" download>原始學員手冊 Word</a><a class="btn s" href="downloads/handouts/framework-original.pdf" download>原始架構小抄 PDF</a><a class="btn s" href="downloads/handouts/framework-original.pptx" download>原始架構小抄 PowerPoint</a><a class="btn s" href="downloads/handouts/sample-outputs-original.docx" download>原始參考產出 Word</a><a class="btn s" href="downloads/handouts/prompt-library-original.docx" download>原始提詞庫 Word 範本</a></div></div>
+  <div class="card"><h3>課程網址與 QR Code</h3><p><a href="https://shaoen0926-design.github.io/haleon-ai-workshop-1002/">https://shaoen0926-design.github.io/haleon-ai-workshop-1002/</a></p><img src="assets/course-qr.png" alt="掃碼開啟課程網站" width="240" height="240" style="max-width:100%;height:auto;background:white"><div class="row"><a class="btn s" href="assets/course-qr.png" download>下載 QR Code</a><a class="btn s" href="qr.html" target="_blank" rel="noopener">開啟投影用 QR 頁</a></div></div>
+</section>
+
+<section class="part mat" id="mat">
+  <div class="ph"><div class="k">素材區</div><h2>教學用虛構素材</h2><p>每張卡上都有自己的複製按鈕；這裡是備用，內勤與外勤的素材都在這一頁。</p></div>
+  <div class="warn">素材裡的身體不適案件都是虛構的；真實工作依公司流程通報。</div>
+  <div class="card">
+    <div class="head"><span class="num">M-01</span><h3>會議逐字稿</h3></div>
+    <div class="row"><a class="btn s" href="downloads/materials/m-01.txt" download="M-01_會議逐字稿.txt">下載文字檔</a></div>
+    <p class="note">使用練習：A2-01、A2-02。</p><div class="row"><button class="btn p w" data-copy="M_A1">複製全文</button></div>
+    <details><summary>看全文</summary><div class="in"><pre id="t-M_A1"></pre></div></details>
+    <div class="note">原始素材檔名：A1_會議逐字稿_Q4促銷檢討會.txt</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">M-02</span><h3>產品重點卡</h3></div>
+    <div class="row"><a class="btn s" href="downloads/materials/m-02.txt" download="M-02_產品重點卡.txt">下載文字檔</a></div>
+    <p class="note">使用練習：A2-07、B2-04、B2-05、A3-05、A4-02、B4-02。</p><div class="row"><button class="btn p w" data-copy="M_PRODUCT">複製全文</button></div>
+    <details><summary>看全文</summary><div class="in"><pre id="t-M_PRODUCT"></pre></div></details>
+    <div class="note">原始素材檔名：產品重點卡_虛構品牌.txt</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">M-03</span><h3>通路銷售與促銷</h3></div>
+    <div class="row"><a class="btn s" href="downloads/materials/m-03.txt" download="M-03_通路銷售與促銷.txt">下載文字檔</a></div>
+    <p class="note">使用練習：A5-01。</p><div class="row"><button class="btn p w" data-copy="M_A11">複製全文</button></div>
+    <details><summary>看全文</summary><div class="in"><pre id="t-M_A11"></pre></div></details>
+    <div class="note">上傳 Excel 失敗時才用：貼在 A5-01 的 ① 後面。</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">M-04</span><h3>預算與實際</h3></div>
+    <div class="row"><a class="btn s" href="downloads/materials/m-04.txt" download="M-04_預算與實際.txt">下載文字檔</a></div>
+    <p class="note">使用練習：A5-02。</p><div class="row"><button class="btn p w" data-copy="M_A12">複製全文</button></div>
+    <details><summary>看全文</summary><div class="in"><pre id="t-M_A12"></pre></div></details>
+    <div class="note">上傳 Excel 失敗時才用：貼在 A5-02 的 ① 後面。</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">M-05</span><h3>訂單與庫存</h3></div>
+    <div class="row"><a class="btn s" href="downloads/materials/m-05.txt" download="M-05_訂單與庫存.txt">下載文字檔</a></div>
+    <p class="note">使用練習：A5-03。</p><div class="row"><button class="btn p w" data-copy="M_A13">複製全文</button></div>
+    <details><summary>看全文</summary><div class="in"><pre id="t-M_A13"></pre></div></details>
+    <div class="note">上傳 Excel 失敗時才用：貼在 A5-03 的 ① 後面。</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">M-06</span><h3>客服紀錄</h3></div>
+    <div class="row"><a class="btn s" href="downloads/materials/m-06.txt" download="M-06_客服紀錄.txt">下載文字檔</a></div>
+    <p class="note">使用練習：A5-04。</p><div class="row"><button class="btn p w" data-copy="M_A14">複製全文</button></div>
+    <details><summary>看全文</summary><div class="in"><pre id="t-M_A14"></pre></div></details>
+    <div class="note">上傳 Excel 失敗時才用：貼在 A5-04 的 ① 後面。</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">M-07</span><h3>官方資料節錄：鈣與維生素D</h3></div>
+    <div class="row"><a class="btn s" href="downloads/materials/m-07.txt" download="M-07_官方資料節錄：鈣與維生素D.txt">下載文字檔</a></div>
+    <p class="note">使用練習：A4-01。</p><div class="row"><button class="btn p w" data-copy="M_OFFICIAL_A9">複製全文</button></div>
+    <details><summary>看全文</summary><div class="in"><pre id="t-M_OFFICIAL_A9"></pre></div></details>
+    <div class="note">網頁搜尋被關時才用，貼在 A4-01 提詞最後。</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">M-08</span><h3>Y 牌鈣D錠檔期資料</h3></div>
+    <div class="row"><a class="btn s" href="downloads/materials/m-08.txt" download="M-08_Y 牌鈣D錠檔期資料.txt">下載文字檔</a></div>
+    <p class="note">資料用途：換情境時可參考的資料分析範例。</p><div class="row"><button class="btn p w" data-copy="M_A17">複製全文</button></div>
+    <details><summary>看全文</summary><div class="in"><pre id="t-M_A17"></pre></div></details>
+    <div class="note">原始素材檔名：A17_換情境_Y牌鈣D錠藥局檔期.txt</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">M-09</span><h3>交接單 1：訂貨配送</h3></div>
+    <div class="row"><a class="btn s" href="downloads/materials/m-09.txt" download="M-09_交接單 1：訂貨配送.txt">下載文字檔</a></div>
+    <p class="note">使用練習：A8-01。</p><div class="row"><button class="btn p w" data-copy="M_A18_1">複製全文</button></div>
+    <details><summary>看全文</summary><div class="in"><pre id="t-M_A18_1"></pre></div></details>
+    <div class="note">貼在 A8-01～A8-03 提詞後面。</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">M-10</span><h3>交接單 2：試用品</h3></div>
+    <div class="row"><a class="btn s" href="downloads/materials/m-10.txt" download="M-10_交接單 2：試用品.txt">下載文字檔</a></div>
+    <p class="note">使用練習：A8-01。</p><div class="row"><button class="btn p w" data-copy="M_A18_2">複製全文</button></div>
+    <details><summary>看全文</summary><div class="in"><pre id="t-M_A18_2"></pre></div></details>
+    <div class="note">貼在 A8-01～A8-03 提詞後面。</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">M-11</span><h3>交接單 3：醫學問題</h3></div>
+    <div class="row"><a class="btn s" href="downloads/materials/m-11.txt" download="M-11_交接單 3：醫學問題.txt">下載文字檔</a></div>
+    <p class="note">使用練習：A8-01。</p><div class="row"><button class="btn p w" data-copy="M_A18_3">複製全文</button></div>
+    <details><summary>看全文</summary><div class="in"><pre id="t-M_A18_3"></pre></div></details>
+    <div class="note">貼在 A8-01～A8-03 提詞後面。</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">M-12</span><h3>交接單 3 張合併</h3></div>
+    <div class="row"><a class="btn s" href="downloads/materials/m-12.txt" download="M-12_交接單 3 張合併.txt">下載文字檔</a></div>
+    <p class="note">使用練習：A8-03。</p><div class="row"><button class="btn p w" data-copy="M_A18">複製全文</button></div>
+    <details><summary>看全文</summary><div class="in"><pre id="t-M_A18"></pre></div></details>
+    <div class="note">原始素材檔名：A18_預製交接單3張.txt</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">M-13</span><h3>我的提詞庫範本</h3></div>
+    <div class="row"><a class="btn s" href="downloads/materials/m-13.txt" download="M-13_我的提詞庫範本.txt">下載文字檔</a></div>
+    <p class="note">使用練習：A2-08、B2-06、C9-01；可存放「6 報」的製作提詞。</p><div class="row"><button class="btn p w" data-copy="M_LIB">複製全文</button></div>
+    <details><summary>看全文</summary><div class="in"><pre id="t-M_LIB"></pre></div></details>
+    <div class="note">原始素材檔名：我的提詞庫_範本.txt</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">M-14</span><h3>甲診所拜訪筆記</h3></div>
+    <div class="row"><a class="btn s" href="downloads/materials/m-14.txt" download="M-14_甲診所拜訪筆記.txt">下載文字檔</a></div>
+    <p class="note">使用練習：B2-01、B2-02。</p><div class="row"><button class="btn p w" data-copy="M_B4">複製全文</button></div>
+    <details><summary>看全文</summary><div class="in"><pre id="t-M_B4"></pre></div></details>
+    <div class="note">原始素材檔名：B4_拜訪筆記_甲牙醫診所.txt</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">M-15</span><h3>牙齒敏感官方節錄</h3></div>
+    <div class="row"><a class="btn s" href="downloads/materials/m-15.txt" download="M-15_牙齒敏感官方節錄.txt">下載文字檔</a></div>
+    <p class="note">使用練習：B4-01。</p><div class="row"><button class="btn p w" data-copy="M_OFFICIAL_B8">複製全文</button></div>
+    <details><summary>看全文</summary><div class="in"><pre id="t-M_OFFICIAL_B8"></pre></div></details>
+    <div class="note">原始素材檔名：官方資料節錄（學員版）txt 的牙齒敏感段落</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">M-16</span><h3>拜訪紀錄 40 筆</h3></div>
+    <div class="row"><a class="btn s" href="downloads/materials/m-16.txt" download="M-16_拜訪紀錄 40 筆.txt">下載文字檔</a></div>
+    <p class="note">使用練習：B5-01。</p><div class="row"><button class="btn p w" data-copy="M_B10">複製全文</button></div>
+    <details><summary>看全文</summary><div class="in"><pre id="t-M_B10"></pre></div></details>
+    <div class="note">原始素材檔名：外勤_實作練習.xlsx／拜訪紀錄工作表</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">M-17</span><h3>丙診所筆記</h3></div>
+    <div class="row"><a class="btn s" href="downloads/materials/m-17.txt" download="M-17_丙診所筆記.txt">下載文字檔</a></div>
+    <p class="note">資料用途：拜訪筆記整理的範例。</p><div class="row"><button class="btn p w" data-copy="M_B13">複製全文</button></div>
+    <details><summary>看全文</summary><div class="in"><pre id="t-M_B13"></pre></div></details>
+    <div class="note">原始素材檔名：B13_換情境_丙牙醫診所筆記.txt</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">M-18</span><h3>甲診所本次拜訪結果</h3></div>
+    <div class="row"><a class="btn s" href="downloads/materials/m-18.txt" download="M-18_甲診所本次拜訪結果.txt">下載文字檔</a></div>
+    <p class="note">使用練習：B8-01。</p><div class="row"><button class="btn p w" data-copy="M_B14">複製全文</button></div>
+    <details><summary>看全文</summary><div class="in"><pre id="t-M_B14"></pre></div></details>
+    <div class="note">原始素材檔名：B14_甲診所本次拜訪結果.txt</div>
+  </div>
+  <div class="card">
+    <div class="head"><span class="num">M-19</span><h3>交接單範本</h3></div>
+    <div class="row"><a class="btn s" href="downloads/materials/m-19.txt" download="M-19_交接單範本.txt">下載文字檔</a></div>
+    <p class="note">使用練習：B8-01。</p><div class="row"><button class="btn p w" data-copy="M_HANDOFF">複製全文</button></div>
+    <details><summary>看全文</summary><div class="in"><pre id="t-M_HANDOFF"></pre></div></details>
+    <div class="note">原始素材檔名：交接單範本.txt</div>
+  </div>
+  <div class="foot">本頁素材僅供 Haleon 台灣 AI 實作課課堂練習，與任何真實品牌、機構、人物無關。</div>
+  <div class="card">
+    <div class="head"><span class="num">M-20</span><h3>活動企劃草案：簡報與多角色提問</h3></div>
+    <div class="row"><a class="btn s" href="downloads/materials/m-20.txt" download="M-20_活動企劃草案：簡報與多角色提問.txt">下載文字檔</a></div>
+    <p class="note">使用練習：A6-01～A6-04、B6-01～B6-04、C7-01～C7-02。「報」與「問」的每題均附完整素材。</p>
+    <div class="row"><button class="btn p w" data-copy="M_QUESTIONS">複製全文</button></div>
+    <details><summary>看全文</summary><div class="in"><pre id="t-M_QUESTIONS"></pre></div></details>
+  </div>
+</section>
+<div class="foot">講師：翁紹恩｜產品、診所、人物、數字均為教學用虛構｜公司資料只放公司 Copilot Chat</div>
+
+</div>
+<div id="toast">已複製，去貼上</div>
+
+<script>
+(function(){
+const initialTabFromUrl=window.location.hash.slice(1);
+const T = {"C1_P": "你好，我是〔請改：我的職能〕，第一次用 Copilot Chat。\n請你：告訴我你能在日常工作幫我做哪些事。\n請輸出：3 條，每條 20 字內。\n資料不清楚就先問我，不要自己猜。", "C3_P": "你是：擅長教初學者的網頁設計師。\n請你：製作一個「待辦清單」HTML 小工具，讓我用瀏覽器就能操作。\n要注意：\n1. 全部放在一個 HTML 檔案，包含 CSS 和 JavaScript，不使用外部套件，離線也能開啟。\n2. 使用繁體中文，版面簡單清楚，按鈕夠大，手機和電腦都方便操作。\n3. 可以輸入並新增待辦、勾選或取消完成、刪除待辦；空白內容不能新增。\n4. 顯示已完成與未完成的數量，操作後即時更新。\n請輸出：完整可執行的 HTML 程式碼，不要省略任何部分；再用初學者看得懂的方式，說明如何存成 todo.html 並用瀏覽器開啟。\n資料不清楚就先問我，不要自己猜。", "C3_P2": "請修改剛剛的待辦清單小工具：\n1. 新增「全部／未完成／已完成」三個篩選按鈕。\n2. 已完成的待辦文字加上刪除線。\n3. 保留原本新增、勾選、刪除和數量統計的功能。\n請輸出修改後完整的單一 HTML 程式碼，讓我直接取代原本的 todo.html。", "C3_a1": "請帶我逐步測試這個小工具：新增待辦、輸入空白、勾選與取消完成、刪除待辦，並確認數量統計正確。每一步告訴我應該看到什麼結果。", "W_A1": "幫我摘要這份會議逐字稿。\n（貼上素材：M-01 會議逐字稿）", "M_A1": "教學用虛構資料｜非真實數據、非真實通報案件\n\n【會議逐字稿】X 牌 敏感護理牙膏 Q4 通路促銷檢討會\n日期：2026-09-30（三）14:00–14:40\n與會：品牌經理 Mia、通路經理 Tom、供應鏈專員 Sara、財務專員 Fay、通路專員 Ken\n說明：錄音轉文字，未經整理\n\nMia：好，我們開始。今天確認 X 敏感護理的 Q4 檔期，上檔日就訂 11/1，大家 OK 嗎？\nTom：OK。連鎖藥局甲、乙我談好了，做第二件 6 折，兩家都 11/1 一起上，甲的 11 月 DM 也會給我們一格。\nMia：電商戊呢？\nTom：電商戊要做家庭號加價購，買 X-S120 可以加價買 X-S160。對了，電商戊上週轉來一則消費者留言，說「用了 X 敏感護理牙膏之後牙齦有點刺痛、紅紅的」，我先截圖存著。\nMia：嗯，這個晚點再說。Sara，家庭號的貨夠嗎？\nSara：X-S160 這三個月訂單一直往上，庫存有點緊。電商戊如果要做加價購，我要先跟物流確認備貨量，10/8 前回覆大家。還有，加價購如果要做成實體組合包，二次包裝時間會來不及。\nTom：電商戊說可以用系統綁定，不用實體包。\nMia：好，那就系統綁定，不做二次包裝。X-S160 備貨確認就是 Sara，10/8。Fay，預算呢？\nFay：Q4 促銷預算目前是 120 萬，第二件 6 折的折讓跟加價購都算在裡面。明細我 10/6 前整理給 Mia。\nKen：量販丙、藥妝丁我想做貨架卡加跳跳卡，陳列位置我 10/9 前跟兩家確認完。\nMia：可以。那貨架卡的設計呢？\nKen：POSM 貨架卡設計要有人跟一下，之前都是外包在做。\nTom：對，這個要記下來。\nMia：嗯，先記著。\nKen：還有海報，我覺得標語可以直接寫「最有效、一週根治敏感」，比較有力。\nMia：標語先記下來。內部啟動海報初稿我來做，10/13 前給大家。\nTom：另外，預算既然有 150 萬，跳跳卡我想兩家都多做一點。\nFay：好，那我明細裡先把跳跳卡列進去。\nMia：今天大概就這樣。下次會議時間我再約，大家辛苦了。\n", "A1_P": "你是：會議記錄助理。\n請你：把下面的會議逐字稿整理成會議紀錄。\n要注意：\n1. 有人提到身體不適、副作用、沒效、誤用，或孕婦、小孩使用，原句照抄放最上面，標【疑似AE／客訴—需人工通報】。不判斷原因，不寫通報時限。\n2. 逐字稿沒說的負責人、期限、日期，寫「待確認」，不要自己補。\n3. 前後說法不一樣的，兩個都列出，標【需確認】。\n4. 有人提議「最」「根治」這類說法，不寫進決議和待辦，列在合規提醒。\n請輸出：\n① 摘要（5 行內） ② 決議 ③ 待辦表（事項｜負責人｜期限；沒人認領的也要列） ④ 待確認事項與合規提醒 ⑤ 下次會議時間\n資料不清楚就先問我，不要自己猜。\n（貼上素材：M-01 會議逐字稿）", "A1_a1": "你問的我也不確定。不確定的地方標「待確認」，直接給我完整版，格式不變。", "A1_a3": "這次會議有決定找哪位代言人或 KOL 嗎？只根據我給的資料回答，不要上網查，不寫真實品牌。請引用原句。", "A3_P": "你是：內勤行政窗口。\n請你：寫內部信邀同仁報名訓練課，再附 Teams 短訊。\n要注意：\n1. 只用下面的資訊，不加講師、大綱、費用、餐點、證書、分機。\n2. 缺的日期寫「待確認」，不要自己編，也不用「額滿為止」帶過。\n請輸出：\n① 主旨（含「報名」和日期） ② 內文：課程名稱、日期時間、地點、對象與名額、報名方式、報名截止日、聯絡窗口 ③ Teams 短訊（3 行內） ④ 署名〔請改：你的名字〕\n資料不清楚就先問我，不要自己猜。\n情境（虛構）：\n・課程：Copilot Chat 工作應用進階班\n・時間：2026-10-23（五）14:00–16:00，公司訓練教室\n・對象：內勤同仁 30 人，額滿為止\n・報名：回覆本信，寫姓名與部門；自備公司筆電\n・聯絡窗口：寄件人本人", "A3_P2": "你是：財務專員。\n請你：寫提醒信給各部門預算負責人，通知 2027 年度填報時程。\n要注意：\n1. 日期和步驟照抄，不加步驟或日期。\n2. 缺的日期寫「待確認」，不要自己推算。\n3. 第一段就講截止日。\n請輸出：\n① 主旨 ② 一句話重點 ③ 時程表（步驟｜內容｜截止日｜負責人） ④ 提醒 3 點 ⑤ 最終定稿日、聯絡窗口、署名〔請改：你的名字〕\n資料不清楚就先問我，不要自己猜。\n時程（虛構）：\n・範圍：促銷、POSM、媒體、樣品四個費用科目\n・步驟一：各部門填範本，10/30（五）前交初稿給財務\n・步驟二：部門主管審核，11/06（五）前完成\n・步驟三：財務彙整回饋，11/13（五）前完成\n・提醒：用最新版範本；科目不自行新增；差異超過 10% 附說明\n・聯絡窗口：財務，寄件人本人", "A3_a1": "報名截止日是 2026-10-16（五），請補進信件，其他不變。", "C4_q5": "你問的我也不確定。不確定的地方標「待確認」，直接給我完整版，格式不變。", "A2_P2": "你是：採購專員。\n請你：寫正式信給包材供應商，確認家庭號外盒的交期和規格。\n要注意：\n1. 寄給外部：不寫通路名稱、促銷檔期、預算。\n2. 不寫產品文案、尺寸、材質、色數。\n3. 沒給的日期寫「待確認」，不要自己訂回覆期限。\n請輸出：\n① 第一行寫「DRAFT－教學練習，不得對外使用」 ② 主旨 ③ 需求表（品項｜數量｜希望到倉日｜規格） ④ 請對方回覆的 3 個問題 ⑤ 希望回覆日＋署名〔請改：你的名字〕\n資料不清楚就先問我，不要自己猜。\n情境（虛構）：\n・收件：包材供應商窗口（代號 P01）\n・X-S160 家庭號外盒 8,000 個，希望 10/20（二）到倉\n・規格和上一批相同；印刷稿用品牌團隊的核准版\n・要問對方：①能否準時交貨，不行最快哪天 ②規格是否和上一批相同 ③打樣要幾天", "A2_P": "你是：供應鏈專員。\n請你：寫內部信給 Tom、TMK 和業務，說明到貨延遲，請大家選方案。\n要注意：\n1. 沒給的日期寫「待確認」；「10 月中」照寫。\n2. 只寫 A、B 兩案，不加方案、折扣或推薦。\n3. 不寫任何產品說法。\n請輸出：\n① 主旨 ② 一句話結論 ③ 影響表（通路｜原活動｜受影響內容｜替代方案） ④ 回覆期限 ⑤ 待確認事項＋署名〔請改：你的名字〕\n資料不清楚就先問我，不要自己猜。\n情境（虛構）：\n・X-S160 家庭號外盒延後：原訂 10 月中入倉，新日期未定\n・影響：11/01 電商戊「家庭號加價購」、連鎖藥局甲乙「第二件 6 折」的家庭號\n・A 案（只限電商戊）：加價購改用 X-S120\n・B 案：家庭號活動延到入倉後，其他照常\n・10/07（三）前回覆選 A 或 B", "A2_a3": "把供應商信改得更客氣、更簡短，3 個問題不變。", "A4_P": "你是：社群文案助理。\n請你：用「X 牌 敏感護理牙膏」核准訊息①～④，寫 3 版社群貼文。\n要注意：\n1. 產品說法只用我給的核准訊息，不加功效、數字、比較。\n2. 貼文、hashtag 不寫重點卡沒有的說法（例：抗敏、舒緩、不刺激）。\n3. A 版溫暖生活，B 版簡潔條列，C 版家庭號，都不放價格。\n4. C 版只寫「全家一起用」，不寫划算，不延伸到小孩。\n請輸出：\n① 第一行寫「DRAFT－教學練習，不得對外使用」 ② 表格（版本｜貼文 80 字內｜hashtag 3 個｜用到的訊息編號） ③ 高風險詞自檢：找不到根據的句子標【需確認】\n資料不清楚就先問我，不要自己猜。\n（貼上素材：M-02 產品重點卡）", "M_PRODUCT": "教學用虛構資料｜非真實數據、非真實通報案件\n\n產品重點卡（虛構品牌）\nHaleon 台灣 AI 實作課 2026-10-02｜練習專用，與任何真實品牌、產品無關\n\n【使用規則】\n・本卡的「核准訊息」是教學用虛構設定；練習時 AI 只能改寫這些訊息，不得新增。\n・「禁用說法」不論怎麼換句話說都不可出現。\n・法規屬性是虛構設定，實務請依公司法規確認。\n\n一、品項一覽\nSKU｜品名｜類別（虛構設定的法規屬性，供教學）｜規格｜建議售價（虛構）\nX-S120｜X 牌 敏感護理牙膏 120g｜牙膏／化粧品類｜120g｜189 元\nX-S160｜X 牌 敏感護理牙膏 160g 家庭號｜牙膏／化粧品類｜160g｜239 元\nX-G120｜X 牌 牙齦護理牙膏 120g｜牙膏／化粧品類｜120g｜199 元\nY-C60｜Y 牌 鈣＋維生素D 錠 60 錠｜膳食補充／食品類｜60 錠｜450 元\nY-C120｜Y 牌 鈣＋維生素D 錠 120 錠｜膳食補充／食品類｜120 錠｜820 元\nZ-M60｜Z 牌 綜合維他命 60 錠｜膳食補充／食品類｜60 錠｜520 元\nW-P24｜W 牌 解熱鎮痛錠 24 錠｜指示藥品類（只出現在銷售/訂單/客服資料，不做任何行銷練習）｜24 錠｜120 元\n\n二、各品牌重點卡\n\n■ X 牌 敏感護理牙膏（X-S120／X-S160）\n核准訊息（虛構）：\n  ①「給牙齒容易敏感的人，日常清潔使用的牙膏」\n  ②「溫和薄荷口味，低泡配方」\n  ③「160g 家庭號，全家一起用」\n  ④「建議早晚刷牙，每次用量約一顆豌豆大小」\n禁用說法：治療、修復、根治、永久、最有效、第一、保證、立即見效、與他牌比較、任何未列出的數據或百分比\n法規屬性：虛構設定，實務請依公司法規確認\n轉介窗口：【Medical Information 窗口（實務請填公司窗口）】\n\n■ X 牌 牙齦護理牙膏（X-G120）\n核准訊息（虛構）：\n  ①「日常口腔清潔，搭配正確刷牙與牙線」\n  ②「清新草本薄荷口味」\n  ③「建議早晚刷牙」\n禁用說法：治療牙周病、止血、消炎、預防牙周病、取代看牙醫、任何數據\n法規屬性：虛構設定，實務請依公司法規確認\n轉介窗口：【Medical Information 窗口（實務請填公司窗口）】\n\n■ Y 牌 鈣＋維生素D 錠（Y-C60／Y-C120）\n核准訊息（虛構）：\n  ①「日常補充鈣質與維生素D 的營養補充品」\n  ②「每日 1 錠，飯後以水吞服」\n  ③「小錠徑設計，方便吞嚥」\n禁用說法：預防或治療骨質疏鬆、增加骨密度、治療、改善疾病、長高、任何療效數據\n法規屬性：虛構設定，實務請依公司法規確認\n轉介窗口：【Medical Information 窗口（實務請填公司窗口）】\n\n■ Z 牌 綜合維他命（Z-M60）\n核准訊息（虛構）：\n  ①「一天一錠，補充多種維生素與礦物質」\n  ②「適合外食族日常營養補充」\n禁用說法：提升免疫力、抗老、預防疾病、治療、消除疲勞、任何療效數據\n法規屬性：虛構設定，實務請依公司法規確認\n轉介窗口：【Medical Information 窗口（實務請填公司窗口）】\n\n■ W 牌 解熱鎮痛錠（W-P24）\n核准訊息：不提供行銷訊息（藥品廣告需事前核准）\n任何相關問題：一律「轉 Medical Information／藥師」\n法規屬性：虛構設定，實務請依公司法規確認\n轉介窗口：【Medical Information 窗口（實務請填公司窗口）】\n", "A4_a2": "X 牌 敏感護理牙膏的有效成分是什麼？含量多少？只根據我給的資料回答，不要上網查，不寫真實品牌。請引用原文。", "A4_a3": "Ken 想在貼文加「一週根治敏感」，請說明為什麼不行，再只用核准訊息改寫一句。", "C4_q2": "資料不清楚就先問我，不要自己猜。", "C4_q3": "有人提到身體不適、副作用、沒效、誤用，或孕婦、小孩使用，原句照抄放最上面，標【疑似AE／客訴—需人工通報】。", "C4_q4": "產品說法只用我給的核准訊息，不加功效、數字、比較。", "W_IMG_A": "先不要畫圖。我想做「Q4 促銷內部啟動海報」，請用主角、動作、環境、構圖、光影、風格各寫一句完整句子，再合成一段。圖裡不要有真人肖像、商標、文字、療效對比。", "A5_P": "你是：內部海報設計助理。\n請你：畫 1 張直式海報底圖，給同事打氣，只在公司內部用。\n畫面：\n主角是四位不同年齡、穿商務休閒服的同事插畫人物。\n動作是他們圍在一起舉手擊掌，表情有活力。\n環境是明亮的辦公室，背景的白板和桌曆只有淡淡的色塊。\n構圖是平視中景，人物在下半部偏左；上方三分之一留乾淨空白，右下角放一個純白無字的直立空框。\n光影是左側窗戶照進來的柔和自然光。\n風格是扁平向量插畫，黑、白配亮綠。\n要注意：\n1. 每隻手都是自然的五指。\n2. 不畫牙膏、包裝，不畫療效或前後對比。\n3. 之後寫標題時，也不寫功效、數字、比較。\n請輸出：1 張圖，再用一句話說明上方空白和右下空框的位置。\n圖裡不要有文字、數字、商標、真人肖像。\n資料不清楚就先問我，不要自己猜。", "A5_P2": "修改剛才那張圖，只改一處：移除背景白板上所有字和像字的筆畫，改成淺色色塊。其他全部保持不變，改完說你改了哪裡。\n資料不清楚就先問我，不要自己猜。", "A5_a1": "只用文字回答，不要畫圖：寫 3 版海報標題，每版 12 字內，替同事打氣；只用「Q4 檔期、11/1 上檔」，不寫功效。", "A5_a3": "只用文字回答，不要畫圖：Ken 想用「最有效、一週根治敏感」當主標，可以嗎？為什麼？再寫 1 句不提功效的替代主標。", "A6_P": "你是：教育訓練插畫助理。\n請你：畫 1 張橫式插圖，教新人認識貨架陳列。\n畫面：\n主角是穿深綠 polo 衫的資深女同事，和拿著平板的新進男同事。\n動作是資深同事用食指指著與視線同高的第二層貨架，向新人說明。\n環境是營業前的藥妝店口腔護理貨架，排滿純白紙盒；層架邊貼著空白的亮綠貨架卡，第二層伸出一張空白圓形跳跳卡。\n構圖是平視中景，人物在左側三分之一，右側四分之一留白。\n光影是天花板均勻的白光，陰影柔和。\n風格是扁平向量教學插圖，白、灰、黑配亮綠。\n要注意：\n1. 紙盒一律保持純白無字，平板螢幕保持全黑。\n2. 兩人的手都是自然的五指。\n請輸出：1 張圖，再用一句話說明貨架卡、跳跳卡、視線高度層架的位置。\n圖裡不要有文字、價格、商標、真人肖像。\n資料不清楚就先問我，不要自己猜。", "A6_P2": "修改剛才那張圖，只改一處：把資深同事指貨架的手改變成自然的五指，食指指向第二層。其他全部保持不變，改完說你改了哪裡。\n資料不清楚就先問我，不要自己猜。", "A6_a1": "只用文字回答，不要畫圖：幫右側空白寫 3 個標籤，說明視線高度層架、貨架卡、跳跳卡，每個 15 字內，不寫數字。", "A6_a2": "只用文字回答，不要畫圖：藥妝丁規定的跳跳卡是幾公分？請寫進標籤。只根據我給的資料回答，不要上網查，不寫真實品牌。", "A7_P": "你是：擅長繪製 SVG 向量流程圖的設計助理。\n請你：直接用 SVG 繪製一般消費品「訂單到出貨」流程圖，給新人看，產出可開啟的 flowchart.svg。\n內容要求：\n1. 這是教學示意，最多 6 步，步驟名稱用動詞開頭、10 字內；每步附一句短說明，描述做什麼、交給誰。\n2. 不假設這是公司的正式 SOP。系統名稱、SOP 編號、實際窗口、天數與時限沒有資料時，標【請填入公司規定】，不要編造。\n繪圖要求：\n1. 直接繪製完整 SVG 流程圖，包含流程框、方向箭頭、繁體中文標題、步驟名稱與短說明。\n2. 畫布使用 viewBox=\"0 0 1200 675\"，白底、深綠流程框、深色文字，步驟由左到右，箭頭清楚連接。\n3. 使用 SVG 原生的 rect、path、line、text、tspan 等向量元素。文字過長用 tspan 換行，保留足夠間距，避免遮擋或裁切。\n4. 所有內容放在同一份 SVG，包含 xmlns=\"http://www.w3.org/2000/svg\"；不使用外部圖片、外部字型、腳本或點陣圖。\n請輸出：完整 SVG；若介面支援預覽與檔案，直接顯示圖並提供 flowchart.svg 下載。若不能提供附件，請用一個 svg 程式碼區塊輸出從 <svg> 到 </svg> 的完整內容，不省略任何部分，並簡述如何存成 .svg。不要只提供流程表或文字描述。\n資料不清楚就先問我，不要自己猜。", "A7_P2": "請修改剛才的 SVG 流程圖，直接在每個流程節點內加入一個對應的線條圖示，例如訂單、確認、貨架、揀貨、包裝、出貨。\n要注意：\n1. 圖示使用 SVG 的 path、line、rect、circle 等原生向量元素繪製，深綠線條、無商標，不使用外部圖片或 emoji。\n2. 圖示放在節點文字上方，調整留白，避免圖示、文字與箭頭重疊。\n3. 保留原有步驟順序、名稱、說明與待確認標記，不增加流程事實。\n請輸出：更新後完整的 flowchart.svg；若介面支援，直接預覽並提供下載，否則輸出完整 SVG 程式碼。不要只輸出圖示或局部修改片段。\n資料不清楚就先問我，不要自己猜。", "A7_P3": "請修改剛才的 SVG 流程圖：把第一個流程節點內的圖示，替換成購物車線條圖示，用 SVG 原生向量元素直接繪製。\n只替換這個圖示；保留其他節點、流程順序、文字、箭頭、配色與畫布尺寸，避免遮擋文字。\n請輸出：修改後完整的 flowchart.svg；若介面支援，直接預覽並提供下載，否則輸出從 <svg> 到 </svg> 的完整 SVG 程式碼，不省略其他內容。\n資料不清楚就先問我，不要自己猜。", "A7_a2": "公司從接單到出貨的標準是幾天？請把天數寫進每一步的說明。只根據我給的資料回答，不要上網查，不寫真實品牌。", "A7_a3": "我目前只看到 SVG 程式碼，請用初學者看得懂的方式，在 5 步內說明如何複製完整 SVG、以 UTF-8 純文字存成 flowchart.svg，並用瀏覽器開啟。提醒我不要把程式碼區塊的反引號存進檔案，也不要多出 .txt 副檔名。", "A8_P": "你是：通路行銷企劃助理。\n請你：寫給設計廠商的需求單（Brief）初稿。\n資料：\n・X 牌 敏感護理牙膏（虛構）Q4 促銷，2026-11-01 上檔。\n・連鎖藥局甲、乙做「第二件 6 折」。\n・這份只做量販丙、藥妝丁的貨架卡、跳跳卡。\n要注意：\n1. 產品說法只用我給的核准訊息，不加功效、數字、比較。\n2. 文案欄只寫【請填入公司核准文案】，註明第幾則核准訊息。\n3. 我沒給的尺寸、交期、丙丁促銷方式，只標【需確認】，不套用甲、乙的條件。\n請輸出：\n① Brief 表（通路｜物料｜尺寸｜訊息層級（主／次／促銷訊息）｜文案｜交期｜備註）\n② 給廠商的 3 點注意：包裝、Logo 用官方檔；不用白袍人物；不用療效對比\n資料不清楚就先問我，不要自己猜。\n（貼上素材：M-02 產品重點卡）", "A8_P2": "你是：陳列概念圖設計助理。\n請你：依上面的 Brief 畫 1 張貨架陳列概念圖，內部討論用。\n畫面：\n主角是量販店口腔護理區一段剛布置好的貨架。\n動作是第二、三層整齊排著純白的空白包裝框，層架邊貼一排空白亮綠貨架卡，第二層中央伸出一張空白圓形跳跳卡。\n環境是明亮、沒有顧客的量販店走道。\n構圖是略斜的平視中景，貨架占畫面中間，上方留一條淺色空白帶。\n光影是天花板均勻的白光，陰影柔和。\n風格是簡潔的 3D 渲染概念圖，白、淺灰配亮綠。\n要注意：\n1. 包裝位置都保持純白空框，不畫仿真牙膏包裝。\n2. 不要有人物、價格、競品。\n請輸出：1 張圖，再用一句話說明上方空白帶的位置。\n圖裡不要有文字、數字、商標。\n資料不清楚就先問我，不要自己猜。", "A8_P3": "修改剛才那張圖，只改一處：把第二、三層有字、有圖案或像真牙膏的盒子，替換成純白空框，大小排列不變。其他全部保持不變。\n資料不清楚就先問我，不要自己猜。", "A8_a2": "只用文字回答，不要畫圖：量販丙貨架卡的標準尺寸幾公分？請填進尺寸欄。只根據我給的資料回答，不要上網查，不寫真實品牌。", "A8_a3": "只用文字回答，不要畫圖：丙、丁也跟甲、乙一樣做「第二件 6 折」嗎？請補完促銷訊息欄。只根據我給的資料回答。", "C5_q1": "請畫 1 張圖：\n主角是〔請改：穿深綠 polo 衫的資深店員和新進店員〕。\n動作是〔請改：資深店員指著與視線同高的第二層貨架，向新人說明〕。\n環境是〔請改：營業前明亮整齊的藥妝店口腔護理區〕。\n構圖是〔請改：平視中景，人物在左側三分之一〕，〔請改：右側四分之一〕留空白。\n光影是〔請改：天花板均勻的白光，陰影柔和〕。\n風格是〔請改：扁平向量插畫，黑、白、亮綠〕。\n請輸出：1 張圖，再用一句話說明空白在哪裡。\n圖裡不要有文字、商標、真人肖像、療效對比。\n資料不清楚就先問我，不要自己猜。", "C5_q2": "請修改剛才那張圖，只改一處，其他全部保持不變。\n編輯指令：〔請改：添加／移除／改變／替換／變成，選一個〕\n位置：〔請改：畫面右上角〕（有紅框就只改紅框內，改完不要留紅框）\n改成：〔請改：乾淨的淺色空白〕\n圖裡不要有文字、商標、真人肖像。改完說你改了哪裡。\n資料不清楚就先問我，不要自己猜。", "A9_P": "你是：資料查詢助理。\n請你：查台灣成人每天該吃多少鈣和維生素D，照官方年齡分層列表。\n要注意：\n1. 只用國健署「國人膳食營養素參考攝取量」最新正式版，不用草案。\n2. 不用新聞、部落格、電商、廠商或外國網站；不寫品牌。\n3. 數字、單位、指標名稱（例：足夠攝取量）照原文，不換算、不四捨五入。\n4. 每列附可點開的網址和日期；找不到寫「查無官方來源」。\n請輸出：\n表格最上方寫「內部理解用，不直接提供醫師或消費者」。\n表格（營養素｜年齡層｜指標名稱｜數值｜單位｜原句或原表位置｜來源｜網址｜日期）\n貼了官方節錄就只用節錄：原句欄只放「原文短句」，其他寫「重點整理，非逐字」。\n資料不清楚就先問我，不要自己猜。\n（網頁搜尋能用時，不用貼任何素材，直接送出；搜尋被關時，才把官方節錄貼在這一行下面。）", "M_OFFICIAL_A9": "教學備援用官方資料節錄（A4-01）｜擷取日期 2026-09-24\n用途：S4 查詢卡 A4-01（內勤）的備援素材。Copilot 網頁搜尋被關閉或查不到時，把這份節錄貼在 A4-01 提詞最後送出；提詞已要求 AI「只根據我提供的資料回答；資料中沒有的，請寫『資料未提及』，不要推測。」\n性質：公開的官方機關資料節錄（真實公開資料）；只供一般衛教查詢練習，不能當任何產品（含教學用虛構 X 牌、Y 牌）的宣稱依據。產品說法仍只能用產品重點卡的核准訊息。\n標示說明：「原文短句」為逐字引用（保留原文語言）；「重點整理」是依原文整理的摘要，非逐字引文。完整內容請開網址核對。\n\n====================\n【A4-01】台灣成人鈣與維生素D 每日參考攝取量（限官方來源）\n====================\n▍A9-1（主要來源）\n來源機構：衛生福利部國民健康署（社區健康組）\n標題：「國人膳食營養素參考攝取量」第八版（附件：「國人膳食營養素參考攝取量」第八版_總表.pdf）\n網址：https://www.hpa.gov.tw/Pages/Detail.aspx?nodeid=4248&pid=12285\n總表 PDF：https://www.hpa.gov.tw/Pages/ashx/GetFile.ashx?lang=c&type=1&sid=39051473d7c94d6ea1e34d55eba7fdd3\n網頁日期：發布 2020-04-08｜更新 2025-11-21（總表標示「中華民國111年」；109年公告修訂鈣、碘、維生素D）\n版次：擷取日國健署「國人膳食營養素參考攝取量專區」列出的正式版本為第八版。\n\n重點整理（依總表數值；鈣與維生素D 兩欄都標示為 AI＝足夠攝取量，非 RDA；男女相同）：\n年齡｜鈣（毫克 mg／天）｜維生素D（微克 μg／天）｜維生素D 換算 IU＊\n19–30 歲｜1000｜10｜400 IU\n31–50 歲｜1000｜10｜400 IU\n51–70 歲｜1000｜15｜600 IU\n71 歲以上｜1000｜15｜600 IU\n懷孕期、哺乳期｜+0｜+0｜—\n＊IU 欄是依總表註(7) 換算，總表沒有這一欄。原文短句（總表註7）：「維生素D 1μg=40 I.U.維生素D」\n上限攝取量 UL（總表第 2 頁）：19 歲以上成人（含懷孕、哺乳）鈣 2500 mg／天；維生素D 50 μg／天（換算 2000 IU）。\n原文短句（國健署網頁，前文為「若有特殊營養或治療飲食需求」）：「建議諮詢醫師、營養師等相關專業人員提供飲食指導」\n\n第九版目前查到的是 2026-03 的草案，是否已正式公告未確認；本題用第八版作答。\n", "A9_a2": "官方來源有推薦任何品牌的鈣片嗎？只回答「有」或「查無」；有的話只附網址，不寫品牌名。", "A9_a1": "把表格縮成 3 行重點給同事，每行後面留來源網址。", "A11_P": "【使用檔案】內勤_實作練習.xlsx（同一份共用檔，不需要另外下載分題檔）。\n【資料位置】「通路銷售與促銷」：欄名 A2:I2；資料 A3:I45（43 筆）。\n欄位：列號、月份、通路、SKU、品名、銷售數量、銷售額(元)、促銷費用(元)、是否檔期。\n【讀檔方式】先確認目前對話已上傳上述檔案，列出實際工作表名稱；確認本題欄位與資料範圍後再分析。找不到檔案或欄位不符，先說明差異並請我補上，不憑印象生成結果。\n本題分析只使用上述工作表的資料列；說明與練習題及其他主題工作表不混入本題合計。\n【我是誰】你是通路分析師，報告給 TMK／GTN 主管。\n【任務①：看全貌】分析 2026 年 7–9 月資料，保留全部原始列，依序輸出：\n1. 資料說明：實際筆數、欄數、月份、通路與 SKU；重複列仍計入原始筆數。\n2. 通路×月份、通路×SKU 概況表：銷售額(元)、促銷費用(元)、銷售額／促銷費用倍數。倍數＝合計銷售額÷合計促銷費用，不平均各列倍數。\n3. 各通路 Q3 合計與計算過程：篩選條件、加總欄位、Excel 公式、來源列號與筆數。\n4. 待確認事項。負數與可疑費用先照原值列入並標示；缺月保持缺漏，不能當成零。\n促銷費用為零或缺漏時，倍數標「無法計算」。此倍數不是獲利率，也不是促銷增量效益。\n【共同注意】不修改原始檔，不上網補資料；空白不當零，沒有寫的原因不推測。引用數字時標明工作表與列號。\n若我使用「文字備援」，請讀標有同名工作表的完整資料，依其列號引用；不另要求不存在的分題檔。\n資料不清楚就先問我，不要自己猜。", "A11_P2": "【使用檔案】內勤_實作練習.xlsx（同一份共用檔，不需要另外下載分題檔）。\n【資料位置】「通路銷售與促銷」：欄名 A2:I2；資料 A3:I45（43 筆）。\n欄位：列號、月份、通路、SKU、品名、銷售數量、銷售額(元)、促銷費用(元)、是否檔期。\n【讀檔方式】在同一對話接續上一個步驟，沿用同一份檔案與指定工作表；若已開新對話，先請我重新上傳檔案並提供前一步結果。\n本題分析只使用上述工作表的資料列；說明與練習題及其他主題工作表不混入本題合計。\n【任務②：找問題】沿用第①步的原始結果，逐列檢查：\n1. 完全重複：排除「列號」欄後，其餘欄位相同，列出整組來源列號。\n2. 異常：銷售額為負、促銷費用高於銷售額、同通路／同月／同檔期的費用明顯偏高。列出比較對象與數字，不能自行判定正確金額。\n3. 缺漏：列出月份×通路×SKU 的缺少組合；把「預期每月皆有資料」標為待確認的完整性假設，缺少不等於零銷售。\n請輸出問題表（類型｜工作表與列號｜月份｜通路｜SKU｜原值｜判定依據｜對第①步結果的影響）。不能量化的影響寫原因。\n本表沒有承諾期限或事件描述欄，不從其他工作表帶入逾期或事件；未提供原因寫「資料未提及」。\n【共同注意】不修改原始檔，不上網補資料；空白不當零，沒有寫的原因不推測。引用數字時標明工作表與列號。\n資料不清楚就先問我，不要自己猜。", "A11_P3": "【使用檔案】內勤_實作練習.xlsx（同一份共用檔，不需要另外下載分題檔）。\n【資料位置】「通路銷售與促銷」：欄名 A2:I2；資料 A3:I45（43 筆）。\n欄位：列號、月份、通路、SKU、品名、銷售數量、銷售額(元)、促銷費用(元)、是否檔期。\n【讀檔方式】在同一對話接續上一個步驟，沿用同一份檔案與指定工作表；若已開新對話，先請我重新上傳檔案並提供前一步結果。\n本題分析只使用上述工作表的資料列；說明與練習題及其他主題工作表不混入本題合計。\n【任務③：比較假設與建議】把原始結果與教學假設分開呈現：\n1. 原始結果：保留所有原始列與數值，沿用第①步的各通路合計。\n2. 教學假設【未確認】：完全重複列暫保留一筆；第②步已辨識的可疑費用暫按原值÷10；無說明的負數列暫不納入。每個變動列出來源列號、原值、假設值與尚缺的確認依據。缺漏資料不補值，不更改原檔。\n3. 比較表：通路｜原始銷售額｜原始費用｜原始倍數｜假設銷售額｜假設費用｜假設倍數｜差異，附算式與列號；分母零或缺漏時不計倍數。\n4. 3 個後續行動：先確認重複、可疑費用、負數與缺月原因，列出確認事項、負責單位建議及所需資料。期限未提供寫【需確認】。\n原值÷10 只是教學假設，不代表正確金額；不能據此直接決定預算或宣稱促銷效益。\n【共同注意】不修改原始檔，不上網補資料；空白不當零，沒有寫的原因不推測。引用數字時標明工作表與列號。\n資料不清楚就先問我，不要自己猜。", "M_A11": "來源：內勤_實作練習.xlsx／通路銷售與促銷\n教學用虛構資料｜非真實數據、非真實通報案件\n第 1 列是教材標示，第 2 列是欄名，資料從第 3 列開始；以下「列號」保留 Excel 原列號。\n列號,月份,通路,SKU,品名,銷售數量,銷售額(元),促銷費用(元),是否檔期\n3,2026-07,連鎖藥局甲,X-S120,X 牌 敏感護理牙膏 120g,1616,305424,7600,否\n4,2026-07,連鎖藥局甲,X-S160,X 牌 敏感護理牙膏 160g 家庭號,900,215100,5400,否\n5,2026-07,連鎖藥局甲,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,717,322650,8100,否\n6,2026-07,連鎖藥局乙,X-S120,X 牌 敏感護理牙膏 120g,1220,230580,5800,否\n7,2026-07,連鎖藥局乙,X-S160,X 牌 敏感護理牙膏 160g 家庭號,668,159652,4000,否\n8,2026-07,連鎖藥局乙,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,533,239850,6000,否\n9,2026-07,量販丙,X-S120,X 牌 敏感護理牙膏 120g,2119,380466,19000,否\n10,2026-07,量販丙,X-S160,X 牌 敏感護理牙膏 160g 家庭號,1800,408690,20400,否\n11,2026-07,量販丙,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,375,160312,8000,否\n12,2026-07,藥妝丁,X-S120,X 牌 敏感護理牙膏 120g,1691,271659,95000,是\n13,2026-07,藥妝丁,X-S160,X 牌 敏感護理牙膏 160g 家庭號,613,124531,48000,是\n14,2026-07,藥妝丁,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,307,138150,5500,否\n15,2026-07,電商戊,X-S120,X 牌 敏感護理牙膏 120g,914,160654,4800,否\n16,2026-07,電商戊,X-S160,X 牌 敏感護理牙膏 160g 家庭號,1262,280505,8400,否\n17,2026-07,電商戊,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,665,278302,8300,否\n18,2026-08,連鎖藥局甲,X-S120,X 牌 敏感護理牙膏 120g,2853,431374,52000,是\n19,2026-08,連鎖藥局甲,X-S120,X 牌 敏感護理牙膏 120g,2853,431374,52000,是\n20,2026-08,連鎖藥局甲,X-S160,X 牌 敏感護理牙膏 160g 家庭號,1567,299610,38000,是\n21,2026-08,連鎖藥局甲,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,709,319050,8000,否\n22,2026-08,連鎖藥局乙,X-S120,X 牌 敏感護理牙膏 120g,1774,268229,450000,是\n23,2026-08,連鎖藥局乙,X-S160,X 牌 敏感護理牙膏 160g 家庭號,984,188141,31000,是\n24,2026-08,連鎖藥局乙,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,515,231750,5800,否\n25,2026-08,量販丙,X-S120,X 牌 敏感護理牙膏 120g,2105,377953,18900,否\n26,2026-08,量販丙,X-S160,X 牌 敏感護理牙膏 160g 家庭號,1793,407101,20400,否\n27,2026-08,量販丙,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,397,169718,8500,否\n28,2026-08,藥妝丁,X-S120,X 牌 敏感護理牙膏 120g,1396,-263844,10600,否\n29,2026-08,藥妝丁,X-S160,X 牌 敏感護理牙膏 160g 家庭號,497,118783,4800,否\n30,2026-08,藥妝丁,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,310,139500,5600,否\n31,2026-09,連鎖藥局甲,X-S120,X 牌 敏感護理牙膏 120g,1675,316575,7900,否\n32,2026-09,連鎖藥局甲,X-S160,X 牌 敏感護理牙膏 160g 家庭號,891,212949,5300,否\n33,2026-09,連鎖藥局甲,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,691,310950,7800,否\n34,2026-09,連鎖藥局乙,X-S120,X 牌 敏感護理牙膏 120g,1200,226800,5700,否\n35,2026-09,連鎖藥局乙,X-S160,X 牌 敏感護理牙膏 160g 家庭號,647,154633,3900,否\n36,2026-09,連鎖藥局乙,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,518,233100,5800,否\n37,2026-09,量販丙,X-S120,X 牌 敏感護理牙膏 120g,2660,452466,150000,是\n38,2026-09,量販丙,X-S160,X 牌 敏感護理牙膏 160g 家庭號,2361,507851,160000,是\n39,2026-09,量販丙,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,486,196830,70000,是\n40,2026-09,藥妝丁,X-S120,X 牌 敏感護理牙膏 120g,1360,257040,10300,否\n41,2026-09,藥妝丁,X-S160,X 牌 敏感護理牙膏 160g 家庭號,506,120934,4800,否\n42,2026-09,藥妝丁,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,292,131400,5300,否\n43,2026-09,電商戊,X-S120,X 牌 敏感護理牙膏 120g,1633,262341,35000,是\n44,2026-09,電商戊,X-S160,X 牌 敏感護理牙膏 160g 家庭號,2911,591370,55000,是\n45,2026-09,電商戊,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,1013,387472,40000,是", "A11_a2": "電商戊 8 月的銷售額是多少？直接給數字和列號。只根據我給的資料回答，不要上網查。", "A11_a1": "只留 Q3 銷售額前 3 名的通路，改成給主管的 5 行摘要，每行附數字和列號。", "A12_P": "【使用檔案】內勤_實作練習.xlsx（同一份共用檔，不需要另外下載分題檔）。\n【資料位置】「預算與實際」：欄名 A2:G2；資料 A3:G38（36 筆）。\n欄位：列號、月份、費用科目、預算(元)、實際(元)、差異(元)、差異%。\n【讀檔方式】先確認目前對話已上傳上述檔案，列出實際工作表名稱；確認本題欄位與資料範圍後再分析。找不到檔案或欄位不符，先說明差異並請我補上，不憑印象生成結果。\n本題分析只使用上述工作表的資料列；說明與練習題及其他主題工作表不混入本題合計。\n【我是誰】你是財務分析師，報告給財務主管。\n【任務①：看全貌】使用 2026 年 1–9 月的「月份、費用科目、預算(元)、實際(元)、差異(元)、差異%」。\n1. 回報資料筆數、期間與費用科目。\n2. 每列重算：差異＝實際－預算；差異%＝差異÷預算。正數表示超支，百分比顯示小數 1 位。預算為零或缺漏時，不計差異%。\n3. 列出原差異欄與重算值不同的列，附原值、重算值及列號。百分比按原顯示精度比較。\n4. 各費用科目累計：預算合計、實際合計、累計差異、累計差異%。累計差異＝累計實際－累計預算；不能平均各月差異%。\n5. 列出 SUMIF 驗算公式、來源欄位、列號與筆數。計算放在回答中，不修改工作表。\n【共同注意】不修改原始檔，不上網補資料；空白不當零，沒有寫的原因不推測。引用數字時標明工作表與列號。\n若我使用「文字備援」，請讀標有同名工作表的完整資料，依其列號引用；不另要求不存在的分題檔。\n資料不清楚就先問我，不要自己猜。", "A12_P2": "【使用檔案】內勤_實作練習.xlsx（同一份共用檔，不需要另外下載分題檔）。\n【資料位置】「預算與實際」：欄名 A2:G2；資料 A3:G38（36 筆）。\n欄位：列號、月份、費用科目、預算(元)、實際(元)、差異(元)、差異%。\n【讀檔方式】在同一對話接續上一個步驟，沿用同一份檔案與指定工作表；若已開新對話，先請我重新上傳檔案並提供前一步結果。\n本題分析只使用上述工作表的資料列；說明與練習題及其他主題工作表不混入本題合計。\n【任務②：找問題】沿用第①步，檢查月份×費用科目是否重複、缺月或缺值，並列出：\n1. 原「差異(元)」「差異%」與重算不符的列。\n2. 單月或累計差異%超過 ±30% 的科目，附預算、實際、重算差異與來源列號。\n3. 比較「原差異欄加總」與「實際合計－預算合計」，說明差多少；計算錯誤不代表實際支出本身已改變。\n請輸出問題表與需要向哪個單位確認的事項。本表沒有付款期限、結案狀態或費用原因，不判定逾期，不推測超支原因。\n【共同注意】不修改原始檔，不上網補資料；空白不當零，沒有寫的原因不推測。引用數字時標明工作表與列號。\n資料不清楚就先問我，不要自己猜。", "A12_P3": "【使用檔案】內勤_實作練習.xlsx（同一份共用檔，不需要另外下載分題檔）。\n【資料位置】「預算與實際」：欄名 A2:G2；資料 A3:G38（36 筆）。\n欄位：列號、月份、費用科目、預算(元)、實際(元)、差異(元)、差異%。\n【讀檔方式】在同一對話接續上一個步驟，沿用同一份檔案與指定工作表；若已開新對話，先請我重新上傳檔案並提供前一步結果。\n本題分析只使用上述工作表的資料列；說明與練習題及其他主題工作表不混入本題合計。\n【任務③：給建議】使用第①步依預算與實際重算的結果：\n1. 給財務主管的 3 句差異摘要，每句附科目、期間、數字與工作表列號。\n2. 3 個資源配置討論建議，每項列依據、要確認的原因與負責單位建議；不把未提供的原因當事實。\n3. 列出這份資料無法回答的 2 個問題，以及需要補充的資料。\n沒有核准的新預算、未來支出或決策權限，不自行補數字或視為已核准。\n【共同注意】不修改原始檔，不上網補資料；空白不當零，沒有寫的原因不推測。引用數字時標明工作表與列號。\n資料不清楚就先問我，不要自己猜。", "M_A12": "來源：內勤_實作練習.xlsx／預算與實際\n教學用虛構資料｜非真實數據、非真實通報案件\n第 1 列是教材標示，第 2 列是欄名，資料從第 3 列開始；以下「列號」保留 Excel 原列號。\n列號,月份,費用科目,預算(元),實際(元),差異(元),差異%\n3,2026-01,促銷,900000,871200,-28800,-3.2%\n4,2026-01,POSM,250000,230000,-20000,-8.0%\n5,2026-01,媒體,1500000,1485000,-15000,-1.0%\n6,2026-01,樣品,120000,141600,21600,18.0%\n7,2026-02,促銷,1200000,1249200,49200,4.1%\n8,2026-02,POSM,300000,316500,16500,5.5%\n9,2026-02,媒體,1800000,1706400,-93600,-5.2%\n10,2026-02,樣品,100000,122000,22000,22.0%\n11,2026-03,促銷,800000,788000,-12000,-1.5%\n12,2026-03,POSM,200000,195800,-4200,-2.1%\n13,2026-03,媒體,1200000,1230000,30000,2.5%\n14,2026-03,樣品,120000,152400,32400,27.0%\n15,2026-04,促銷,800000,816000,16000,2.0%\n16,2026-04,POSM,200000,187000,-13000,-6.5%\n17,2026-04,媒體,1000000,962000,-38000,-3.8%\n18,2026-04,樣品,120000,157200,37200,31.0%\n19,2026-05,促銷,850000,813400,-36600,-4.3%\n20,2026-05,POSM,220000,226600,6600,3.0%\n21,2026-05,媒體,1200000,1216800,61800,1.4%\n22,2026-05,樣品,130000,175500,45500,35.0%\n23,2026-06,促銷,900000,929700,29700,3.3%\n24,2026-06,POSM,250000,239000,-11000,-4.4%\n25,2026-06,媒體,1500000,1467000,-33000,-2.2%\n26,2026-06,樣品,120000,165600,45600,38.0%\n27,2026-07,促銷,950000,1008000,58000,6.1%\n28,2026-07,POSM,280000,300200,20200,7.2%\n29,2026-07,媒體,1300000,1359800,59800,4.6%\n30,2026-07,樣品,120000,172800,52800,44.0%\n31,2026-08,促銷,1100000,1126400,26400,2.4%\n32,2026-08,POSM,300000,303900,3900,1.3%\n33,2026-08,媒體,1600000,1569600,-30400,-1.9%\n34,2026-08,樣品,140000,205800,65800,47.0%\n35,2026-09,促銷,1050000,1021600,-28400,-2.7%\n36,2026-09,POSM,280000,269900,-10100,-3.6%\n37,2026-09,媒體,1400000,1442000,42000,3.0%\n38,2026-09,樣品,150000,210000,60000,40.0%", "A12_a2": "樣品費超支的原因是什麼？請引用資料原文。只根據我給的資料回答，不要上網查。", "A12_a1": "差異摘要改成給財務主管的 3 行 Teams 訊息，每行附數字。", "A13_P": "【使用檔案】內勤_實作練習.xlsx（同一份共用檔，不需要另外下載分題檔）。\n【資料位置】「模擬訂單與庫存」：欄名 A2:I2；資料 A3:I38（36 筆）。\n欄位：列號、月份、SKU、訂單量、出貨量、缺貨量、月底庫存、庫存週數、備註。\n【讀檔方式】先確認目前對話已上傳上述檔案，列出實際工作表名稱；確認本題欄位與資料範圍後再分析。找不到檔案或欄位不符，先說明差異並請我補上，不憑印象生成結果。\n本題分析只使用上述工作表的資料列；說明與練習題及其他主題工作表不混入本題合計。\n【我是誰】你是需求規劃師，報告給 CS&L 主管。\n【任務①：看全貌】分析 2025-10 至 2026-09 的訂單與庫存。\n1. 回報資料筆數、月份、SKU 與備註中的數量單位。\n2. 各 SKU 的 12 個月訂單量、出貨量、缺貨量合計；數量單位不同的列分開列示，不換算、不混加。缺少同單位月份時，標明合計涵蓋月份與限制。\n3. 各 SKU 的 2026 年 7、8、9 月訂單量與三月合計，以及 9 月的月底庫存、庫存週數。月底庫存與庫存週數直接讀 G 欄「月底庫存」與 H 欄「庫存週數」，不跨月份加總。\n4. 教學風險判定：7–9 月訂單逐月上升且 9 月庫存週數低於 2＝高風險；只符合一項＝觀察；都不符合＝正常。缺必要資料時寫「無法判定」。\n5. 計算過程表：公式、來源欄位、列號、納入與未納入筆數。\n【共同注意】不修改原始檔，不上網補資料；空白不當零，沒有寫的原因不推測。引用數字時標明工作表與列號。\n若我使用「文字備援」，請讀標有同名工作表的完整資料，依其列號引用；不另要求不存在的分題檔。\n資料不清楚就先問我，不要自己猜。", "A13_P2": "【使用檔案】內勤_實作練習.xlsx（同一份共用檔，不需要另外下載分題檔）。\n【資料位置】「模擬訂單與庫存」：欄名 A2:I2；資料 A3:I38（36 筆）。\n欄位：列號、月份、SKU、訂單量、出貨量、缺貨量、月底庫存、庫存週數、備註。\n【讀檔方式】在同一對話接續上一個步驟，沿用同一份檔案與指定工作表；若已開新對話，先請我重新上傳檔案並提供前一步結果。\n本題分析只使用上述工作表的資料列；說明與練習題及其他主題工作表不混入本題合計。\n【任務②：找問題】逐列檢查：\n1. 月份×SKU 的重複、缺漏與數量空白；備註空白本身不算錯誤。\n2. 出貨量大於訂單量、缺貨量與訂單／出貨的關係不一致、同 SKU 數量明顯偏離其他月份。先列出差異，不自行解釋原因。\n3. 備註所記的不同單位。列出是哪幾欄受影響、哪些合計因此不完整；檔案沒有每箱數量，不自行換算。\n4. 缺貨與延遲描述。本表沒有承諾交貨日期，不能僅憑缺貨量判定逾期。\n請輸出（問題類型｜工作表與列號｜月份｜SKU｜原始數字／備註｜受影響指標｜待確認事項），並說明是否影響第①步的風險判定。\n【共同注意】不修改原始檔，不上網補資料；空白不當零，沒有寫的原因不推測。引用數字時標明工作表與列號。\n資料不清楚就先問我，不要自己猜。", "A13_P3": "【使用檔案】內勤_實作練習.xlsx（同一份共用檔，不需要另外下載分題檔）。\n【資料位置】「模擬訂單與庫存」：欄名 A2:I2；資料 A3:I38（36 筆）。\n欄位：列號、月份、SKU、訂單量、出貨量、缺貨量、月底庫存、庫存週數、備註。\n【讀檔方式】在同一對話接續上一個步驟，沿用同一份檔案與指定工作表；若已開新對話，先請我重新上傳檔案並提供前一步結果。\n本題分析只使用上述工作表的資料列；說明與練習題及其他主題工作表不混入本題合計。\n【任務③：備貨建議與溝通信】\n1. 對第①步的高風險 SKU，列出近 3 個月平均月訂單量、最新月底庫存及教學參考補貨量。參考補貨量＝MAX(0,近 3 個月平均月訂單量－最新月底庫存)。附來源列號與算式，單位未明示時標【單位需確認】，不同單位不能相減。\n2. 寫 3 點備貨建議。交期、在途量、安全庫存與最低訂購量未提供時，列為待確認，不把教學參考量當成正式採購量。\n3. 寫給「L 公司（教學用虛構）」窗口的備貨溝通信：教學情境為 Q4 檔期 2026-11-01 上檔，列出 SKU 與參考數量，最終數量及回覆期限標【需確認】，請對方確認可出貨量與到貨日。\n4. 信末加「DRAFT－教學練習，不得對外使用」。只談備貨與出貨，不加入產品功效、促銷費用或預算。\n【共同注意】不修改原始檔，不上網補資料；空白不當零，沒有寫的原因不推測。引用數字時標明工作表與列號。\n資料不清楚就先問我，不要自己猜。", "M_A13": "來源：內勤_實作練習.xlsx／模擬訂單與庫存\n教學用虛構資料｜非真實數據、非真實通報案件\n第 1 列是教材標示，第 2 列是欄名，資料從第 3 列開始；以下「列號」保留 Excel 原列號。\n列號,月份,SKU,訂單量,出貨量,缺貨量,月底庫存,庫存週數,備註\n3,2025-10,X-S160,5800,5800,0,8100,6,\n4,2025-10,X-G120,3100,3100,0,4400,6.1,\n5,2025-10,Y-C60,3600,3600,0,5000,6,\n6,2025-11,X-S160,6300,6260,40,8600,5.9,雙11電商檔期\n7,2025-11,X-G120,3300,3300,0,4700,6.1,\n8,2025-11,Y-C60,3900,3880,20,5300,5.8,\n9,2025-12,X-S160,6100,6100,0,8300,5.9,\n10,2025-12,X-G120,3000,2980,20,4300,6.2,\n11,2025-12,Y-C60,3700,3700,0,5200,6,\n12,2026-01,X-S160,5700,5700,0,8000,6,\n13,2026-01,X-G120,2900,2900,0,4100,6.1,\n14,2026-01,Y-C60,4300,4520,0,5600,5.6,\n15,2026-02,X-S160,5200,5200,0,7700,6.4,\n16,2026-02,X-G120,3200,3200,0,4500,6,\n17,2026-02,Y-C60,3500,3500,0,4900,6,\n18,2026-03,X-S160,5900,5900,0,8200,6,\n19,2026-03,X-G120,64,64,0,90,6,本列數量單位：箱\n20,2026-03,Y-C60,3650,3650,0,5100,6,\n21,2026-04,X-S160,5600,5600,0,7900,6.1,\n22,2026-04,X-G120,3150,3150,0,4500,6.1,\n23,2026-04,Y-C60,3550,3550,0,5000,6.1,\n24,2026-05,X-S160,6000,5970,30,8400,6,\n25,2026-05,X-G120,3050,3050,0,4300,6.1,\n26,2026-05,Y-C60,3700,3700,0,5200,6,\n27,2026-06,X-S160,5800,5800,0,8100,6,\n28,2026-06,X-G120,3250,3230,20,4600,6.1,\n29,2026-06,Y-C60,3450,3450,0,4800,6,\n30,2026-07,X-S160,6700,6650,50,7000,4.5,\n31,2026-07,X-G120,3100,3100,0,4400,6.1,\n32,2026-07,Y-C60,3600,3570,30,5000,6,\n33,2026-08,X-S160,7800,7600,200,4600,2.5,\n34,2026-08,X-G120,3300,3300,0,4700,6.1,\n35,2026-08,Y-C60,3500,3500,0,4900,6,\n36,2026-09,X-S160,9200,8500,700,3500,1.6,電商戊99檔期\n37,2026-09,X-G120,3150,3150,0,4500,6.1,\n38,2026-09,Y-C60,3750,3750,0,5200,6,", "A13_a2": "備註寫「箱」的那一列，每箱幾支？請直接換算成支數再重算合計。只根據我給的資料回答，不要上網查。", "A13_a3": "備貨信改成 5 行內的 Teams 訊息，數字和 DRAFT 標示不變。", "A14_P": "【使用檔案】內勤_實作練習.xlsx（同一份共用檔，不需要另外下載分題檔）。\n【資料位置】「客服紀錄」：欄名 A2:J2；資料 A3:J42（40 筆）。\n欄位：列號、案件編號、建立日期、結案日期、來源、SKU、類別、描述、狀態、滿意度。\n【讀檔方式】先確認目前對話已上傳上述檔案，列出實際工作表名稱；確認本題欄位與資料範圍後再分析。找不到檔案或欄位不符，先說明差異並請我補上，不憑印象生成結果。\n本題分析只使用上述工作表的資料列；說明與練習題及其他主題工作表不混入本題合計。\n【我是誰】你是消費者洞察分析師。\n【任務①：看全貌】逐筆閱讀「客服紀錄」的完整描述，先保留原始案件筆數。\n1. 身體不適或其他疑似 AE 描述逐字列在最上面，附案件編號與來源列號；沒有則寫「未發現」。\n2. 資料概況：筆數、日期範圍；各類別、來源、SKU 與狀態的筆數。占比的分母寫清楚，原始統計先保留重複列。\n3. 處理天數＝結案日期－建立日期，只納入「已結案」、兩日期有效且結案不早於建立的案件。列平均、最短、最長、有效筆數與排除列號。\n4. 滿意度只計有效的 1–5 分，列平均與有效筆數；空白不當零。\n5. 提供 COUNTIF 等驗算公式及來源列號。日期異常只影響需要日期的計算，不自動從類別件數中刪除。\n【共同注意】不修改原始檔，不上網補資料；空白不當零，沒有寫的原因不推測。引用數字時標明工作表與列號。\n若我使用「文字備援」，請讀標有同名工作表的完整資料，依其列號引用；不另要求不存在的分題檔。\n資料不清楚就先問我，不要自己猜。", "A14_P2": "【使用檔案】內勤_實作練習.xlsx（同一份共用檔，不需要另外下載分題檔）。\n【資料位置】「客服紀錄」：欄名 A2:J2；資料 A3:J42（40 筆）。\n欄位：列號、案件編號、建立日期、結案日期、來源、SKU、類別、描述、狀態、滿意度。\n【讀檔方式】在同一對話接續上一個步驟，沿用同一份檔案與指定工作表；若已開新對話，先請我重新上傳檔案並提供前一步結果。\n本題分析只使用上述工作表的資料列；說明與練習題及其他主題工作表不混入本題合計。\n【任務②：找問題】逐筆讀描述，依序列出：\n1. 疑似 AE 原文、案件編號與列號，建議處理寫「人工依公司流程通報」。\n2. 療效或核准以外用途的問題，標「轉 Medical Information」，不代答。\n3. 案件編號重複，或建立日期、來源、SKU、描述相同的疑似重複案件；列整組列號，區分完全重複與仍需確認者。\n4. 結案早於建立、日期無法解析、滿意度超出 1–5 等異常。\n5. 缺漏：處理中案件的結案日期、滿意度空白可合理，不能一律算錯。\n6. 截至 2026-10-02 仍未結案的清單與經過天數。工作表沒有服務期限或 SLA，標「未結案」，不能直接稱逾期。\n請輸出問題表（類型｜案件編號｜列號｜原文或原值｜對哪個統計有影響｜待確認／處理方式）。原始資料不刪改。\n【共同注意】不修改原始檔，不上網補資料；空白不當零，沒有寫的原因不推測。引用數字時標明工作表與列號。\n資料不清楚就先問我，不要自己猜。", "A14_P3": "【使用檔案】內勤_實作練習.xlsx（同一份共用檔，不需要另外下載分題檔）。\n【資料位置】「客服紀錄」：欄名 A2:J2；資料 A3:J42（40 筆）。\n欄位：列號、案件編號、建立日期、結案日期、來源、SKU、類別、描述、狀態、滿意度。\n【讀檔方式】在同一對話接續上一個步驟，沿用同一份檔案與指定工作表；若已開新對話，先請我重新上傳檔案並提供前一步結果。\n本題分析只使用上述工作表的資料列；說明與練習題及其他主題工作表不混入本題合計。\n【任務③：消費者洞察】\n1. 先交代統計口徑：原始筆數、完全重複列暫保留一筆的教學去重筆數，以及對各指標的影響。未確認的疑似重複不得自行排除。\n2. 日期異常只排除處理天數計算，滿意度異常只排除滿意度計算；不要整筆刪掉而改變類別統計。\n3. 給 MKT 的洞察 3 點：洞察｜依據筆數與分母｜案件編號及列號｜代表原文｜待確認的解釋｜下一步內部行動與負責單位建議。\n4. 疑似 AE 保留在最上面，不當成行銷洞察，另說明洞察是否排除及其筆數。\n5. 給 CS&L 一項通路服務優先行動，附來源依據。不要寫對外文案、產品功效或他牌比較。\n【共同注意】不修改原始檔，不上網補資料；空白不當零，沒有寫的原因不推測。引用數字時標明工作表與列號。\n資料不清楚就先問我，不要自己猜。", "M_A14": "來源：內勤_實作練習.xlsx／客服紀錄\n教學用虛構資料｜非真實數據、非真實通報案件\n第 1 列是教材標示，第 2 列是欄名，資料從第 3 列開始；以下「列號」保留 Excel 原列號。\n列號,案件編號,建立日期,結案日期,來源,SKU,類別,描述,狀態,滿意度\n3,CS001,2026-07-02,2026-07-03,消費者電話,Y-C60,產品詢問,詢問Y鈣＋D錠每天吃幾錠、飯前或飯後吃,已結案,5\n4,CS002,2026-07-03,2026-07-06,官網表單,X-S120,購買通路,想知道哪些藥局買得到X敏感護理120g,已結案,4\n5,CS003,2026-07-06,2026-07-07,消費者電話,X-S160,產品詢問,覺得X敏感護理薄荷味太涼，問有無其他口味,已結案,3\n6,CS004,2026-07-08,2026-07-13,通路客戶,X-S120,缺貨配送,連鎖藥局甲：X-S120到貨延遲3天，請更新到貨日,已結案,3\n7,CS005,2026-07-10,2026-07-10,官網表單,Z-M60,產品詢問,詢問Z綜合維他命一天吃幾錠,已結案,\n8,CS006,2026-07-13,2026-07-17,消費者電話,X-S120,品質,牙膏蓋子卡榫斷裂，蓋不緊,已結案,4\n9,CS007,2026-07-15,2026-07-16,官網表單,Y-C120,購買通路,詢問Y鈣＋D錠120錠在哪些通路有售,已結案,4\n10,CS008,2026-07-17,2026-07-20,消費者電話,X-S120,產品詢問,使用X敏感護理約一週後牙齦紅腫、刺痛，詢問是否要停用,已結案,3\n11,CS009,2026-07-20,2026-07-27,通路客戶,X-S160,退換貨,量販丙：到貨外箱破損2箱，要求退貨,已結案,3\n12,CS010,2026-07-22,2026-07-24,官網表單,X-S120,退換貨,買錯規格，想把120g換成160g家庭號,已結案,4\n13,CS011,2026-07-24,2026-07-24,消費者電話,X-S160,購買通路,藥妝丁門市找不到X家庭號160g,已結案,3\n14,CS012,2026-07-28,2026-07-30,官網表單,X-G120,產品詢問,詢問X牙齦護理牙膏可以治牙周病嗎,已結案,\n15,CS013,2026-07-30,2026-07-31,消費者電話,X-S160,產品詢問,家中長輩覺得X敏感護理口味太涼，想換口味,已結案,4\n16,CS014,2026-08-03,2026-08-06,官網表單,X-S160,缺貨配送,電商戊X家庭號160g顯示缺貨，何時補貨？,已結案,2\n17,CS015,2026-08-05,2026-08-11,通路客戶,Y-C60,缺貨配送,藥妝丁：Y-C60訂單少出12盒,已結案,4\n18,CS016,2026-08-07,2026-08-10,消費者電話,X-S160,品質,家庭號管身較硬，用到後段很難擠出,已結案,3\n19,CS017,2026-08-10,2026-08-12,官網表單,Y-C60,退換貨,吃了Y鈣片後胃不舒服，想退貨，剩半瓶,已結案,\n20,CS018,2026-08-12,2026-08-19,通路客戶,X-S160,缺貨配送,電商戊：X-S160補貨量不足，要求提前出貨,已結案,3\n21,CS019,2026-08-14,2026-08-04,官網表單,X-G120,購買通路,詢問量販丙是否有賣X牙齦護理,已結案,4\n22,CS020,2026-08-17,2026-08-18,消費者電話,X-S160,缺貨配送,電商戊家庭號缺貨，只好改買120g,已結案,3\n23,CS021,2026-08-19,2026-08-21,官網表單,X-S160,缺貨配送,電商戊X家庭號160g缺貨兩週，何時補貨？,已結案,2\n24,CS022,2026-08-19,2026-08-21,官網表單,X-S160,缺貨配送,電商戊X家庭號160g缺貨兩週，何時補貨？,已結案,2\n25,CS023,2026-08-21,2026-08-25,通路客戶,W-P24,缺貨配送,連鎖藥局乙：W-P24到貨延遲2天,已結案,4\n26,CS024,2026-08-24,2026-08-24,消費者電話,Y-C60,產品詢問,詢問Y鈣＋D錠錠徑大小，是否好吞,已結案,5\n27,CS025,2026-08-26,2026-08-28,官網表單,X-S120,退換貨,X敏感護理口味太涼，詢問可否退貨,已結案,3\n28,CS026,2026-08-28,2026-09-01,消費者電話,X-S160,品質,牙膏管太硬，長輩擠不出來，建議改包裝,已結案,3\n29,CS027,2026-08-31,2026-09-02,官網表單,X-S160,缺貨配送,電商戊訂購X家庭號，延遲出貨超過一週,已結案,2\n30,CS028,2026-09-02,2026-09-03,消費者電話,Z-M60,購買通路,詢問Z綜合維他命在連鎖藥局乙有沒有賣,已結案,\n31,CS029,2026-09-04,2026-09-07,官網表單,X-S160,產品詢問,X家庭號口味偏涼，詢問有無淡薄荷款,已結案,4\n32,CS030,2026-09-07,2026-09-14,通路客戶,X-S160,缺貨配送,連鎖藥局甲：確認Q4檔期X-S160備貨量,已結案,4\n33,CS031,2026-09-09,2026-09-10,消費者電話,W-P24,產品詢問,家長詢問孩子誤吞2顆W鎮痛錠怎麼辦,已結案,\n34,CS032,2026-09-11,2026-09-14,官網表單,X-S160,缺貨配送,電商戊X家庭號又缺貨，已等三週,已結案,1\n35,CS033,2026-09-14,2026-09-15,消費者電話,X-G120,購買通路,詢問X牙齦護理哪裡買得到,已結案,4\n36,CS034,2026-09-16,2026-09-21,通路客戶,X-G120,品質,量販丙：X-G120條碼無法掃描,已結案,4\n37,CS035,2026-09-18,2026-09-22,官網表單,Y-C120,退換貨,重複下單，想退一盒Y鈣＋D錠120錠,已結案,4\n38,CS036,2026-09-21,2026-09-23,消費者電話,X-S160,品質,160g軟管尾段擠不出來，覺得浪費,已結案,3\n39,CS037,2026-09-23,2026-09-24,官網表單,X-S120,購買通路,詢問電商戊有無X敏感護理120g組合包,已結案,4\n40,CS038,2026-09-24,,通路客戶,X-S160,缺貨配送,電商戊：X-S160缺貨，詢問10月到貨日,處理中,\n41,CS039,2026-09-29,,官網表單,X-S160,缺貨配送,電商戊X家庭號缺貨，想知道何時補貨,處理中,\n42,CS040,2026-09-30,,消費者電話,Y-C60,產品詢問,詢問Y鈣＋D錠60錠與120錠差在哪,處理中,", "A14_a2": "這些客訴中有幾位是 40 歲以上女性？列出案件編號。只根據我給的資料回答，不要上網查。", "A14_a1": "消費者洞察 3 點改成給 MKT 主管的 3 行版，每行附筆數。", "A10_P": "你是：品牌行銷資料助理。\n請你：只根據我提供的教學用產品重點卡，整理內部用產品比較表。\n要注意：\n1. 不上網搜尋，不寫真實品牌、公司或市占排名。\n2. 產品說法只用我給的核准訊息，不加功效、數字、比較。\n3. 沒寫的內容寫「資料未提及」；W 牌核准訊息寫「不提供行銷訊息，一律轉 Medical Information／藥師」。\n請輸出：表格（品牌｜SKU｜規格｜核准訊息原句｜禁用說法｜法規屬性｜轉介窗口），最上方寫「教學用虛構資料，內部理解用」。\n資料不清楚就先問我，不要自己猜。\n（貼上素材：M-02 產品重點卡）", "A10_a2": "X 牌 敏感護理牙膏的主要成分和含量是多少？請補進比較表。只根據我給的資料回答，不要上網查，不寫真實品牌。", "A10_a3": "市場趨勢每一點再找一個不同來源，標出兩個說法一不一致；不寫品牌或公司名稱。", "C6_q1": "【我是誰】你是〔請改：職務角色〕，報告給〔請改：報告對象〕。\n【做什麼】用我給的資料，完成〔請改：任務一句話〕。\n【怎麼做】依序輸出：\n① 資料說明\n② 概況表＋計算過程表（公式、列號、筆數）\n③ 重複、異常、缺漏、逾期、疑似AE 的列，只標出不改\n④ 洞察與建議，附數字\n【注意】\n・有人提到身體不適、副作用、沒效、誤用，或孕婦、小孩使用，原句照抄放最上面，標【疑似AE／客訴—需人工通報】。\n・資料沒寫的，寫『資料未提及』，不要自己補。\n資料不清楚就先問我，不要自己猜。\n（貼上素材：你的資料）", "M_LIB": "教學用虛構資料｜非真實數據、非真實通報案件\n\n我的提詞庫（範本）\nHaleon 台灣 AI 實作課｜2026-10-02\n\n■ 使用方式\n・每段課結束前 1 分鐘，把這段最好用的提詞存一則進來。第二次遇到同類工作，直接拿出來改。\n・只存提詞，不存公司資料、客戶資料或個資；素材位置一律寫「（貼上素材：___）」。\n・存放位置：依課前實測（Copilot 的儲存提示功能，或 OneDrive 上自己複製的「我的提詞庫_範本.docx」）。\n・每則四欄：情境／提詞全文／追問／注意事項。\n・寫新提詞用五段：「你是：」「請你：」「要注意：」「請輸出：」，最後一行放防呆句。\n・〔請改：…〕是你要換掉的字；【…】是 AI 要標的記號，不用改。\n・每次用完都做四查：\n  1. 事實查：每一句都找得到原文或來源；找不到的刪掉或標【需確認】\n  2. 數字查：挑 1 個數字回原檔驗算（Excel 用 SUM/COUNT）\n  3. 合規查：沒有核准訊息以外的功效、數據、比較；沒有「最、第一、根治、保證、治療、預防○○病」等高風險詞\n  4. AE 查：原文提到的身體不適、誤用、孕期/兒童使用等，有原樣保留並置頂\n\n■ 常用固定句：直接複製，一字不改\n・防呆句（每則最後一行）：資料不清楚就先問我，不要自己猜。\n・AE 防呆句（摘要、分析、交接類，放「要注意」第 1 條）：有人提到身體不適、副作用、沒效、誤用，或孕婦、小孩使用，原句照抄放最上面，標【疑似AE／客訴—需人工通報】。\n・宣稱鎖定句（寫產品說法時）：產品說法只用我給的核准訊息，不加功效、數字、比較。\n・只用提供資料句：資料沒寫的，寫『資料未提及』，不要自己補。\n・抓說謊追問句：只根據我給的資料回答，不要上網查，不寫真實品牌。\n・轉介話術：這個問題我請公司醫學資訊部門正式回覆您，我會在【約定時間】內幫您轉達。\n・提醒：AE 的判斷與通報責任在人；請依公司藥物安全監視（PV）SOP 的時限通報（窗口與時限請見公司規定）。\n・對外標示：學員產出之對外素材一律標「DRAFT－教學練習，不得對外使用」。\n\n════════ 第一格｜2 寫：最佳提詞（Lv1–2：你是／請你／要注意／請輸出＋防呆句） ════════\n\n■ 範例：會議逐字稿 → 會議紀錄（內勤 A2-02；外勤把素材換成拜訪筆記＝B2-02）\n情境：開完會要盡快發會議紀錄，逐字稿很亂，決議、待辦和數字散在不同人的發言裡。\n提詞全文：\n你是：會議記錄助理。\n請你：把會議逐字稿整理成發給與會者的會議紀錄。\n要注意：\n1. 有人提到身體不適、副作用、沒效、誤用，或孕婦、小孩使用，原句照抄放最上面，標【疑似AE／客訴—需人工通報】。\n2. 逐字稿沒說的負責人、期限、日期，寫「待確認」，不要自己補。\n3. 前後說法不一樣的，兩個都列出，標【需確認】。\n4. 有人提議「最」「根治」這類說法，不寫進決議和待辦，列在合規提醒。\n請輸出：\n① 摘要（5 行內） ② 決議 ③ 待辦表（事項｜負責人｜期限） ④ 待確認事項與合規提醒\n資料不清楚就先問我，不要自己猜。\n（貼上素材：會議逐字稿）\n追問：\n  1. 把摘要改成給主管看的 5 行版，只留決議和風險。\n  2. 請列出你補上、但原文沒有的內容（例如日期、負責人、數字），逐項標【需確認】。\n  3. 待辦表只列「負責人或期限待確認」的項目。\n注意事項：\n  ・四查重點：待辦的負責人、期限有沒有被 AI 自己補上；同一件事的數字前後是否一致；AE 原文是否在最上方。\n  ・外勤版（B2-02）：「你是」改成「拜訪紀錄助理」，「請你」改成「整理拜訪筆記，寫 LINE 給院長」，「請輸出」加 LINE 草稿（100 字內，標 DRAFT）；有提到產品就加宣稱鎖定句。\n  ・發出前一律人工確認；練習產出標「DRAFT－教學練習，不得對外使用」。\n\n■ 我的第 1 則（填入自己的提詞）\n情境：\n提詞全文：\n\n追問：\n\n注意事項：\n\n■ 我的第 2 則（填入自己的提詞）\n情境：\n提詞全文：\n\n追問：\n\n注意事項：\n\n════════ 第二格｜5 算：專家提詞（Lv3：【我是誰】【做什麼】【怎麼做】【注意】） ════════\n\n■ 範例：通路促銷資料分析（內勤 A5-01；外勤換成拜訪紀錄＝B5-01）\n情境：每季初要看上一季各通路的促銷效益，資料是 Excel，想知道哪個通路投資效益好、資料本身有沒有錯。\n提詞全文：\n【我是誰】你是通路分析師，報告給通路主管。\n【做什麼】用我上傳的「〔請改：Q3 通路銷售〕」表，找出各通路的促銷效益和資料問題。\n【怎麼做】照原始資料算，不刪不改。用表格依序輸出：\n① 概況表（通路×月份：銷售數量、銷售額、促銷費用）＋計算過程表（公式、列號、筆數）；投報倍數怎麼算，先問我\n② 問題清單：重複、異常（負數、疑似多打一個 0）、缺漏；只標出，不補值\n③ 3 點洞察和下週行動，附依據的數字\n【注意】\n・第 1 列是標示、第 2 列是欄名；回答時寫出「列號」。\n・資料沒寫的，寫『資料未提及』，不要自己補。\n・有人提到身體不適、副作用、沒效、誤用，或孕婦、小孩使用，原句照抄放最上面，標【疑似AE／客訴—需人工通報】。\n資料不清楚就先問我，不要自己猜。\n（先上傳資料檔再送出；上傳失敗時，把 txt 貼上版貼在這一行下面）\n追問：\n  1. 只做②，把每筆問題的列號列出來。\n  2. 資料裡 12 月的銷售額是多少？（抓說謊：資料只到 9 月，AI 應回答「資料未提及」）\n  3. 把①的概況表改成只看檔期月份。\n注意事項：\n  ・數字查：挑 1 個總數回 Excel 用 SUM 驗算，對不上就請 AI 列出它用了哪幾列。\n  ・上傳失敗就改貼 txt 貼上版。\n  ・自己的資料沒有標示列時，把【注意】第 1 點改成「回答時寫出 Excel 列號」。\n  ・外勤版（B5-01）：「我是誰」改「拜訪行程助理」；「做什麼」改「分析拜訪紀錄的需求分群、待辦、逾期（以 2026-10-02 為今天）、下週排程」；AE 防呆句一定保留。\n\n■ 我的第 1 則（填入自己的提詞）\n情境：\n提詞全文：\n\n追問：\n\n注意事項：\n\n■ 我的第 2 則（填入自己的提詞）\n情境：\n提詞全文：\n\n追問：\n\n注意事項：\n\n════════ 第三格｜6 報：簡報與網頁製作提詞 ════════\n\n■ 保存本次用過的製作提詞\n情境：主管提案／業務團隊行前說明\n做法：直接對話／NotebookLM／繪圖／網頁\n工具：\n提詞全文：\n（貼上本次使用的製作要求；完整素材另外保存，不放公司資料或個資）\n修改指令：\n成果檔名或存放位置：\n使用前要換的資訊：對象、目的、資料名稱、輸出格式\n\n■ 可重用的簡報提詞範本\n你是：簡報設計師。\n請你：只根據本次提供的〔資料名稱〕，為〔報告對象〕製作 6 頁簡報，目的是〔報告目的〕。\n要注意：不用前次對話資料；每頁一個重點、最多 3 句；事實與建議分開，目標與實際成果分開。未知資訊標「待確認」，不要補造數字、日期或承諾。\n請輸出：完整投影片內容、版面與講者備註；來源附於對應頁面。\n（貼上本次可使用的完整資料）\n\n■ 我的下一則\n情境：\n做法與工具：\n完整提詞：\n修改指令：\n注意事項：\n", "M_A17": "教學用虛構資料｜非真實數據、非真實通報案件（Y 牌 鈣＋維生素D 錠（Y-C60）連鎖藥局 Q4 檔期實績，2025 年，含檔期前 2 個月對照；2025-10～12 為檔期，2025-08～09 為檔期前對照月；銷售額為折扣後實收金額）\n列號,月份,通路,SKU,品名,銷售數量,銷售額(元),促銷費用(元),是否檔期\n3,2025-08,連鎖藥局甲,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,320,144000,0,否\n4,2025-09,連鎖藥局甲,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,305,137250,0,否\n5,2025-10,連鎖藥局甲,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,520,211640,60000,是\n6,2025-11,連鎖藥局甲,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,610,247660,60000,是\n7,2025-12,連鎖藥局甲,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,480,195360,45000,是\n8,2025-08,連鎖藥局乙,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,210,94500,0,否\n9,2025-09,連鎖藥局乙,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,225,101250,0,否\n10,2025-10,連鎖藥局乙,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,340,138380,40000,是\n11,2025-11,連鎖藥局乙,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,390,158340,,是\n12,2025-12,連鎖藥局乙,Y-C60,Y 牌 鈣＋維生素D 錠 60 錠,300,122100,30000,是\n", "A18_P": "你是：內勤行政助理。\n請你：把交接單整理成追蹤表，回信給業務（今天是 2026-10-02）。\n要注意：\n1. 有人提到身體不適、副作用、沒效、誤用，或孕婦、小孩使用，原句照抄放最上面，標【疑似AE／客訴—需人工通報】。\n2. 資料沒寫的，寫『資料未提及』，不要自己補。\n3. 醫學問題交給 Medical，不要回答。\n4. 回覆信不承諾出貨日、庫存。\n請輸出：\n① 第一行：疑似AE 原句；沒有就寫「本單無疑似 AE」\n② 追蹤表：交接單欄位＋追蹤編號、處理狀態（填「未開始」）、下一步；疑似AE 欄照抄\n　只有 1 張用兩欄表（欄位｜內容）\n③ 回覆信：每個需求 1 行，署名〔請改：我的單位〕\n　提到 AE 只寫：「AE 的判斷與通報責任在人；請依公司藥物安全監視（PV）SOP 的時限通報（窗口與時限請見公司規定）。」\n④ 待確認清單\n資料不清楚就先問我，不要自己猜。\n（貼上素材：你的交接單，或 Teams 認領的交接）", "M_A18_1": "教學用虛構資料｜非真實數據、非真實通報案件\n\n【預製交接單 1】外勤已填好，請內勤接手（三張中的第 1 張）\n\n===== 交接單 1／3 =====\n交接日期：2026-10-01\n提出人(業務代號)：E02\n診所代號：D05\n需求類型：訂貨配送\n品項/SKU：X-G120 X 牌 牙齦護理牙膏 120g\n數量：3 箱\n期限：2026-10-08\n負責單位(TMK/CS&L/MKT/Medical)：CS&L\n【疑似AE／客訴—需人工通報】：無\n備註：診所 9/24 向經銷下單，到現在還沒出貨；請查物流狀態並回覆 E02。\n", "M_A18_2": "教學用虛構資料｜非真實數據、非真實通報案件\n\n【預製交接單 2】外勤已填好，請內勤接手（三張中的第 2 張）\n\n===== 交接單 2／3 =====\n交接日期：2026-10-01\n提出人(業務代號)：E03\n診所代號：D08\n需求類型：試用品\n品項/SKU：X 牌 敏感護理牙膏 試用品\n數量：20 支\n期限：2026-10-15\n負責單位(TMK/CS&L/MKT/Medical)：MKT\n【疑似AE／客訴—需人工通報】：辛醫師轉述：「有一位患者用了 X 敏感護理之後，舌頭刺刺麻麻的，後來就沒再用了。」（E03 拜訪時照原話記錄，無患者可識別資訊）\n備註：辛醫師希望試用品附上核准版使用說明。\n", "M_A18_3": "教學用虛構資料｜非真實數據、非真實通報案件\n\n【預製交接單 3】外勤已填好，請內勤接手（三張中的第 3 張）\n\n===== 交接單 3／3 =====\n交接日期：2026-10-01\n提出人(業務代號)：E02\n診所代號：D11\n需求類型：醫學問題\n品項/SKU：X-S120、X-G120\n數量：—\n期限：2026-10-09（回覆子院長）\n負責單位(TMK/CS&L/MKT/Medical)：Medical\n【疑似AE／客訴—需人工通報】：無\n備註：子院長問：「X 敏感護理和 X 牙齦護理可以早晚交替用嗎？」業務沒有作答，已說明會請醫學資訊部門正式回覆。\n", "A18_a2": "這張交接單上的品項，公司現在庫存還有多少？最快哪一天可以出貨？", "A18_a3": "把追蹤表改成純表格，方便貼 Excel：不要粗體、不合併儲存格、表格外不加說明；疑似AE 欄照抄。", "A18_a1": "把回覆信改成給負責單位的內部通知，3 行內；疑似AE 原句照抄，不要改。", "A18_P2": "你是：內勤行政助理。\n請你：把認領的交接單和 3 張預製交接單，合併成一張追蹤表。\n要注意：\n1. 有人提到身體不適、副作用、沒效、誤用，或孕婦、小孩使用，原句照抄放最上面，標【疑似AE／客訴—需人工通報】。\n2. 每列的疑似AE 欄照抄原單，不合併、不摘要。\n3. 重複的需求不合併數量，備註標「疑似重複【需確認】」。\n4. 資料沒寫的，寫『資料未提及』，不要自己補。\n請輸出：\n① 追蹤表：交接單欄位，加追蹤編號（T-01 起）、來源（第幾張、哪位業務）、處理狀態（填「未開始」）\n② 排序：有疑似AE 的列放最上面，其餘依期限由近到遠，「待確認」放最後\n③ 表格下方：各負責單位件數和總列數\n④ 待確認清單：哪一張、哪個欄位\n資料不清楚就先問我，不要自己猜。\n（貼上素材：M-12 交接單 3 張合併）\n（貼上素材：Teams 認領的交接單；前面對話已有就不用貼）", "M_A18": "教學用虛構資料｜非真實數據、非真實通報案件\n\n【預製交接單 3 張】外勤已填好，請內勤接手\n\n===== 交接單 1／3 =====\n交接日期：2026-10-01\n提出人(業務代號)：E02\n診所代號：D05\n需求類型：訂貨配送\n品項/SKU：X-G120 X 牌 牙齦護理牙膏 120g\n數量：3 箱\n期限：2026-10-08\n負責單位(TMK/CS&L/MKT/Medical)：CS&L\n【疑似AE／客訴—需人工通報】：無\n備註：診所 9/24 向經銷下單，到現在還沒出貨；請查物流狀態並回覆 E02。\n\n===== 交接單 2／3 =====\n交接日期：2026-10-01\n提出人(業務代號)：E03\n診所代號：D08\n需求類型：試用品\n品項/SKU：X 牌 敏感護理牙膏 試用品\n數量：20 支\n期限：2026-10-15\n負責單位(TMK/CS&L/MKT/Medical)：MKT\n【疑似AE／客訴—需人工通報】：辛醫師轉述：「有一位患者用了 X 敏感護理之後，舌頭刺刺麻麻的，後來就沒再用了。」（E03 拜訪時照原話記錄，無患者可識別資訊）\n備註：辛醫師希望試用品附上核准版使用說明。\n\n===== 交接單 3／3 =====\n交接日期：2026-10-01\n提出人(業務代號)：E02\n診所代號：D11\n需求類型：醫學問題\n品項/SKU：X-S120、X-G120\n數量：—\n期限：2026-10-09（回覆子院長）\n負責單位(TMK/CS&L/MKT/Medical)：Medical\n【疑似AE／客訴—需人工通報】：無\n備註：子院長問：「X 敏感護理和 X 牙齦護理可以早晚交替用嗎？」業務沒有作答，已說明會請醫學資訊部門正式回覆。\n", "C8_P": "你是：〔請改：我的職稱〕的工作助理。\n請你：幫我〔請改：要完成的事〕。\n要注意：\n1. 資料沒寫的，寫『資料未提及』，不要自己補。\n2. 有人提到身體不適、副作用、沒效、誤用，或孕婦、小孩使用，原句照抄放最上面，標【疑似AE／客訴—需人工通報】。\n3. 產品說法只用我給的核准訊息，不加功效、數字、比較。\n請輸出：\n① 一張表格 ② 3 行重點 ③ 需要我確認的事\n資料不清楚就先問我，不要自己猜。\n（貼上素材：〔請改：資料名稱〕；只貼可以放公司 Copilot 的資料）", "C8_q1": "30 天提詞挑戰（每天 5 分鐘；用公司 Copilot Chat，看到盾牌再開始）\n每則提詞最後加：「資料不清楚就先問我，不要自己猜。」\n每次產出都做四查：事實、數字、合規、AE。\n第 1–7 天：每天用 Copilot 做 1 件小事，例如摘要、回信（A2-02、A2-03～A2-04、B2-02）\n第 8–14 天：把最好用的 3 則提詞存進提詞庫（A2-08／B2-06）\n第 15–21 天：用專家提詞表做 1 份分析，回 Excel 驗算 1 個數字（A5-05／B5-02）\n第 22–28 天：用一份可用資料，練習對話、NotebookLM、圖片與網頁四種呈現（A6-01～A6-04、B6-01～B6-04）\n第 29–30 天：分享好用的提詞與一份簡報成果給同事或 Copilot Champions\n紅線：病人資料不放；個人帳號不放公司資料；AE 由人判斷，依公司 PV 規定通報。", "W_B4": "幫我寫一則拜訪後的感謝追蹤訊息給甲院長。\n（貼上素材：M-14 甲診所拜訪筆記）", "M_B4": "教學用虛構資料｜非真實數據、非真實通報案件\n\n【拜訪筆記】D01 甲牙醫診所（北區-1）\n日期：2026-09-29（二）｜業務：E01｜對象：甲院長（櫃台助理在場）\n\n- X 敏感護理院長有在推薦，櫃台說病人常問哪裡買得到\n- 需求：核准版衛教單張 20 份、X 敏感護理試用品 30 支\n- 院長問：「X 牙齦護理牙膏可以給剛做完植牙的病人用嗎？」→ 當場沒答，說回去問\n- 院長轉述「有位病人說用了 X 敏感護理後嘴巴破」，沒再多說\n- 11 月秋季牙科臨床交流會（虛構）院長想參加，但要再確認時間\n- 院長下午門診滿，這次只聊約 15 分鐘\n- 櫃台助理希望衛教單張用寄的，不用現場等\n", "B4_P": "你是：拜訪紀錄助理。\n請你：整理拜訪筆記，寫 LINE 給甲院長。\n要注意：\n1. 有人提到身體不適、副作用、沒效、誤用，或孕婦、小孩使用，原句照抄放最上面，標【疑似AE／客訴—需人工通報】。不寫通報時限。\n2. 筆記沒寫的日期、期限、規格寫「待確認」。\n3. 醫學問題（如術後使用）不回答，只回：「這個問題我請公司醫學資訊部門正式回覆您，我會在【約定時間】內幫您轉達。」\n4. LINE 只寫感謝和待辦，不提功效和身體不適。\n請輸出：\n① 摘要 ② 待辦表（事項｜數量｜負責人｜期限） ③ 轉 Medical Information ④ 待確認事項（含下次拜訪） ⑤ LINE 草稿（100 字內，標 DRAFT）\n資料不清楚就先問我，不要自己猜。\n（貼上素材：M-14 甲診所拜訪筆記）", "B4_a1": "你問的我也不確定。不確定的地方標「待確認」，直接給我完整版，格式不變。", "B4_a3": "甲牙醫診所週幾休診？只根據我給的資料回答，不要上網查，不寫真實品牌。請引用原句。", "B1_P": "你是：牙科業務的邀約助理。\n請你：寫一則 LINE 和一封 Email，邀甲院長參加交流會。\n要注意：\n1. 只寫活動名稱、時間、地點、名額、報名方式。\n2. 不寫講題、活動內容、產品功效、餐飲、贈品、交通補助。\n3. 我沒給的活動資訊，先問我，不要自己補。\n4. 兩版第一行都寫「DRAFT－教學練習，不得對外使用」。\n請輸出：\n① LINE 版（100 字內，敬語，分 3～4 行） ② Email 版（主旨＋內文 150 字內） ③ 署名〔請改：你的名字〕\n資料不清楚就先問我，不要自己猜。\n背景：活動是「秋季牙科臨床交流會（虛構）」，甲院長上次拜訪時說有興趣，但要再確認時間。", "B1_a1": "活動資訊：11/14（六）14:00–16:30，南港某會議中心（虛構），40 人，回覆業務報名。請補進兩版，其他不變。", "B1_a2": "這場交流會的主講醫師是誰？講什麼題目？只根據我給的資料回答，不要上網查，不寫真實品牌。", "B2_P": "你是：產品說明教練。\n請你：把「X 牌 敏感護理牙膏」寫成我對牙醫師說的 30 秒介紹。\n要注意：\n1. 產品說法只用我給的核准訊息，不加功效、數字、比較。\n2. 不寫重點卡沒有的詞（例：舒緩、抗敏、不刺激）。\n3. 每句產品說法後面標來源（①～④）。\n4. 醫師追問療效、數據、特殊族群，只回：「這個問題我請公司醫學資訊部門正式回覆您，我會在【約定時間】內幫您轉達。」\n請輸出：\n① 第一行寫「DRAFT－教學練習，不得對外使用」 ② 30 秒說法（開場 1 句＋產品 4 句＋收尾 1 句） ③ 來源對照表（句子｜訊息編號） ④ 最後一行：上面的轉介話術\n資料不清楚就先問我，不要自己猜。\n（貼上素材：M-02 產品重點卡）", "B2_a1": "改成 15 秒版（約 60～70 字），只留 2 條核准訊息，來源編號保留。", "B2_a2": "X 牌 敏感護理牙膏的臨床試驗結果？幾週可以改善敏感？只根據我給的資料回答，不要上網查，不寫真實品牌。請引用原文。", "B3_P": "你是：問答助理。\n請你：把 5 題分成①②③類，寫我能說的回應。\n要注意：\n1. ① 答得出來：只用核准訊息，不加形容，標編號。\n2. ② 數據、比較、孕婦小孩術後、疾病：只回轉介話術「這個問題我請公司醫學資訊部門正式回覆您，我會在【約定時間】內幫您轉達。」\n3. ③ 沒核准的用途：先說「這部分我沒辦法回答。」再接轉介話術。\n請輸出：表格（題號｜問題｜分類｜理由｜我的回應），下方寫「DRAFT－教學練習，不得對外使用」\n資料不清楚就先問我，不要自己猜。\nQ1 X 敏感護理是什麼口味？泡沫多嗎？\nQ2 一天刷幾次？擠多少？\nQ3 剛植牙傷口沒好，能用 X 敏感護理嗎？\nQ4 6 歲小孩牙齒酸，能用 X 敏感護理嗎？\nQ5 X 牙齦護理能治療牙周病嗎？\n（貼上素材：M-02 產品重點卡）", "B3_a3": "把表格改成 A4 一頁可列印的小抄：每題一行，轉介話術一字不改。", "B3_a2": "X 牌 敏感護理牙膏適合幾歲以上使用？只根據我給的資料回答，不要上網查，不寫真實品牌。請引用原句。", "W_IMG_B": "先不要畫圖。我想做「牙科交流會邀請卡」，請用主角、動作、環境、構圖、光影、風格各寫一句完整句子，再合成一段。圖裡不要有真人肖像、商標、文字、療效對比。", "B5_P": "你是：活動視覺設計助理。\n請你：畫 1 張橫式邀請卡底圖，給秋季牙科交流會用，只給內部討論。\n畫面：\n主角是一張鋪白桌布的圓桌，上面有空白筆記本、鋼筆和兩杯熱咖啡。\n動作是幾片金黃、橘紅的楓葉從窗邊飄落到桌上。\n環境是明亮安靜、沒有人的會議廳，右後方有落地窗和空白投影布幕。\n構圖是略俯視的中景，桌子和窗在右側，左側 40% 留米白色空白。\n光影是午後從落地窗斜照進來的暖陽。\n風格是溫暖的水彩插畫，米白和秋天暖色，少量亮綠。\n要注意：\n1. 不要有人物，尤其不要白袍醫師或拿產品的人。\n2. 不要有產品、包裝、QR code、X 光、牙齒剖面或骨骼影像。\n請輸出：1 張圖，再用一句話說明左側空白的範圍。\n圖裡不要有文字、數字、商標。\n資料不清楚就先問我，不要自己猜。", "B5_P2": "修改剛才那張圖，只改一處：在左下角空白區添加一個淺灰方框，預留 QR code 位置，框內不畫任何圖案。其他全部保持不變。\n資料不清楚就先問我，不要自己猜。", "B5_a1": "只用文字回答，不要畫圖：寫左側空白區的邀請文字，一項一行、每行 25 字內，只用下面資訊：\n・秋季牙科臨床交流會（虛構）\n・2026-11-14（六）14:00–16:30\n・台北市南港區某會議中心（虛構）\n・名額 40 人\n・報名：回覆業務或掃描報名 QR（虛構）\n最後一行加「DRAFT－教學練習，不得對外使用」。", "B5_a2": "只用文字回答，不要畫圖：講者是誰？有幾個繼續教育學分？請寫進邀請文字。只根據我給的資料回答，不要上網查，不寫真實品牌。", "B6_P": "你是：產品說明配圖助理。\n請你：畫 1 張橫式刷牙情境配圖，對應核准訊息④。\n畫面：\n主角是一支白色軟毛牙刷，刷毛上有一顆豌豆大小的白色牙膏。\n動作是一隻手輕握牙刷準備刷牙，只拍到手。\n環境是早晨明亮的浴室洗手台，旁邊有淺綠漱口杯和白毛巾。\n構圖是略俯視的近拍，牙刷在左半部，右側三分之一留空白。\n光影是側窗照進來的清晨自然光。\n風格是柔和的數位插畫，不要像照片。\n要注意：\n1. 手是自然的五指；牙膏只有一顆豌豆大。\n2. 不要有牙膏管、包裝、牙齒特寫、剖面、X 光、牙齦出血、前後對比。\n3. 產品說法只用核准訊息④「建議早晚刷牙，每次用量約一顆豌豆大小」，不加功效、數字、比較。\n請輸出：1 張圖，再用一句話說明對應哪則核准訊息。\n圖裡不要有文字、商標。\n資料不清楚就先問我，不要自己猜。", "B6_P2": "修改剛才那張圖，只改一處：把整張圖變成晚上睡前的氛圍，光線改成洗手台上方的暖黃燈光。其他全部保持不變，不加字。\n資料不清楚就先問我，不要自己猜。", "B6_a1": "只用文字回答，不要畫圖：寫一句放右側空白的說明，只能用核准訊息④的原文或縮短，不加內容，並標出是第幾則。", "B6_a2": "只用文字回答，不要畫圖：這款牙膏含氟量多少 ppm？請寫進配圖說明。只根據我給的資料回答，不要上網查，不寫真實品牌。", "B7_P": "你是：診所小卡設計助理。\n請你：畫 1 張直式候診區小卡的版面概念稿，只給內部討論。\n畫面：\n主角是一張米白色小卡，四周有細細的亮綠邊框。\n動作是上半部的插圖裡，一支牙刷斜靠在淺綠漱口杯上，旁邊有一小盆植物。\n環境是乾淨的淺灰桌面，小卡平放在正中央。\n構圖是正上方俯視，插圖占上方 40%，下方排三個空白的淺灰圓角文字框（一個標題、兩個內文）。\n光影是柔和平均的平面光。\n風格是扁平向量插畫，米白、淺灰、黑配亮綠。\n要注意：\n1. 三個文字框保持空白，所有文字之後由人在 PowerPoint 放入【請填入公司核准文案】。\n2. 不要有產品包裝、人物、牙齒特寫、X 光或剖面。\n請輸出：1 張圖，再用一句話說明三個空白框的位置。\n圖裡不要有文字、數字、商標。\n資料不清楚就先問我，不要自己猜。", "B7_P2": "修改剛才那張圖，只改一處：移除下方三個文字框裡所有字和像字的筆畫，讓框變回空白淺灰。其他全部保持不變。\n資料不清楚就先問我，不要自己猜。", "B7_a1": "只用文字回答，不要畫圖：三個框各放哪類內容（例：標題、使用提醒、轉介提醒）？只寫類別，每格留【請填入公司核准文案】。", "B7_a2": "只用文字回答，不要畫圖：小卡的核准文案是什麼？請寫出三個框的文字。只根據我給的資料回答，不要上網查，不寫真實品牌。", "B8_P": "你是：資料查詢助理。\n請你：查牙本質敏感的常見原因和日常照護，不提品牌。\n要注意：\n1. 只用牙醫學會、教學醫院、大學或政府衛生機關網站，不用廠商網站。\n2. 限 2021 年以後；沒日期寫「日期不明」。\n3. 原句逐字照抄，英文不翻譯。\n4. 提到治療、藥物、孕婦小孩術後的列，標「轉 Medical Information」。\n請輸出：\n表格最上方寫「內部理解用，不直接提供醫師或消費者」。\n表格（類型：原因／照護｜重點｜原句｜來源機構｜網址｜日期），各至少 3 列；找不到寫「查無官方來源」。\n貼了官方節錄就只用節錄：原句欄只放「原文短句」，其他寫「重點整理，非逐字」。\n資料不清楚就先問我，不要自己猜。\n（網頁搜尋能用時，不用貼任何素材，直接送出；搜尋被關時，才把官方節錄貼在這一行下面。）", "M_OFFICIAL_B8": "教學備援用官方資料節錄（B4-01）｜擷取日期 2026-09-24\n用途：S4 查詢卡 B4-01（外勤）的備援素材。Copilot 網頁搜尋被關閉或查不到時，把這份節錄貼在 B4-01 提詞最後送出；提詞已要求 AI「只根據我提供的資料回答；資料中沒有的，請寫『資料未提及』，不要推測。」\n性質：公開的公立醫院、官方機關與專業學會資料節錄（真實公開資料）；只供一般衛教查詢練習，不能當任何產品（含教學用虛構 X 牌、Y 牌）的宣稱依據。產品說法仍只能用產品重點卡的核准訊息。\n標示說明：「原文短句」為逐字引用（保留原文語言）；「重點整理」是依原文整理的摘要，非逐字引文。完整內容請開網址核對。\n\n====================\n【B4-01】牙本質敏感（dentin hypersensitivity）常見原因與日常照護（限學會／官方來源）\n====================\n▍B8-1\n來源機構：衛生福利部臺北醫院（衛福部所屬醫院）牙科\n標題：牙周病治療與敏感性牙齒（衛教專欄）\n網址：https://www.tph.mohw.gov.tw/?aid=801&pid=20&page_name=detail&iid=2020\n日期：2023-03-10\n原文短句：「由於牙齦退縮，牙根外露，造成覆蓋牙神經的牙本質暴露」\n重點整理：\n1. 牙齦退縮、牙根外露時，牙本質會暴露；遇到冷熱，或吃酸、甜的食物時，可能一顆或多顆牙齒痛。\n2. 處置分「居家用」與「診間處置」：居家最常見是抗敏感牙膏，需要持續使用；診間由牙醫師用氟漆或去敏感劑局部處理。\n3. 平日要學會正確清潔：刷牙方式、牙線、牙間刷，必要時搭配漱口水。\n\n▍B8-2\n來源機構：國立臺灣大學醫學院附設醫院 牙科部（臺大醫院健康電子報）\n標題：牙齒敏感症面面觀（2023 年 8 月專題報導）\n網址：https://epaper.ntuh.gov.tw/health/202308/project_1.html\n日期：2023-08\n原文短句：「牙本質暴露是造成牙齒敏感最主要的原因」\n重點整理：\n1. 醫學名稱是「牙本質知覺過敏症」（dentin hypersensitivity）；吃冷、熱、甜、酸的食物或刷牙時會刺痛。\n2. 常見原因：牙齦萎縮（刷太用力、刷毛太硬、牙周病）、齒頸部磨耗（刷牙方式不當）、咬耗（夜間磨牙、愛咬硬物）、酸蝕（酸性果汁、胃食道逆流）、牙齒美白後的暫時敏感。\n3. 蛀牙、牙裂的症狀可能很像敏感，需要牙醫師鑑別診斷。\n4. 日常照護第一步：改善刷牙方式、改用較軟刷毛的牙刷；並定期給牙醫師檢查。\n\n▍B8-3\n來源機構：American Dental Association（美國牙醫學會）MouthHealthy 民眾衛教網站\n標題：Sensitive Teeth\n網址：https://www.mouthhealthy.org/all-topics-a-z/sensitive-teeth\n日期：網頁未標示日期（擷取 2026-09-24）\n原文短句（英文）：\"Proper oral hygiene is the key to preventing sensitive-tooth pain.\"\n中文摘要：\n1. 可能原因：蛀牙、牙齒裂、補綴物磨損、牙齦疾病、琺瑯質磨損、牙根外露。\n2. 牙本質有微小的小管；失去琺瑯質或牙骨質保護，或牙齦退縮時，冷、熱、酸或黏的食物刺激會傳到牙齒內部的神經。\n3. 敏感可以處理，方式依原因而定，由牙醫師建議。\n4. 良好的口腔衛生是預防關鍵；有疑問請問牙醫師。\n\n▍查無專頁\n衛生福利部國民健康署、衛生福利部口腔健康司、中華民國牙醫師公會全國聯合會網站：擷取日沒有找到「牙本質敏感」專頁。\n\n使用提醒（合規）：\n1. 以上是一般衛教資訊，與 X 牌產品的核准訊息無關；不得把「抗敏感牙膏」「需要持續使用」等一般說明改寫成 X 牌功效（宣稱鎖定）。\n2. 醫師若追問臨床數據、產品比較或特殊族群（孕婦、兒童、術後）→ 轉 Medical Information。\n3. 原網頁另提到的成分、盛行率等數字，本節錄刻意不收錄；需要時請回原網頁核對，並先與公司 Medical／法規確認。\n", "B8_a1": "把「原因」改成給內勤同事看的 5 句白話，每句後面留來源網址。", "B8_a2": "上面這些來源有推薦任何品牌的抗敏感牙膏嗎？只回答「有」或「查無」；有的話只附網址，不寫品牌名。", "B10_P": "【使用檔案】外勤_實作練習.xlsx（同一份共用檔，不需要另外下載分題檔）。\n【資料位置】「拜訪紀錄」：欄名 A2:M2；資料 A3:M42（40 筆）。\n欄位：列號、拜訪日期、業務代號、診所代號、診所名稱、區域、醫師代稱、拜訪目的、醫師回饋、需求/待辦、承諾期限、狀態、下次拜訪。\n【核對名單】「診所清單」：欄名 A2:F2；資料 A3:F14（12 筆）。\n欄位：列號、診所代號、診所名稱、區域、負責業務、醫師代稱。\n【讀檔方式】先確認目前對話已上傳上述檔案，列出實際工作表名稱；確認本題欄位與資料範圍後再分析。找不到檔案或欄位不符，先說明差異並請我補上，不憑印象生成結果。\n拜訪紀錄用來統計與判斷待辦，診所清單只用來核對及分配拜訪；說明與練習題、產品重點不混入拜訪紀錄統計。\n【我是誰】你是外勤拜訪行程助理。\n【任務①：看全貌】\n1. 回報「拜訪紀錄」的原始筆數、日期範圍與欄位，以及「診所清單」的診所筆數。\n2. 用「診所代號」把拜訪紀錄對上診所清單，核對診所名稱、區域、負責業務及醫師代稱。若同代號多筆、無法對應或資訊不一致，列為待確認，不直接覆蓋原紀錄。拜訪紀錄的業務代號與名單的負責業務分開保留。\n3. 按拜訪紀錄的業務、區域與診所統計拜訪次數，保留原始重複列。不要把 12 筆診所名單加進拜訪次數。\n4. 需求分群：試用品／衛教資料／活動邀約／訂貨或配送／產品詢問／其他。一筆有多種需求可進多群，說明群組合計可大於紀錄筆數。\n5. 未完成待辦表（拜訪紀錄列號｜診所代號｜名稱｜需求/待辦｜承諾期限｜狀態｜業務），期限空白寫「期限缺漏」。\n6. 提供計算公式與來源。引用時寫工作表名稱＋列號；診所清單列號與拜訪紀錄列號不能混用。\n【共同注意】不修改原始檔，不上網補資料；空白不當零，沒有寫的原因不推測。引用數字時標明工作表與列號。\n若我使用「文字備援」，請讀標有同名工作表的完整資料，依其列號引用；不另要求不存在的分題檔。\n資料不清楚就先問我，不要自己猜。", "B10_P2": "【使用檔案】外勤_實作練習.xlsx（同一份共用檔，不需要另外下載分題檔）。\n【資料位置】「拜訪紀錄」：欄名 A2:M2；資料 A3:M42（40 筆）。\n欄位：列號、拜訪日期、業務代號、診所代號、診所名稱、區域、醫師代稱、拜訪目的、醫師回饋、需求/待辦、承諾期限、狀態、下次拜訪。\n【核對名單】「診所清單」：欄名 A2:F2；資料 A3:F14（12 筆）。\n欄位：列號、診所代號、診所名稱、區域、負責業務、醫師代稱。\n【讀檔方式】在同一對話接續上一個步驟，沿用同一份檔案與指定工作表；若已開新對話，先請我重新上傳檔案並提供前一步結果。\n拜訪紀錄用來統計與判斷待辦，診所清單只用來核對及分配拜訪；說明與練習題、產品重點不混入拜訪紀錄統計。\n【任務②：找問題】逐筆閱讀「拜訪紀錄」的「醫師回饋」「需求/待辦」，回報讀取筆數。\n1. 疑似 AE：原句照抄置頂，附拜訪紀錄列號、診所代號；判斷與通報由人依公司流程處理。\n2. 醫學問題或核准以外用途，標「轉 Medical Information」，不回答。\n3. 完全重複：除列號外所有紀錄欄位相同；另列需人工確認的疑似重複，不把不同日期的正常重訪視為重複。\n4. 日期不合理、狀態與內容矛盾、承諾期限或其他必要欄位缺漏，及與診所清單對應不一致的內容。\n5. 以 2026-10-02 為基準：承諾期限有效、早於當日、狀態不是「已完成」才算逾期，列逾期天數。期限空白另列缺漏，不能當成逾期或自行補日期。\n6. 說明完全重複列若只保留一筆，對拜訪次數、待辦與需求分群的影響。把原始與去重口徑分開，原檔不變。\n輸出問題表（類型｜工作表與列號｜診所代號｜原文／原值｜影響｜待確認或處理方式）。\n【共同注意】不修改原始檔，不上網補資料；空白不當零，沒有寫的原因不推測。引用數字時標明工作表與列號。\n資料不清楚就先問我，不要自己猜。", "B10_P3": "【使用檔案】外勤_實作練習.xlsx（同一份共用檔，不需要另外下載分題檔）。\n【資料位置】「拜訪紀錄」：欄名 A2:M2；資料 A3:M42（40 筆）。\n欄位：列號、拜訪日期、業務代號、診所代號、診所名稱、區域、醫師代稱、拜訪目的、醫師回饋、需求/待辦、承諾期限、狀態、下次拜訪。\n【核對名單】「診所清單」：欄名 A2:F2；資料 A3:F14（12 筆）。\n欄位：列號、診所代號、診所名稱、區域、負責業務、醫師代稱。\n【讀檔方式】在同一對話接續上一個步驟，沿用同一份檔案與指定工作表；若已開新對話，先請我重新上傳檔案並提供前一步結果。\n拜訪紀錄用來統計與判斷待辦，診所清單只用來核對及分配拜訪；說明與練習題、產品重點不混入拜訪紀錄統計。\n【任務③：排下週】沿用前兩步，規劃教學指定的 2026-10-05 至 2026-10-08 四天拜訪草案。\n1. 依診所代號彙整未完成待辦與完整的需求，完全重複紀錄暫保留一筆並註明列號；不同日期、不同事項不能直接刪除。\n2. 用「診所清單」核對每家診所的名稱、區域、負責業務與醫師代稱。對不到或與紀錄衝突時，標【需確認】，不自行指派。\n3. 優先順序表：診所代號｜名稱｜負責業務｜區域｜高／中／低｜理由｜這次要完成的事｜要帶的資料｜兩張工作表的來源列號。理由依逾期、接近期限、下次拜訪等原始記錄。\n4. 每位業務同區域的診所集中同一天，每人每天最多 4 家。同一診所合併成一筆拜訪並列齊待辦。日期只能落在上述四天，未排入的診所另列原因。\n5. 工作表沒有地址、交通時間或可約時段，不能宣稱是最短路線，也不能把草案寫成已約定行程。\n6. 疑似 AE 的判斷與通報不等待排程；行程只註「拜訪前先確認通報狀態（人工）」。要帶的資料只寫原紀錄已有的需求，不另寫產品功效。\n【共同注意】不修改原始檔，不上網補資料；空白不當零，沒有寫的原因不推測。引用數字時標明工作表與列號。\n資料不清楚就先問我，不要自己猜。", "M_B10": "來源：外勤_實作練習.xlsx／拜訪紀錄\n教學用虛構資料｜非真實數據、非真實通報案件\n第 1 列是教材標示，第 2 列是欄名，資料從第 3 列開始；以下「列號」保留 Excel 原列號。\n列號,拜訪日期,業務代號,診所代號,診所名稱,區域,醫師代稱,拜訪目的,醫師回饋,需求/待辦,承諾期限,狀態,下次拜訪\n3,2026-08-03,E03,D09,壬牙醫診所,北區-3,壬院長,例行拜訪,反映X-S160家庭號缺貨,查詢X-S160到貨日,2026-08-10,已完成,2026-08-17\n4,2026-08-04,E01,D02,乙牙醫診所,北區-1,乙醫師,產品說明,對X牙齦護理口味有興趣,試用品15支（X-G120）,2026-08-14,已完成,2026-08-20\n5,2026-08-05,E02,D05,戊牙醫診所,北區-2,戊院長,產品說明,對X牙齦護理有興趣,試用品20支（X-G120）,2026-08-14,已完成,2026-08-19\n6,2026-08-06,E01,D04,丁牙醫診所,北區-1,丁醫師,例行拜訪,反映X-S160家庭號缺貨,查詢X-S160到貨日,2026-08-13,已完成,2026-08-27\n7,2026-08-06,E03,D10,癸牙醫診所,北區-3,癸醫師,產品說明,詢問低泡配方,回覆低泡配方（核准訊息）,2026-08-13,已完成,2026-08-24\n8,2026-08-07,E02,D07,庚牙醫診所,北區-2,庚院長,產品說明,對X敏感護理有興趣,試用品20支（X-S120）,2026-08-14,已完成,2026-09-01\n9,2026-08-10,E02,D11,子牙醫診所,北區-2,子院長,產品說明,對X牙齦護理有興趣,試用品20支（X-G120）,2026-08-17,已完成,2026-08-31\n10,2026-08-11,E01,D01,甲牙醫診所,北區-1,甲院長,產品說明,對X敏感護理低泡配方有興趣,試用品10支（X-S120）,2026-08-21,已完成,2026-09-08\n11,2026-08-12,E01,D06,己牙醫診所,北區-1,己醫師,產品說明,詢問X敏感護理建議用量,回覆建議用量（核准訊息）,2026-08-19,已完成,2026-08-26\n12,2026-08-13,E03,D08,辛牙醫診所,北區-3,辛醫師,產品說明,對X家庭號有興趣,試用品15支（X-S160）,2026-08-20,已完成,2026-09-09\n13,2026-08-14,E03,D12,丑牙醫診所,北區-3,丑醫師,產品說明,對X敏感護理有興趣,試用品15支（X-S120）,2026-08-21,已完成,2026-09-04\n14,2026-08-17,E03,D09,壬牙醫診所,北區-3,壬院長,產品說明,詢問X牙齦護理口味,試用品20支（X-G120）,2026-08-27,已完成,2026-09-10\n15,2026-08-19,E02,D05,戊牙醫診所,北區-2,戊院長,送試用品,櫃台助理說病人詢問度高,衛教單張（核准版）30份,2026-08-28,已完成,2026-09-02\n16,2026-08-20,E01,D02,乙牙醫診所,北區-1,乙醫師,送試用品,醫師試用後覺得口味清新,衛教單張（核准版）20份,2026-08-31,已完成,2026-09-03\n17,2026-08-20,E02,D03,丙牙醫診所,北區-2,丙院長,產品說明,對X敏感護理有興趣,試用品15支（X-S120）,2026-08-27,已完成,2026-09-17\n18,2026-08-24,E03,D10,癸牙醫診所,北區-3,癸醫師,送試用品,想給候診病人試用,試用品30支（X-S120）,2026-09-04,已完成,2026-09-07\n19,2026-08-26,E01,D06,己牙醫診所,北區-1,己醫師,例行拜訪,想在候診區放衛教單張,衛教單張（核准版）30份,2026-09-10,未開始,2026-09-16\n20,2026-08-27,E01,D04,丁牙醫診所,北區-1,丁醫師,產品說明,詢問低泡配方,回覆低泡配方（核准訊息）,2026-09-03,已完成,2026-09-24\n21,2026-08-31,E02,D11,子牙醫診所,北區-2,子院長,例行拜訪,詢問家庭號建議用量,回覆建議用量（核准訊息）,2026-09-07,已完成,2026-09-14\n22,2026-09-01,E02,D07,庚牙醫診所,北區-2,庚院長,例行拜訪,詢問X敏感護理可否給6歲兒童使用,回覆兒童可否使用,2026-09-15,已完成,2026-09-18\n23,2026-09-02,E02,D05,戊牙醫診所,北區-2,戊院長,訂貨跟進,想訂X-S160 2箱,協助下單X-S160 2箱,2026-09-09,已完成,2026-09-23\n24,2026-09-03,E01,D02,乙牙醫診所,北區-1,乙醫師,訂貨跟進,想訂X-S120 3箱,協助下單X-S120 3箱,2026-09-10,已完成,2026-09-17\n25,2026-09-04,E03,D12,丑牙醫診所,北區-3,丑醫師,訂貨跟進,想訂X-G120 2箱,協助下單X-G120 2箱,2026-09-11,已完成,2026-09-30\n26,2026-09-07,E03,D10,癸牙醫診所,北區-3,癸醫師,訂貨跟進,反映X-S160缺貨,查詢X-S160補貨時間,2026-09-18,進行中,2026-09-21\n27,2026-09-08,E01,D01,甲牙醫診所,北區-1,甲院長,交流會邀約,院長對11月交流會有興趣,提供交流會報名資訊,2026-09-18,已完成,2026-09-29\n28,2026-09-09,E03,D08,辛牙醫診所,北區-3,辛醫師,訂貨跟進,想訂X-S120 2箱,協助下單X-S120 2箱,2026-09-16,已完成,2026-09-22\n29,2026-09-10,E03,D09,壬牙醫診所,北區-3,壬院長,交流會邀約,院長有意參加交流會,交流會報名1人,2026-09-24,已完成,2026-09-24\n30,2026-09-10,E03,D09,壬牙醫診所,北區-3,壬院長,交流會邀約,院長有意參加交流會,交流會報名1人,2026-09-24,已完成,2026-09-24\n31,2026-09-14,E02,D11,子牙醫診所,北區-2,子院長,交流會邀約,有意報名交流會,交流會報名2人,2026-09-23,進行中,2026-10-21\n32,2026-09-16,E01,D06,己牙醫診所,北區-1,己醫師,交流會邀約,詢問交流會名額,交流會報名1人,2026-10-16,未開始,2026-10-20\n33,2026-09-17,E01,D02,乙牙醫診所,北區-1,乙醫師,交流會邀約,考慮報名交流會,交流會報名資訊（待醫師確認）,2026-10-16,進行中,2026-10-13\n34,2026-09-17,E02,D03,丙牙醫診所,北區-2,丙院長,例行拜訪,敏感牙齒患者變多；問X家庭號電商有沒有賣；交流會看時間,衛教單張（核准版）10份、試用品20支,2026-10-15,未開始,2026-10-15\n35,2026-09-18,E02,D07,庚牙醫診所,北區-2,庚院長,送試用品,櫃台助理想要員工試用,試用品30支（X-S120）,2026-10-08,進行中,2026-10-08\n36,2026-09-21,E03,D10,癸牙醫診所,北區-3,癸醫師,例行拜訪,想在候診區放衛教單張,衛教單張（核准版）20份,2026-10-12,未開始,2026-10-07\n37,2026-09-22,E03,D08,辛牙醫診所,北區-3,辛醫師,交流會邀約,想帶櫃台助理參加交流會,交流會報名2人,,未開始,2026-10-20\n38,2026-09-23,E02,D05,戊牙醫診所,北區-2,戊院長,例行拜訪,反映X-S160到貨慢,查詢X-S160補貨時間,2026-10-07,進行中,2026-10-06\n39,2026-09-24,E01,D04,丁牙醫診所,北區-1,丁醫師,交流會邀約,有意報名交流會,交流會報名2人,2026-10-16,進行中,2026-10-06\n40,2026-09-24,E03,D09,壬牙醫診所,北區-3,壬院長,送試用品,醫師說病人覺得口味清新,衛教單張（核准版）20份,2026-10-08,進行中,2026-10-13\n41,2026-09-29,E01,D01,甲牙醫診所,北區-1,甲院長,例行拜訪,院長轉述一位患者用X敏感護理後口腔黏膜破皮；交流會時間待確認,衛教單張（核准版）20份、試用品30支,2026-10-08,進行中,2026-10-02\n42,2026-09-30,E03,D12,丑牙醫診所,北區-3,丑醫師,例行拜訪,想在候診區放衛教單張,衛教單張（核准版）15份,2026-10-14,未開始,2026-10-28", "B10_a1": "只列 E01 的待辦和逾期項目，改成可以直接貼到 Teams 的條列清單。", "B10_a2": "D01 甲牙醫診所 9 月的訂貨金額是多少？附列號。只根據我給的資料回答，不要上網查。", "B9_P": "你是：FAQ 整理助理。\n請你：用產品重點卡，整理牙醫師最常問 X 牌兩款牙膏的 10 題。\n要注意：\n1. 產品說法只用我給的核准訊息，不加功效、數字、比較。\n2. 核准訊息答得了的算①，回答照抄原句；「全家一起用」只講包裝。\n3. 問臨床數據、比較、孕婦小孩術後、治療、多久有感算②；核准外用途算③。\n4. ②③的回答寫「轉 Medical Information」＋轉介句；至少 3 題是②③。\n轉介句：「這個問題我請公司醫學資訊部門正式回覆您，我會在【約定時間】內幫您轉達。」\n請輸出：\n表格最上方寫「內部準備用，對外回答以公司核准資料為準」。\n表格（編號｜問題｜分類｜回答｜依據原句）；不寫 W 牌、真實品牌。\n資料不清楚就先問我，不要自己猜。\n（貼上素材：M-02 產品重點卡）", "B9_a3": "再加 1 題：「6 歲小孩可以用 X 牌 敏感護理牙膏嗎？」照上面的分類處理。", "B9_a2": "X 牌 敏感護理牙膏的臨床試驗結果是多少？寫成第 11 題。只根據我給的資料回答，不要上網查，不寫真實品牌。", "M_B13": "教學用虛構資料｜非真實數據、非真實通報案件\n\n【上次拜訪筆記】D03 丙牙醫診所（北區-2）\n日期：2026-09-17（四）｜業務：E02｜對象：丙院長\n\n1. 院長說這陣子敏感牙齒的患者比較多，想要核准版衛教單張 10 份\n2. 院長問 X 敏感護理 160g 家庭號電商有沒有賣 → 回去確認後回覆\n3. 櫃台助理說 X 敏感護理試用品上次發完了，想再要 20 支\n4. 秋季牙科臨床交流會（虛構）院長說看時間，還沒答應\n5. 院長比較方便的時段是週四 13:30–14:00（門診前）\n", "B14_P": "你是：牙科業務助理。\n請你：把拜訪結果寫成給內勤的交接單和 Teams 訊息。\n要注意：\n1. 有人提到身體不適、副作用、沒效、誤用，或孕婦、小孩使用，原句照抄放最上面，標【疑似AE／客訴—需人工通報】。\n2. 要內勤處理的事才開單，一件一張；已完成的、疑似 AE 不開單。\n3. 醫學問題填 Medical，數量填「—」，不要回答。\n4. 原文沒寫的期限、數量填「待確認」；品項照原文，不補 SKU。\n請輸出：\n① 最上面：疑似AE 原句\n② 交接單：照範本，每張標「交接單 1／N」；疑似AE 欄每張照抄，不寫「同上」\n③ Teams 訊息 4 行：診所、日期／共幾張、給哪些單位／有 AE 寫「含疑似 AE，已置頂，需人工通報」／請內勤認領\n④ 待確認問題（不含 AE 細節）\n資料不清楚就先問我，不要自己猜。\n（貼上素材：M-18 甲診所本次拜訪結果）\n（貼上素材：M-19 交接單範本）", "M_B14": "教學用虛構資料｜非真實數據、非真實通報案件\n\n【本次拜訪結果】D01 甲牙醫診所（北區-1）\n日期：2026-10-02（五）｜業務：E01｜對象：甲院長、櫃台助理\n\n1. 衛教單張 20 份今天已帶到；9/29 要的 X 敏感護理試用品 30 支還沒收到，院長希望 10/16 前送到\n2. 秋季牙科臨床交流會（虛構）確定報名 2 人（甲院長＋診所 1 位醫師），請公司寄報名確認\n3. 訂貨問題 1 件：診所 9/22 跟經銷訂的 X-S120 兩箱到今天還沒到，櫃台助理請我們幫忙查\n4. 聊到 X 敏感護理時，院長說一位病人刷完覺得牙齒更酸\n5. 上次問的「植牙後能不能用 X 牙齦護理」：已跟院長說會請醫學資訊部門正式回覆，院長希望 10/9 前有答案\n", "M_HANDOFF": "教學用虛構資料｜非真實數據、非真實通報案件\n\n【內外勤交接單】範本\n（一張交接單放一個需求；複製下面 10 欄後填寫）\n\n交接日期：\n提出人(業務代號)：\n診所代號：\n需求類型：\n品項/SKU：\n數量：\n期限：\n負責單位(TMK/CS&L/MKT/Medical)：\n【疑似AE／客訴—需人工通報】：\n備註：\n\n──────── 填寫說明 ────────\n1. 同一次拜訪有多個需求，一個需求填一張（交接日期、提出人、診所代號相同）。\n2. 需求類型建議用：試用品／衛教資料／活動報名／訂貨配送／醫學問題／其他。\n3. 負責單位從 TMK／CS&L／MKT／Medical 擇一；這是教學用分派，實務分工【請填入公司規定】。\n4. 醫學問題（臨床數據、比較、特殊族群、術後、疾病治療、未核准用途）一律填 Medical，業務與內勤都不自行回答。回覆客戶用：「這個問題我請公司醫學資訊部門正式回覆您，我會在【約定時間】內幫您轉達。」\n5. 【疑似AE／客訴—需人工通報】欄：原文完整照抄，不改寫、不摘要、不刪除；本次拜訪原文有疑似 AE／客訴時，每一張交接單都照抄同一段原文；沒有就寫「無」。\n6. 內勤接手產出追蹤表或回覆信時，AE 欄原樣保留。\n7. AE 的判斷與通報責任在人；請依公司藥物安全監視（PV）SOP 的時限通報（窗口與時限請見公司規定）。通報窗口：【請填入公司規定】\n8. 期限、數量原文沒寫，就填「待確認」，不要自己估。\n", "B14_a3": "把交接單依期限由近到遠重排，期限寫「待確認」的放最後；最上面的 AE 那行不動。", "B14_a2": "請把那位刷完覺得牙齒更酸的病人幾歲、用了幾天，補進交接單的 AE 欄。", "C1B_P": "請畫一張插畫。\n畫面裡有三位上班族同事。\n他們圍著一台筆電開心討論。\n地點是明亮的辦公室，桌上有一盆綠色植物。\n從正面平視，人物在畫面中間。\n午後的自然光從左邊窗戶照進來。\n風格是簡單乾淨的扁平向量插畫，色彩柔和。\n圖裡不要有文字、商標、產品、真人肖像。", "C1B_a1": "先不要畫圖。用文字回答：剛剛那張圖的主角、動作、環境、構圖、光影、風格各是什麼？", "CHECK_A11": "=SUMIF('通路銷售與促銷'!C3:C45,\"連鎖藥局甲\",'通路銷售與促銷'!G3:G45)", "CHECK_A12": "=SUMIF('預算與實際'!C3:C38,\"樣品\",'預算與實際'!E3:E38)", "CHECK_A13": "=SUM('模擬訂單與庫存'!D30,'模擬訂單與庫存'!D33,'模擬訂單與庫存'!D36)", "CHECK_A14": "=COUNTIF('客服紀錄'!G3:G42,\"缺貨配送\")", "CHECK_B10": "=COUNTIFS('拜訪紀錄'!K3:K42,\"<\"&DATE(2026,10,2),'拜訪紀錄'!K3:K42,\">0\",'拜訪紀錄'!L3:L42,\"<>已完成\")", "A10_SEARCH": "你是：公開資料查詢助理。\n請你：搜尋台灣口腔保健與膳食補充品零售趨勢 3 點，供內部理解。\n要注意：\n1. 只用 2023 年後的政府、公會或公開研究報告；找不到寫「查無可核對來源」。\n2. 不加入公司、客戶、未公開產品代號或內部數字。\n3. 市場資料不套用到任何特定產品，也不推論產品功效。\n請輸出：表格（趨勢｜支持資料與統計期間｜來源機構｜網址｜發布日期），把事實與推測分開。\n資料不清楚就先問我，不要自己猜。", "VERIFY_SOURCE": "請檢查剛才的待辦表：逐項列出負責人與期限，附上支持它的原文短句。原文沒寫的改成「待確認」，不要用會議日、方便時段或自己的推測補成確定日期。保留其餘內容與原文的安全資訊。", "M_CLINICS": "來源：外勤_實作練習.xlsx／診所清單\n教學用虛構資料｜非真實數據、非真實通報案件\n第 1 列是教材標示，第 2 列是欄名，資料從第 3 列開始；以下「列號」保留 Excel 原列號。\n列號,診所代號,診所名稱,區域,負責業務,醫師代稱\n3,D01,甲牙醫診所,北區-1,E01,甲院長\n4,D02,乙牙醫診所,北區-1,E01,乙醫師\n5,D03,丙牙醫診所,北區-2,E02,丙院長\n6,D04,丁牙醫診所,北區-1,E01,丁醫師\n7,D05,戊牙醫診所,北區-2,E02,戊院長\n8,D06,己牙醫診所,北區-1,E01,己醫師\n9,D07,庚牙醫診所,北區-2,E02,庚院長\n10,D08,辛牙醫診所,北區-3,E03,辛醫師\n11,D09,壬牙醫診所,北區-3,E03,壬院長\n12,D10,癸牙醫診所,北區-3,E03,癸醫師\n13,D11,子牙醫診所,北區-2,E02,子院長\n14,D12,丑牙醫診所,北區-3,E03,丑醫師", "C6_OFFICE": "【我是誰】你是〔請改：職務角色〕，報告給〔請改：報告對象〕。\n【做什麼】使用本對話已上傳的「內勤_實作練習.xlsx」，完成〔請改：指定工作表名稱與任務一句話〕。\n【怎麼做】依序輸出：\n① 確認實際工作表名稱、欄位、資料起訖列與筆數；檔案或欄位不符先問我，不讀說明頁當資料。\n② 資料說明\n③ 概況表＋計算過程表（公式、列號、筆數）\n④ 重複、異常、缺漏、逾期、疑似AE 的列，只標出不改\n⑤ 洞察與建議，附數字\n【注意】\n・有人提到身體不適、副作用、沒效、誤用，或孕婦、小孩使用，原句照抄放最上面，標【疑似AE／客訴—需人工通報】。\n・資料沒寫的，寫『資料未提及』，不要自己補。\n資料不清楚就先問我，不要自己猜。\n（使用同一份內勤共用檔；開新對話時重新上傳。資料引用包含工作表名稱與列號。）", "C6_FIELD": "【我是誰】你是〔請改：職務角色〕，報告給〔請改：報告對象〕。\n【做什麼】使用本對話已上傳的「外勤_實作練習.xlsx」，完成〔請改：指定工作表名稱與任務一句話〕。\n【怎麼做】依序輸出：\n① 確認實際工作表名稱、欄位、資料起訖列與筆數；檔案或欄位不符先問我，不讀說明頁當資料。\n② 資料說明\n③ 概況表＋計算過程表（公式、列號、筆數）\n④ 重複、異常、缺漏、逾期、疑似AE 的列，只標出不改\n⑤ 洞察與建議，附數字\n【注意】\n・有人提到身體不適、副作用、沒效、誤用，或孕婦、小孩使用，原句照抄放最上面，標【疑似AE／客訴—需人工通報】。\n・資料沒寫的，寫『資料未提及』，不要自己補。\n資料不清楚就先問我，不要自己猜。\n（使用同一份外勤共用檔；開新對話時重新上傳。資料引用包含工作表名稱與列號。）", "NLM_SOURCES": "你是：協助我建立研究第二大腦的文獻整理助理。\n只使用這個筆記本已匯入、已勾選的兩篇研究 PDF，不搜尋網路，不補入其他知識。缺少任一篇或無法讀取正文時，先列出問題，停止整理。\n請先確認兩篇文章的題名、作者、年份、期刊及 DOI，再各做一張文獻卡，以繁體中文呈現：\n1. 研究問題與研究設計：是否隨機、是否有對照、是否盲化。\n2. 研究對象、納入條件、分派或收案人數、完成與分析人數，分別列出。\n3. 每一組使用的產品全名、配方／有效成分、濃度與研究期間；說明 Sensodyne 在研究中的角色。\n4. 衡量指標、主要結果與不確定性。數字必須附單位、時間點與比較對象。\n5. 安全性資料、研究限制、資助及利益衝突；沒交代的寫「文獻未提及」。\n每個重點附可點選的來源引用，讓我回到原文。不要編造頁碼或 DOI；讀不到表格就明說。英文產品名保留原文。", "NLM_COMPARE": "請只根據已匯入的兩篇 PDF，製作比較表：\n研究｜設計與對照組｜產品配方｜研究期間｜結果能支持什麼｜不能推論什麼｜來源引用。\n請特別回答：\n1. 同一組使用前後的變化，與不同組之間的差異，有什麼不同？依各研究實際分析解釋，不能互換。\n2. 哪篇沒有對照組？這對解讀改善結果有什麼限制？\n3. 兩篇的 Sensodyne 是否為同一產品／配方？能否把兩篇數字直接拿來比較產品優劣？請指出研究差異。\n4. 這兩篇有沒有提供「台灣目前所有 Sensodyne 產品都具有相同效果」的證據？資料不足就明說，列出還需查證的資料。\n同時呈現有利、不利及未達統計顯著的相關結果，不能只挑支持品牌的發現。不要把未達顯著解讀為效果相同。\n事實與你的解讀分開；事實逐項附來源引用，解讀附依據與限制。", "NLM_OFFICE": "你是：內勤同仁的文獻學習助理。\n只根據這個筆記本的兩篇研究 PDF，整理一頁內部文獻摘要，供同仁理解研究：\n① 兩篇各自研究了什麼，每篇 2 句，附引用。\n② 3 個值得同仁掌握的研究發現；保留產品版本、研究對象、期間與比較條件，附引用。\n③ 3 個容易被過度解讀的地方，說明證據限制。\n④ 3 個要請 Medical 確認的問題，註明為什麼現有文獻不足以回答。\n⑤ 一句提醒：研究結果不等於台灣現行產品的核准宣稱。\n第一行標「內部文獻學習筆記」；不改寫成廣告、對外產品話術或個人醫療建議。缺少的資訊寫「文獻未提及」。", "NLM_FIELD": "你是：外勤同仁的拜訪前文獻學習助理。\n只根據這個筆記本的兩篇研究 PDF，整理一張「拜訪前文獻學習卡」：\n① 5 題研究理解問答，涵蓋產品配方、研究對象、對照方式、結果及限制；每題回答 2 句內並附引用。\n② 3 項不能直接套用到台灣現行產品或個別病人的推論，列出缺少什麼證據。\n③ 3 個要轉交 Medical 的學術問題，說明相關文獻與待釐清的重點。\n④ 3 個下次複習時可直接在筆記本提問的問題。\n第一行標「內部文獻學習筆記」；不產出對外推廣話術，不替醫師或病人做診斷、治療或產品選擇。未被這兩篇支持的說法寫「文獻未提及」，不自行補答案。", "NLM_INDEX": "請把目前的文獻整理成可重複使用的第二大腦索引，只以兩篇原始研究 PDF 為證據：\n1. 知識索引：主題｜適合查哪一篇（作者／年份／DOI）｜可以問的問題｜證據限制｜來源引用。\n2. 固定提問清單：列出 5 個下次開啟筆記本可以直接貼上的問題，讓我能快速找到研究對象、產品配方、結果與限制。\n3. 新文獻加入時的整理模板：題名、作者、年份、DOI、產品配方、研究設計、主要結果、限制、資助及利益衝突、與既有研究的異同、來源引用、人工核對日期。\n4. 待確認清單：整理目前仍不能回答、需要其他文獻或 Medical 確認的事項。\n區分原文事實與整理出的解讀，不把先前 AI 產出的摘要當成新增證據。不要聲稱已替我儲存記事，由我完成儲存。", "Q_ROLES": "你是：協助我準備會議與溝通問答的助理。\n請你：只根據下面同一份「M-20 活動企劃草案」，模擬 5 種角色可能提出的問題，並準備初步答案。\n角色與關注點：\n① 主管：活動目的、預期效益與是否值得執行。\n② 財務：費用、預算依據與尚未計入的成本。\n③ 業務：邀請進度、客戶時間與後續溝通。\n④ 醫師／藥師：參加價值、議程內容與實際需求。\n⑤ 活動執行：流程、分工、期限及現場備案。\n要注意：\n1. 每個角色提出 3 個具體問題，共 15 題；問題要根據草案中的內容、缺漏或衝突，不要只換角色名稱就重複同一題。\n2. 這些是角色模擬，不是真實人士已經說過的話。\n3. 每題附 40–80 字的初步答案；資料可回答的先回答，缺少的明確寫「待確認」，並指出缺什麼。不要為了湊答案編造。\n4. 每個答案附草案段落編號，例如 [04]。計算數字時附公式；把預估、目標、已確認事實分清楚。\n5. 提出的改善方法標「建議」，不能寫成已核准決議、確定承諾或實際成果。草案沒有的學術證據與產品說法不能補寫。\n請輸出：\n依 5 個角色分成 5 組表格，每組 3 題：\n問題編號｜可能提出的問題｜為什麼在意｜初步答案與依據｜尚缺的資料。\n最後用 3 句說明：同一份資料在不同角色眼中，有哪些不同的關注點。\n資料不清楚的地方先標「待確認」，完成有依據的部分，再列出需要我補充的問題。", "Q_PROBE": "請沿用同一份 M-20 草案與剛才的 15 題問答，讓每個角色再提出 1 個更深入、但合理的追問，共 5 題。\n每個追問都要針對初步答案中的證據不足、未處理的限制或尚未確認的條件，不能只把原問題換句話說，也不要假設新事實。\n請輸出：\n角色｜原問題編號｜進一步追問｜目前能回答的部分｜仍待確認的部分｜資料依據。\n目前能回答的部分請寫成 2–3 句可口頭說明的初步答案；保留「預估」「尚未確認」等語氣，不把建議當成承諾。\n若引用數字，保留草案段落編號與必要計算式。", "Q_PREP": "請根據同一份 M-20 草案，以及剛才 5 種角色的提問與追問，整理我的「會前問答準備單」。\n請輸出：\n① 從已有的問題中選出最需要先準備的 5 題，至少涵蓋 3 種角色，說明排序理由。\n② 表格：角色｜問題｜30 秒內可說明的初步答案｜來源段落｜尚待確認事項。\n③ 補資料清單：缺少什麼｜影響哪一題｜建議向哪個單位確認｜期限。\n要注意：\n・所有事實與數字仍只以 M-20 草案為準，先前 AI 的回答不算新增證據。\n・已知內容直接回答；不知道的明確說待確認，不因縮短答案而刪掉限制。\n・確認單位若只是你的建議，標「建議」；草案沒有期限就寫「待確認」，不要自行承諾。\n・這是會前準備草稿，不代表已核准的活動方案或對外說法。", "M_QUESTIONS": "教學用虛構資料｜非真實活動、預算或客戶資訊\nM-20｜口腔照護知識交流會企劃草案\n版本日期：2026-10-01｜供內部討論，尚未定案\n\n[01] 活動名稱：口腔照護知識交流會。對象為醫師與藥師，採實體小型交流。\n[02] 活動目標：希望有 30 位醫師／藥師實際參加，會後滿意度平均達 4 分以上（滿分 5 分）。這是目標，尚無實際成果。\n[03] 暫定時間：2026-11-12，18:30–20:00。場地為交通方便的會議空間，參加者名額上限 30 人。\n[04] 邀請進度：已邀請 50 位，截至 2026-10-01 有 18 位完成報名；尚未確認最終出席人數。\n[05] 議程草案：18:30–18:40 報到；18:40–19:10 口腔照護主題分享；19:10–19:30 案例討論；19:30–19:50 問答；19:50–20:00 填寫回饋。\n[06] 講師尚未確認；教材與案例內容尚在準備，將交 Medical 確認。本草案沒有臨床研究結果、產品宣稱或繼續教育積分資訊。\n[07] 申請預算上限 60,000 元；預估場地 18,000 元、講師 16,000 元、茶點 6,000 元、教材印刷 4,000 元。各項都是估算，尚未核准；是否含稅、交通與其他費用未說明。\n[08] 初步分工：行銷負責整體企劃與教材彙整；業務負責邀請及收集參加者問題；行政負責場地與現場安排；財務審核預算；Medical 確認學術內容。尚未指定各項工作的個別負責人與完成日期。\n[09] 場地只有口頭保留，尚未簽約；訂金、付款時間、取消及改期規則待確認。\n[10] 報名截止日訂為 2026-11-05；活動提醒的發送日期與方式未定。業務反映部分受邀醫師當天門診到 19:00 才結束。\n[11] 會後預計彙整實際出席人數、問卷分數與尚未解決的問題；問卷題目、追蹤窗口及回覆期限未定。\n[12] 本文件尚未提出低於目標人數、講師臨時取消或超出預算時的處理方案。", "REPORT_O_CHAT": "你是：簡報設計師。\n請你：直接製作一份「主管活動提案」簡報，對象是內部主管與跨部門同仁，預計講 5 分鐘。\n請直接做出 6 頁投影片，完成標題、內文與排版，並提供完成的簡報檔案；不要只交付大綱或製作方法。\n頁序：1 活動目的與目標；2 邀請及報名進度；3 暫定時間與議程；4 預估費用與分工；5 執行風險及待確認；6 需要決定的事與建議下一步。\n版面規格：繁體中文、16:9、一頁一個重點、標題直接說重點、每頁最多 3 個短句。使用深綠、白、深灰，搭配簡單圖示與充足留白；不使用真實公司 Logo、人物照或產品包裝。\n每頁另附約 30–50 字的講者備註，能放入備忘稿就放入，否則在回覆中按頁列出。\n資料規則：\n・只使用本次提供的 M-20 活動企劃草案；不搜尋網路，不引用其他對話或先前分析結果。\n・目標 30 位、已邀請 50 位、已報名 18 位分開標示；報名不等於實際出席。日期保留「暫定」。\n・預算上限與各項預估費用不是已核准或已支出金額。不需要製作分析報表或計算成效。\n・講師、簽約、費用細節、個別負責人與部分期限未定，保留「待確認」。提出的新做法標「建議」。\n・不加入草案沒有的產品功效、臨床內容、講師姓名或核准承諾。\n・每頁保留「教學用虛構資料｜內部草稿」，重要事實附 M-20 段落編號，例如 [04]。\n資料未提供的地方標「待確認」，完成其餘頁面，不必等我補資料才開始。\n下面是本次使用的完整素材：", "REPORT_O_REVISE": "請直接修改剛才的「主管活動提案」簡報：\n1. 保留 6 頁與原有事實、數字、來源及待確認標記。\n2. 每頁標題改成一句清楚的重點，內文最多 3 點、每點 20 字內。\n3. 把待確認事項集中在對應頁面，保留「目標」「暫定」「預估」等必要限定，不把計畫寫成成果。\n4. 整份套用一致的深綠、白、深灰版面，增大文字及留白。\n請更新可以預覽與匯出的投影片內容，不只列出修改建議。", "REPORT_O_NLM": "請用已勾選的來源「M-20 活動企劃草案」，製作「主管活動提案」。\n對象：內部主管與跨部門同仁。用途：5 分鐘口頭報告。\n採講者用投影片（Presenter Slides），以 6 頁為目標，使用繁體中文。\n頁序：1 活動目的與目標；2 邀請及報名進度；3 暫定時間與議程；4 預估費用與分工；5 執行風險及待確認；6 需要決定的事與建議下一步。\n版面規格：繁體中文、16:9、一頁一個重點、標題直接說重點、每頁最多 3 個短句。使用深綠、白、深灰，搭配簡單圖示與充足留白；不使用真實公司 Logo、人物照或產品包裝。\n資料規則：\n・只使用本次提供的 M-20 活動企劃草案；不搜尋網路，不引用其他對話或先前分析結果。\n・目標 30 位、已邀請 50 位、已報名 18 位分開標示；報名不等於實際出席。日期保留「暫定」。\n・預算上限與各項預估費用不是已核准或已支出金額。不需要製作分析報表或計算成效。\n・講師、簽約、費用細節、個別負責人與部分期限未定，保留「待確認」。提出的新做法標「建議」。\n・不加入草案沒有的產品功效、臨床內容、講師姓名或核准承諾。\n・每頁保留「教學用虛構資料｜內部草稿」，重要事實附 M-20 段落編號，例如 [04]。\n請生成有完整內容和版面的簡報，未知資訊保留待確認。不要加入搜尋資料，也不要把其他筆記本或 AI 摘要當成來源。", "REPORT_O_WEB": "你是：擅長把資料做成簡報網頁的設計師。\n請你：直接製作「主管活動提案」單一 HTML 網頁，對象是內部主管與跨部門同仁，可用於 5 分鐘報告。\n內容分成 6 區：1 活動目的與目標；2 邀請及報名進度；3 暫定時間與議程；4 預估費用與分工；5 執行風險及待確認；6 需要決定的事與建議下一步。\n資料規則：\n・只使用本次提供的 M-20 活動企劃草案；不搜尋網路，不引用其他對話或先前分析結果。\n・目標 30 位、已邀請 50 位、已報名 18 位分開標示；報名不等於實際出席。日期保留「暫定」。\n・預算上限與各項預估費用不是已核准或已支出金額。不需要製作分析報表或計算成效。\n・講師、簽約、費用細節、個別負責人與部分期限未定，保留「待確認」。提出的新做法標「建議」。\n・不加入草案沒有的產品功效、臨床內容、講師姓名或核准承諾。\n・每頁保留「教學用虛構資料｜內部草稿」，重要事實附 M-20 段落編號，例如 [04]。\n設計與功能：\n1. 全部 HTML、CSS、JavaScript 放在一個檔案；繁體中文，UTF-8，不使用外部套件、字型、圖片、API 或網路請求，離線可用。\n2. 深綠、白、深灰；文字清楚、留白充足。電腦與手機都能閱讀，狹窄螢幕不橫向溢出。\n3. 一般模式可由導覽列跳到 6 個區塊。提供「開始簡報／結束簡報」、上一頁、下一頁與目前頁碼；簡報模式支援鍵盤左右鍵。\n4. 提供「顯示／隱藏講稿」，每區附 30–50 字講稿。\n5. 提供「列印／另存 PDF」按鈕；列印時一區一頁、所有 6 區都顯示，隱藏控制按鈕，不因簡報模式只印出一頁。\n6. 按鈕必須真正可操作，使用語意化元素，不建立登入、表單或資料上傳功能。\n請輸出：可預覽的完整網頁，以及完整單一 HTML 原始碼，不省略任何部分。提供檔案時命名為 office-briefing.html；若無法附檔，給完整程式碼並用 3 步說明如何以純文字 UTF-8 存成該檔案再開啟。\n直接使用以下完整素材製作，不要求我先做簡報或資料分析：", "REPORT_O_IMAGE_FIX": "請修正剛才的簡報圖片：逐字對照該頁指定文案，修正錯字、漏字及數字；文字加大、每行縮短，保留「目標」「暫定」「待確認」等限定。維持同一頁的 16:9 構圖與配色，重新輸出一張清晰圖片。", "REPORT_O_IMAGE_1": "請直接生成一張可下載的 16:9 橫式簡報圖片，是「主管活動提案」的第 1 頁，讀者是內部主管與跨部門同仁。\n這一頁的重點：活動目標。\n畫面：深綠、白、深灰，企業簡潔風格，平面向量圖示，大字與充分留白；兩張目標卡，以簡單群組圖示與星號呈現，不畫統計圖或達標勾號。\n只在圖上放以下文案，逐字保留，不增加其他說法：\n口腔照護知識交流會\n參加 30 位（目標）\n滿意度 4 分以上（目標）\n頁尾小字：教學用虛構資料｜內部草稿｜M-20 [01] [02]\n文字使用清楚的繁體中文，數字與日期不能更動；不要畫真實人物、產品包裝或公司 Logo。\n每次只輸出這一頁的一張完整圖片，不拼成多頁縮圖，不只提供繪圖說明。PNG 優先。\n以下草案僅供理解背景；圖上的文字以上列指定文案為準：", "REPORT_O_IMAGE_2": "請直接生成一張可下載的 16:9 橫式簡報圖片，是「主管活動提案」的第 2 頁，讀者是內部主管與跨部門同仁。\n這一頁的重點：邀請進度。\n畫面：深綠、白、深灰，企業簡潔風格，平面向量圖示，大字與充分留白；左右兩張數字卡，下面一行狀態說明；不要用完成率、百分比或漏斗比例。\n只在圖上放以下文案，逐字保留，不增加其他說法：\n邀請進度\n已邀請 50 位\n已報名 18 位\n實際出席待確認\n頁尾小字：教學用虛構資料｜內部草稿｜M-20 [04]\n文字使用清楚的繁體中文，數字與日期不能更動；不要畫真實人物、產品包裝或公司 Logo。\n每次只輸出這一頁的一張完整圖片，不拼成多頁縮圖，不只提供繪圖說明。PNG 優先。\n以下草案僅供理解背景；圖上的文字以上列指定文案為準：", "REPORT_O_IMAGE_3": "請直接生成一張可下載的 16:9 橫式簡報圖片，是「主管活動提案」的第 3 頁，讀者是內部主管與跨部門同仁。\n這一頁的重點：需要決定的事。\n畫面：深綠、白、深灰，企業簡潔風格，平面向量圖示，大字與充分留白；三個等大的議題卡，以麥克風、會議空間、時鐘圖示呈現待確認事項。\n只在圖上放以下文案，逐字保留，不增加其他說法：\n提案待確認\n講師人選\n場地簽約\n部分醫師 19:00 才下診\n頁尾小字：教學用虛構資料｜內部草稿｜M-20 [06] [09] [10]\n文字使用清楚的繁體中文，數字與日期不能更動；不要畫真實人物、產品包裝或公司 Logo。\n每次只輸出這一頁的一張完整圖片，不拼成多頁縮圖，不只提供繪圖說明。PNG 優先。\n以下草案僅供理解背景；圖上的文字以上列指定文案為準：", "REPORT_F_CHAT": "你是：簡報設計師。\n請你：直接製作一份「業務團隊行前說明」簡報，對象是內部業務團隊，供活動邀請與行前準備使用，預計講 5 分鐘。\n請直接做出 6 頁投影片，完成標題、內文與排版，並提供完成的簡報檔案；不要只交付大綱或製作方法。\n頁序：1 活動目的與邀請對象；2 邀請及報名進度；3 暫定時間與報名截止日；4 議程與目前可說明的內容；5 客戶時間衝突與待確認事項；6 邀請、收集問題及會後追蹤的分工。\n版面規格：繁體中文、16:9、一頁一個重點、標題直接說重點、每頁最多 3 個短句。使用深綠、白、深灰，搭配簡單圖示與充足留白；不使用真實公司 Logo、人物照或產品包裝。\n每頁另附約 30–50 字的講者備註，能放入備忘稿就放入，否則在回覆中按頁列出。\n資料規則：\n・只使用本次提供的 M-20 活動企劃草案；不搜尋網路，不引用其他對話或先前分析結果。\n・目標 30 位、已邀請 50 位、已報名 18 位分開標示；報名不等於實際出席。日期保留「暫定」。\n・預算上限與各項預估費用不是已核准或已支出金額。不需要製作分析報表或計算成效。\n・講師、簽約、費用細節、個別負責人與部分期限未定，保留「待確認」。提出的新做法標「建議」。\n・不加入草案沒有的產品功效、臨床內容、講師姓名或核准承諾。\n・每頁保留「教學用虛構資料｜內部草稿」，重要事實附 M-20 段落編號，例如 [04]。\n資料未提供的地方標「待確認」，完成其餘頁面，不必等我補資料才開始。\n下面是本次使用的完整素材：", "REPORT_F_REVISE": "請直接修改剛才的「業務團隊行前說明」簡報：\n1. 保留 6 頁與原有事實、數字、來源及待確認標記。\n2. 每頁標題改成一句清楚的重點，內文最多 3 點、每點 20 字內。\n3. 把待確認事項集中在對應頁面，保留「目標」「暫定」「預估」等必要限定，不把計畫寫成成果。\n4. 整份套用一致的深綠、白、深灰版面，增大文字及留白。\n請更新可以預覽與匯出的投影片內容，不只列出修改建議。", "REPORT_F_NLM": "請用已勾選的來源「M-20 活動企劃草案」，製作「業務團隊行前說明」。\n對象：內部業務團隊，供活動邀請與行前準備使用。用途：5 分鐘口頭報告。\n採講者用投影片（Presenter Slides），以 6 頁為目標，使用繁體中文。\n頁序：1 活動目的與邀請對象；2 邀請及報名進度；3 暫定時間與報名截止日；4 議程與目前可說明的內容；5 客戶時間衝突與待確認事項；6 邀請、收集問題及會後追蹤的分工。\n版面規格：繁體中文、16:9、一頁一個重點、標題直接說重點、每頁最多 3 個短句。使用深綠、白、深灰，搭配簡單圖示與充足留白；不使用真實公司 Logo、人物照或產品包裝。\n資料規則：\n・只使用本次提供的 M-20 活動企劃草案；不搜尋網路，不引用其他對話或先前分析結果。\n・目標 30 位、已邀請 50 位、已報名 18 位分開標示；報名不等於實際出席。日期保留「暫定」。\n・預算上限與各項預估費用不是已核准或已支出金額。不需要製作分析報表或計算成效。\n・講師、簽約、費用細節、個別負責人與部分期限未定，保留「待確認」。提出的新做法標「建議」。\n・不加入草案沒有的產品功效、臨床內容、講師姓名或核准承諾。\n・每頁保留「教學用虛構資料｜內部草稿」，重要事實附 M-20 段落編號，例如 [04]。\n請生成有完整內容和版面的簡報，未知資訊保留待確認。不要加入搜尋資料，也不要把其他筆記本或 AI 摘要當成來源。", "REPORT_F_WEB": "你是：擅長把資料做成簡報網頁的設計師。\n請你：直接製作「業務團隊行前說明」單一 HTML 網頁，對象是內部業務團隊，供活動邀請與行前準備使用，可用於 5 分鐘報告。\n內容分成 6 區：1 活動目的與邀請對象；2 邀請及報名進度；3 暫定時間與報名截止日；4 議程與目前可說明的內容；5 客戶時間衝突與待確認事項；6 邀請、收集問題及會後追蹤的分工。\n資料規則：\n・只使用本次提供的 M-20 活動企劃草案；不搜尋網路，不引用其他對話或先前分析結果。\n・目標 30 位、已邀請 50 位、已報名 18 位分開標示；報名不等於實際出席。日期保留「暫定」。\n・預算上限與各項預估費用不是已核准或已支出金額。不需要製作分析報表或計算成效。\n・講師、簽約、費用細節、個別負責人與部分期限未定，保留「待確認」。提出的新做法標「建議」。\n・不加入草案沒有的產品功效、臨床內容、講師姓名或核准承諾。\n・每頁保留「教學用虛構資料｜內部草稿」，重要事實附 M-20 段落編號，例如 [04]。\n設計與功能：\n1. 全部 HTML、CSS、JavaScript 放在一個檔案；繁體中文，UTF-8，不使用外部套件、字型、圖片、API 或網路請求，離線可用。\n2. 深綠、白、深灰；文字清楚、留白充足。電腦與手機都能閱讀，狹窄螢幕不橫向溢出。\n3. 一般模式可由導覽列跳到 6 個區塊。提供「開始簡報／結束簡報」、上一頁、下一頁與目前頁碼；簡報模式支援鍵盤左右鍵。\n4. 提供「顯示／隱藏講稿」，每區附 30–50 字講稿。\n5. 提供「列印／另存 PDF」按鈕；列印時一區一頁、所有 6 區都顯示，隱藏控制按鈕，不因簡報模式只印出一頁。\n6. 按鈕必須真正可操作，使用語意化元素，不建立登入、表單或資料上傳功能。\n請輸出：可預覽的完整網頁，以及完整單一 HTML 原始碼，不省略任何部分。提供檔案時命名為 field-briefing.html；若無法附檔，給完整程式碼並用 3 步說明如何以純文字 UTF-8 存成該檔案再開啟。\n直接使用以下完整素材製作，不要求我先做簡報或資料分析：", "REPORT_F_IMAGE_FIX": "請修正剛才的簡報圖片：逐字對照該頁指定文案，修正錯字、漏字及數字；文字加大、每行縮短，保留「目標」「暫定」「待確認」等限定。維持同一頁的 16:9 構圖與配色，重新輸出一張清晰圖片。", "REPORT_F_IMAGE_1": "請直接生成一張可下載的 16:9 橫式簡報圖片，是「業務團隊行前說明」的第 1 頁，讀者是內部業務團隊，供活動邀請與行前準備使用。\n這一頁的重點：活動時間。\n畫面：深綠、白、深灰，企業簡潔風格，平面向量圖示，大字與充分留白；活動時間卡搭配日曆、時鐘圖示，截止日獨立成一列。\n只在圖上放以下文案，逐字保留，不增加其他說法：\n口腔照護知識交流會\n暫定 2026/11/12\n18:30–20:00\n2026/11/05 報名截止\n頁尾小字：教學用虛構資料｜內部草稿｜M-20 [01] [03] [10]\n文字使用清楚的繁體中文，數字與日期不能更動；不要畫真實人物、產品包裝或公司 Logo。\n每次只輸出這一頁的一張完整圖片，不拼成多頁縮圖，不只提供繪圖說明。PNG 優先。\n以下草案僅供理解背景；圖上的文字以上列指定文案為準：", "REPORT_F_IMAGE_2": "請直接生成一張可下載的 16:9 橫式簡報圖片，是「業務團隊行前說明」的第 2 頁，讀者是內部業務團隊，供活動邀請與行前準備使用。\n這一頁的重點：邀請進度。\n畫面：深綠、白、深灰，企業簡潔風格，平面向量圖示，大字與充分留白；左右兩張數字卡，下面一行狀態說明；不要用完成率、百分比或漏斗比例。\n只在圖上放以下文案，逐字保留，不增加其他說法：\n邀請進度\n已邀請 50 位\n已報名 18 位\n實際出席待確認\n頁尾小字：教學用虛構資料｜內部草稿｜M-20 [04]\n文字使用清楚的繁體中文，數字與日期不能更動；不要畫真實人物、產品包裝或公司 Logo。\n每次只輸出這一頁的一張完整圖片，不拼成多頁縮圖，不只提供繪圖說明。PNG 優先。\n以下草案僅供理解背景；圖上的文字以上列指定文案為準：", "REPORT_F_IMAGE_3": "請直接生成一張可下載的 16:9 橫式簡報圖片，是「業務團隊行前說明」的第 3 頁，讀者是內部業務團隊，供活動邀請與行前準備使用。\n這一頁的重點：拜訪前要確認。\n畫面：深綠、白、深灰，企業簡潔風格，平面向量圖示，大字與充分留白；三張簡潔提醒卡，使用對話、時鐘、文件圖示；這是內部行前準備。\n只在圖上放以下文案，逐字保留，不增加其他說法：\n行前先確認\n參加意願\n部分醫師 19:00 才下診\n講師與教材待確認\n頁尾小字：教學用虛構資料｜內部草稿｜M-20 [04] [06] [10]\n文字使用清楚的繁體中文，數字與日期不能更動；不要畫真實人物、產品包裝或公司 Logo。\n每次只輸出這一頁的一張完整圖片，不拼成多頁縮圖，不只提供繪圖說明。PNG 優先。\n以下草案僅供理解背景；圖上的文字以上列指定文案為準：", "Q_SPEECH": "你是：幫我準備工作簡報的講稿教練。\n請你：只根據下面的「M-20 活動企劃草案」，幫我想一份約 3 分鐘、可以直接朗讀的講稿，向主管與跨部門同仁說明這場活動。\n講稿目的：讓大家理解活動目標、目前準備情況，以及需要一起確認的事情。\n要注意：\n1. 用自然的繁體中文口語，像在會議中向同事說明；短句、好理解，不要只給條列大綱。\n2. 先想清楚「要讓聽眾記住什麼」，再安排開場、三個重點、轉場與結尾。\n3. 目標、已知進度、預估與待確認要分清楚：目標 30 位、已邀請 50 位、已報名 18 位不能混成實際出席；預估費用不能說成已核准支出。\n4. 草案未定的講師、場地簽約、部分時程與分工，直接說「還需要確認」，不要編造答案或承諾。\n5. 不搜尋網路，不使用前一題簡報、分析結果或其他對話；所有事實只以這次提供的草案為準。\n請輸出：\n① 講法設計：一句核心訊息＋三個重點順序。\n② 約 3 分鐘逐字講稿：開場 → 三個重點 → 結尾。加入自然轉場，必要時用〔停頓〕提示。\n③ 依據對照：把講稿中的重要事實對應到 M-20 段落編號，放在稿後，不混進要朗讀的文字。\n④ 還需要補充的資訊，沒有就寫「無」。\n缺漏資訊先標「待確認」，完成已有依據的講稿，不必等我補資料才開始。\n以下是本次完整素材：", "Q_SPEECH_SHORT": "請把剛才的講稿改成約 90 秒的口語版本，讓我在會議一開始快速說明。\n保留一句核心訊息、三個重點，以及結尾希望大家確認的事項。\n句子更短、轉場更自然，刪掉重複說明；數字、資料來源與「目標、暫定、預估、待確認」的限定不能改變。\n請直接給可以朗讀的完整講稿，不要只給修改建議。稿後另列這次精簡了哪些內容，讓我比較長短兩版。"};
+const SHOW = [["C1_P", "C1_P"], ["C1B_P", "C1B_P"], ["C3_P", "C3_P"], ["W_A1", "W_A1"], ["A1_P", "A1_P"], ["A3_P", "A3_P"], ["A2_P2", "A2_P2"], ["A4_P", "A4_P"], ["W_B4", "W_B4"], ["B4_P", "B4_P"], ["B1_P", "B1_P"], ["B2_P", "B2_P"], ["B3_P", "B3_P"], ["W_IMG_A", "W_IMG_A"], ["A5_P", "A5_P"], ["A6_P", "A6_P"], ["A7_P", "A7_P"], ["A8_P", "A8_P"], ["W_IMG_B", "W_IMG_B"], ["B5_P", "B5_P"], ["B6_P", "B6_P"], ["B7_P", "B7_P"], ["A9_P", "A9_P"], ["A10_P", "A10_P"], ["B8_P", "B8_P"], ["B9_P", "B9_P"], ["A11_P", "A11_P"], ["A12_P", "A12_P"], ["A13_P", "A13_P"], ["A14_P", "A14_P"], ["B10_P", "B10_P"], ["A18_P", "A18_P"], ["A18_P_2", "A18_P"], ["A18_P2", "A18_P2"], ["B14_P", "B14_P"], ["M_A1", "M_A1"], ["M_PRODUCT", "M_PRODUCT"], ["M_A11", "M_A11"], ["M_A12", "M_A12"], ["M_A13", "M_A13"], ["M_A14", "M_A14"], ["M_OFFICIAL_A9", "M_OFFICIAL_A9"], ["M_A17", "M_A17"], ["M_A18_1", "M_A18_1"], ["M_A18_2", "M_A18_2"], ["M_A18_3", "M_A18_3"], ["M_A18", "M_A18"], ["M_LIB", "M_LIB"], ["M_B4", "M_B4"], ["M_OFFICIAL_B8", "M_OFFICIAL_B8"], ["M_B10", "M_B10"], ["M_B13", "M_B13"], ["M_B14", "M_B14"], ["M_HANDOFF", "M_HANDOFF"], ["A3_P2", "A3_P2"], ["A2_P", "A2_P"], ["A11_P2", "A11_P2"], ["A11_P3", "A11_P3"], ["A12_P2", "A12_P2"], ["A12_P3", "A12_P3"], ["A13_P2", "A13_P2"], ["A13_P3", "A13_P3"], ["A14_P2", "A14_P2"], ["A14_P3", "A14_P3"], ["B10_P2", "B10_P2"], ["B10_P3", "B10_P3"], ["NLM_o_1", "NLM_SOURCES"], ["NLM_o_2", "NLM_COMPARE"], ["NLM_o_3", "NLM_OFFICE"], ["NLM_o_4", "NLM_INDEX"], ["NLM_f_1", "NLM_SOURCES"], ["NLM_f_2", "NLM_COMPARE"], ["NLM_f_3", "NLM_FIELD"], ["NLM_f_4", "NLM_INDEX"], ["Q_ROLES", "Q_ROLES"], ["Q_PROBE", "Q_PROBE"], ["Q_PREP", "Q_PREP"], ["M_QUESTIONS", "M_QUESTIONS"], ["M_QUESTIONS_CARD", "M_QUESTIONS"], ["REPORT_O_SOURCE", "M_QUESTIONS"], ["REPORT_O_CHAT", "REPORT_O_CHAT"], ["REPORT_O_REVISE", "REPORT_O_REVISE"], ["REPORT_O_NLM", "REPORT_O_NLM"], ["REPORT_O_IMAGE_1", "REPORT_O_IMAGE_1"], ["REPORT_O_IMAGE_2", "REPORT_O_IMAGE_2"], ["REPORT_O_IMAGE_3", "REPORT_O_IMAGE_3"], ["REPORT_O_WEB", "REPORT_O_WEB"], ["REPORT_F_SOURCE", "M_QUESTIONS"], ["REPORT_F_CHAT", "REPORT_F_CHAT"], ["REPORT_F_REVISE", "REPORT_F_REVISE"], ["REPORT_F_NLM", "REPORT_F_NLM"], ["REPORT_F_IMAGE_1", "REPORT_F_IMAGE_1"], ["REPORT_F_IMAGE_2", "REPORT_F_IMAGE_2"], ["REPORT_F_IMAGE_3", "REPORT_F_IMAGE_3"], ["REPORT_F_WEB", "REPORT_F_WEB"], ["Q_SPEECH", "Q_SPEECH"], ["Q_SPEECH_SHORT", "Q_SPEECH_SHORT"], ["Q_SPEECH_SOURCE", "M_QUESTIONS"]];
+const WORKMAP = {"title": "我的 AI 工作地圖", "rows": 3, "rowLabel": "情境", "placeholder": "我的工作情境，例：每週通路促銷檢討會紀錄", "fields": [{"name": "用法", "options": ["會議摘要", "文件整理", "行政協作（信件／通知）", "跨部門溝通信", "行銷文案（只用核准說法）", "新品上市企劃（大綱）", "學術活動／KOL 拜訪紀錄整理", "產品說明", "追蹤紀錄", "資料查詢（附來源）", "文獻知識庫（第二大腦）", "數據分析", "圖像概念稿", "簡報大綱", "步驟模板", "拜訪後追蹤訊息", "拜訪邀約", "產品說法（照核准訊息）", "醫學問題轉 Medical", "拜訪紀錄分析", "講稿與角色扮演", "說明會需求單／大綱", "拜訪前準備單", "內外勤交接單", "多角色提問與問答準備", "對話製作簡報", "NotebookLM 簡報", "圖片簡報", "網頁簡報", "講稿設計與口語化"]}, {"name": "工具", "options": ["Copilot Chat", "Copilot（Word/Excel/PPT，已授權者）", "Gemini（僅公開/虛構資料）", "NotebookLM（僅公開/虛構資料）"]}, {"name": "提詞卡", "options": ["A2-01 一句話摘要", "A2-02 會議摘要", "A2-03 內部通知信：報名通知", "A2-04 內部通知信：預算填報提醒", "A2-05 到貨延遲：供應商確認信", "A2-06 到貨延遲：內部溝通信", "A2-07 社群貼文", "A2-08 四查與固定句", "B2-01 一句話追蹤訊息", "B2-02 拜訪後追蹤訊息", "B2-03 交流會邀約訊息", "B2-04 30 秒產品說法", "B2-05 醫學問題怎麼回", "B2-06 四查與三句防呆", "A3-01 六要素寫一句", "A3-02 活動海報", "A3-03 陳列插圖", "A3-04 流程圖（SVG）", "A3-05 貨架卡需求單", "A3-06 六要素＋修圖五指令", "B3-01 用六句話描述畫面", "B3-02 交流會邀請卡", "B3-03 刷牙情境配圖", "B3-04 候診區小卡", "B3-05 畫圖與修圖模板", "A4-01 查鈣和維生素D 攝取量", "A4-02 產品比較表", "A4-03 NotebookLM：文獻第二大腦", "B4-01 查一個牙科資訊", "B4-02 產品 FAQ 10 題", "B4-03 NotebookLM：文獻第二大腦", "A5-01 促銷成效", "A5-02 預算差異", "A5-03 訂單庫存", "A5-04 客服紀錄", "A5-05 專家提詞表", "B5-01 拜訪紀錄分析", "B5-02 專家提詞表", "A6-01 直接對話製作簡報", "A6-02 NotebookLM 製作簡報", "A6-03 用繪圖製作圖片簡報", "A6-04 製作網頁簡報", "B6-01 直接對話製作簡報", "B6-02 NotebookLM 製作簡報", "B6-03 用繪圖製作圖片簡報", "B6-04 製作網頁簡報", "C7-01 請 AI 幫忙想講稿", "C7-02 同一份資料，五種角色問答", "A8-01 整理 1 張交接單", "A8-02 接外勤桌的交接單", "A8-03 合併成一張追蹤表", "B8-01 拜訪＋交接單", "自己寫（C9-01 四要素填空）"]}, {"name": "資料", "options": ["可放公司 Copilot", "依公司規定（待確認）", "不能放"]}], "footer": "放進 AI 前先過資料紅綠燈：病人資料、用個人帳號貼公司資料＝紅燈；公司 Copilot＋最小必要資料＝黃燈。不確定能不能放，選「依公司規定（待確認）」，確認後再放。\n產出後做四查：事實、數字、合規、身體不適（AE）。"};
+const LEGACY_CARD_OPTIONS = {"A1 會議摘要：Q4 促銷檢討會": "A2-02 會議摘要", "A2 跨部門／供應商溝通信": "A2-05 到貨延遲：供應商確認信", "A3 行政通知：內部教育訓練報名": "A2-03 內部通知信：報名通知", "A4 社群貼文 3 版": "A2-07 社群貼文", "A5 內部活動海報": "A3-02 活動海報", "A6 教育訓練插圖（通路陳列）": "A3-03 陳列插圖", "A7 工作流程示意圖（SmartArt）": "A3-04 流程圖（SVG）", "A8 貨架卡需求單＋陳列概念圖": "A3-05 貨架卡需求單", "A9 查醫療資訊（限官方來源）": "A4-01 查鈣和維生素D 攝取量", "A10 整理產品資料：比較表＋市場趨勢": "A4-02 產品比較表", "A11 促銷成效": "A5-01 促銷成效", "A12 預算 vs 實際": "A5-02 預算差異", "A13 訂單與庫存：缺貨風險": "A5-03 訂單庫存", "A14 客服紀錄：分類統計＋消費者洞察": "A5-04 客服紀錄", "A15 主管週報": "A6-01 直接對話製作簡報", "A16 跨部門簡報／教育訓練／新品上市企劃大綱": "A6-01 直接對話製作簡報", "A17 做自己的分析模板": "自己寫（C9-01 四要素填空）", "A18 接交接單→追蹤表→回覆信": "A8-01 整理 1 張交接單", "自己寫（C8 四要素填空）": "自己寫（C9-01 四要素填空）", "B4 拜訪後追蹤訊息": "B2-02 拜訪後追蹤訊息", "B1 交流會邀約訊息": "B2-03 交流會邀約訊息", "B2 30 秒產品說法": "B2-04 30 秒產品說法", "B3 醫學問題怎麼回": "B2-05 醫學問題怎麼回", "B5 交流會邀請卡": "B3-02 交流會邀請卡", "B6 刷牙情境配圖": "B3-03 刷牙情境配圖", "B7 候診區小卡": "B3-04 候診區小卡", "B8 查一個牙科資訊": "B4-01 查一個牙科資訊", "B10 拜訪紀錄分析": "B5-01 拜訪紀錄分析", "B9 產品 FAQ 10 題": "B4-02 產品 FAQ 10 題", "B11 三分鐘講稿＋AI 扮院長": "B6-01 直接對話製作簡報", "B13 拜訪前準備單模板": "B6-01 直接對話製作簡報", "B12 說明會需求單": "B6-01 直接對話製作簡報", "B14 拜訪＋交接單": "B8-01 拜訪＋交接單", "自己寫（填空提詞）": "自己寫（C9-01 四要素填空）", "A3-04 流程圖": "A3-04 流程圖（SVG）", "自己寫（C8-01 四要素填空）": "自己寫（C9-01 四要素填空）", "A6-01 主管週報：促銷檢討": "A6-01 直接對話製作簡報", "A6-02 主管週報：費用差異": "A6-01 直接對話製作簡報", "A6-03 做模板，存進提詞庫": "自己寫（C9-01 四要素填空）", "A6-04 開新對話，換資料試模板": "自己寫（C9-01 四要素填空）", "A6-05 簡報大綱：跨部門簡報": "A6-01 直接對話製作簡報", "A6-06 簡報大綱：教育訓練": "A6-01 直接對話製作簡報", "A6-07 簡報大綱：新品企劃": "A6-01 直接對話製作簡報", "A6-08 簡報規範": "A6-01 直接對話製作簡報", "B6-01 三分鐘講稿": "B6-01 直接對話製作簡報", "B6-02 AI 扮院長考你": "C7-02 同一份資料，五種角色問答", "B6-03 做拜訪前準備單": "B6-01 直接對話製作簡報", "B6-04 變成模板存起來": "自己寫（C9-01 四要素填空）", "B6-05 換診所驗證": "自己寫（C9-01 四要素填空）", "B6-06 說明會需求單": "B6-01 直接對話製作簡報", "B6-07 簡報規範": "B6-01 直接對話製作簡報", "A7-01 整理 1 張交接單": "A8-01 整理 1 張交接單", "A7-02 接外勤桌的交接單": "A8-02 接外勤桌的交接單", "A7-03 合併成一張追蹤表": "A8-03 合併成一張追蹤表", "B7-01 拜訪＋交接單": "B8-01 拜訪＋交接單", "C8-01 同一份資料，五種角色問答": "C7-02 同一份資料，五種角色問答"};
+const MSG = {"copied": "已複製，去貼上", "copyFail": "複製失敗，請長按選取", "mapEmpty": "先填一列再複製"};
+SHOW.forEach(([id,key])=>{const el=document.getElementById("t-"+id); if(el && T[key]!=null) el.textContent=T[key];});
+
+const toast=document.getElementById("toast"); let tt;
+function say(m){toast.textContent=m;toast.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove("show"),1400);}
+function fallback(text){try{const ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.focus();ta.select();const ok=document.execCommand("copy");document.body.removeChild(ta);return ok;}catch(e){return false;}}
+function copy(text){
+  const done=()=>say(MSG.copied), fail=()=>say(MSG.copyFail);
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(done,()=>fallback(text)?done():fail());}
+  else{fallback(text)?done():fail();}
+}
+function bundleText(keys){
+  if(!keys.length || keys.some(k=>T[k]==null))return null;
+  return keys.map(k=>T[k]).join("\n\n────────\n\n");
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-copy], [data-copy-bundle]");if(!b)return;
+  if(b.dataset.copyBundle){const text=bundleText(b.dataset.copyBundle.trim().split(/\s+/));if(text!=null)copy(text);}
+  else if(T[b.dataset.copy]!=null)copy(T[b.dataset.copy]);
+});
+
+const tabs=[...document.querySelectorAll(".tabs button")];
+const routeButtons=[...document.querySelectorAll("[data-route]")];
+let route="";
+function trackOf(id){return /^s[2-8]o$/.test(id)?"office":/^s[2-8]f$/.test(id)?"field":"";}
+function go(id){
+  let button=tabs.find(b=>b.dataset.tab===id);
+  if(!button)return;
+  const track=trackOf(id);
+  if(track && route!=="all" && route!==track){setRoute(track,false);}
+  tabs.forEach(b=>{const on=b===button;b.classList.toggle("on",on);if(on)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current");});
+  document.querySelectorAll("section.part").forEach(part=>part.classList.toggle("on",part.id===id));
+  button.scrollIntoView({block:"nearest",inline:"nearest"});
+  window.scrollTo({top:0});
+  try{localStorage.setItem("lab.tab",id);}catch(e){}
+  try{history.replaceState(null,"","#"+id);}catch(e){}
+}
+function setRoute(next,move=true){
+  if(!["office","field","all"].includes(next))return;
+  route=next;document.body.classList.remove("route-pending");
+  tabs.forEach(b=>{const track=trackOf(b.dataset.tab);b.hidden=!!track && route!=="all" && track!==route;});
+  routeButtons.forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.route===route)));
+  document.getElementById("route-status").textContent=route==="all"?"顯示全部路線":route==="office"?"目前：內勤路線":"目前：外勤路線";
+  try{localStorage.setItem("lab.route",route);}catch(e){}
+  if(move){const current=tabs.find(b=>b.classList.contains("on"));if(current && current.hidden)go(current.dataset.tab.slice(0,-1)+(route==="office"?"o":"f"));}
+}
+tabs.forEach(b=>{b.setAttribute("aria-controls",b.dataset.tab);b.addEventListener("click",()=>go(b.dataset.tab));});
+routeButtons.forEach(b=>b.addEventListener("click",()=>setRoute(b.dataset.route)));
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
+let savedRoute="",savedTab="s0";
+try{
+  savedRoute=localStorage.getItem("lab.route");savedTab=localStorage.getItem("lab.tab")||"s0";
+  if(localStorage.getItem("lab.questionUnit.v1")!=="1"){
+    if(savedTab==="s8"){savedTab="s9";localStorage.setItem("lab.tab",savedTab);}
+    localStorage.setItem("lab.questionUnit.v1","1");
+  }
+  if(localStorage.getItem("lab.askBeforeHandoff.v1")!=="1"){
+    const movedTabs={s8:"s7",s7o:"s8o",s7f:"s8f"};
+    if(movedTabs[savedTab]){savedTab=movedTabs[savedTab];localStorage.setItem("lab.tab",savedTab);}
+    localStorage.setItem("lab.askBeforeHandoff.v1","1");
+  }
+}catch(e){}
+if(["office","field","all"].includes(savedRoute)){
+  setRoute(savedRoute,false);
+  const savedTrack=trackOf(savedTab);
+  if(savedTrack && route!=="all" && savedTrack!==route)savedTab=savedTab.slice(0,-1)+(route==="office"?"o":"f");
+  go(tabs.some(b=>b.dataset.tab===savedTab)?savedTab:"s0");
+}else{tabs.forEach(b=>{b.hidden=!!trackOf(b.dataset.tab);});go("s0");}
+if(tabs.some(b=>b.dataset.tab===initialTabFromUrl))go(initialTabFromUrl);
+window.addEventListener("hashchange",()=>{const id=location.hash.slice(1);if(tabs.some(b=>b.dataset.tab===id))go(id);});
+
+
+document.querySelectorAll("input[type=checkbox][data-k]").forEach(c=>{
+  try{c.checked=localStorage.getItem("lab."+c.dataset.k)==="1";}catch(e){}
+  c.addEventListener("change",()=>{try{localStorage.setItem("lab."+c.dataset.k,c.checked?"1":"0");}catch(e){}});
+});
+
+if(WORKMAP && document.getElementById("map")){
+  const mapEl=document.getElementById("map");
+  const sel=(name,opts,i)=>`<select data-m="${name}${i}"><option value="">${name}</option>${opts.map(o=>`<option>${o}</option>`).join("")}</select>`;
+  let html="";
+  for(let i=1;i<=WORKMAP.rows;i++){
+    html+=`<div class="r"><b>${WORKMAP.rowLabel} ${i}</b><input data-m="s${i}" placeholder="${WORKMAP.placeholder}">`;
+    WORKMAP.fields.forEach(f=>{html+=sel(f.name,f.options,i);});
+    html+=`</div>`;
+  }
+  mapEl.innerHTML=html;
+  mapEl.querySelectorAll("[data-m]").forEach(el=>{
+    try{const v=localStorage.getItem("lab.m."+el.dataset.m);if(v!=null)el.value=el.dataset.m.startsWith("提詞卡")?(LEGACY_CARD_OPTIONS[v]||v):v;}catch(e){}
+    const save=()=>{try{localStorage.setItem("lab.m."+el.dataset.m,el.value);}catch(e){}};
+    el.addEventListener("input",save); el.addEventListener("change",save);
+  });
+  const btn=document.getElementById("copyMap");
+  if(btn) btn.addEventListener("click",()=>{
+    const g=k=>{const el=mapEl.querySelector(`[data-m="${k}"]`);return el?el.value:"";};
+    const lines=[];
+    for(let i=1;i<=WORKMAP.rows;i++){const s=g("s"+i);if(!s)continue;lines.push(`${i}. ${s} → `+WORKMAP.fields.map(f=>g(f.name+i)||"？").join(" → "));}
+    if(!lines.length){say(MSG.mapEmpty);return;}
+    copy(WORKMAP.title+"\n"+lines.join("\n")+(WORKMAP.footer?"\n\n"+WORKMAP.footer:""));
+  });
+}
+})();
+</script>
+</body>
+</html>

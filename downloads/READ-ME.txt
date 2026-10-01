@@ -1,0 +1,15 @@
+Haleon AI 職場實作課｜學員素材包
+課程日期：2026-10-02
+網站：https://shaoen0926-design.github.io/haleon-ai-workshop-1002/
+
+開始方式
+1. 內勤使用 excel/內勤_實作練習.xlsx。
+   外勤使用 excel/外勤_實作練習.xlsx。
+   本課只需要這兩份 Excel，不需要舊版分檔。
+2. prompts/all-exercises.txt 是與目前網站同步的完整練習步驟與提詞。
+3. materials/ 是素材區 M-01 至 M-20，以及外勤診所清單的文字版。
+4. research/ 的兩份 PDF 用於 NotebookLM 文獻練習；來源與授權見 SOURCES.txt。
+5. handouts/ 保存原始學員手冊、架構簡報與參考附件。這些是原始版本，
+   部分題號與舊流程尚未跟隨網站改版；請以網站及 prompts/ 的最新版為準。
+6. 所有下載均放在同一個 GitHub Pages 網站，不需要其他雲端硬碟。
+練習素材為教學用虛構資料；研究文獻為原作者公開發表的真實研究。
