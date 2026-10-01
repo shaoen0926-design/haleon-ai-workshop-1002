@@ -1,27 +1,43 @@
 # Haleon AI 職場實作課
-課程日期：2026-10-02
 
+- 課程日期：2026-10-02
 - 網站：https://shaoen0926-design.github.io/haleon-ai-workshop-1002/
-- 下載區：https://shaoen0926-design.github.io/haleon-ai-workshop-1002/#downloads
-- 投影 QR Code：https://shaoen0926-design.github.io/haleon-ai-workshop-1002/qr.html
-- 學員素材整包：https://shaoen0926-design.github.io/haleon-ai-workshop-1002/downloads/course-materials.zip
+- 檔案下載：https://shaoen0926-design.github.io/haleon-ai-workshop-1002/#downloads
+- QR Code 投影頁：https://shaoen0926-design.github.io/haleon-ai-workshop-1002/qr.html
 
-## 發布結構
-- index.html：唯一的主要實作頁，包含所有練習與複製提詞。
-- downloads/excel：內勤、外勤各一份共用 Excel。
-- downloads/materials：M-01 至 M-20 與外勤診所清單文字備份。
-- downloads/prompts：各單元與全課提詞，按目前網頁匯出。
-- downloads/research：兩篇原始研究 PDF；授權見 SOURCES.txt。
-- downloads/handouts：原始學員參考附件，部分題號較舊，以網頁為準。
-- downloads/course-materials.zip：學員全部素材。
-- assets/course-qr.png、assets/course-qr.svg、qr.html：分享與投影用 QR Code。
-- downloads/manifest.json：素材檔案大小及 SHA-256 校驗值。
+## 公開檔案
+下載資料夾僅保留四個檔案：
+1. downloads/excel/內勤_實作練習.xlsx
+2. downloads/excel/外勤_實作練習.xlsx
+3. downloads/research/sensodyne-2019.pdf
+4. downloads/research/sensodyne-2023.pdf
 
-## GitHub Pages
-使用 main 分支根目錄發布。保留 .nojekyll，避免教材目錄被 Jekyll 處理。
-網站、下載檔案及 QR Code 均由同一個 GitHub Pages 網站提供，不依賴雲端硬碟。
+index.html 包含全部練習、提詞與可複製的文字素材。
+QR Code 位於 assets/；GitHub Pages 使用 main 分支根目錄，保留 .nojekyll。
+不需要其他雲端硬碟。講師資料、手冊、舊版檔與額外匯出的文字檔不在目前發布內容中。
 
-目前目錄中的舊版 HTML 與歷史頁面透過 .gitignore 排除；講師教案和解答卡保留於原始課程資料夾，不在學員公開包內。
-更新網頁時同步更新 downloads/prompts 與素材 ZIP；Excel 同名檔案可直接替換。
+## 文獻來源與授權
+研究 PDF 來源與授權
+查找／下載日期：2026-10-01
 
-教學虛構素材與外部研究分開標示。兩篇研究依 CC BY 4.0 保留原檔與來源署名。
+1. Mason, S., Burnett, G. R., Patel, N., et al. (2019).
+Impact of toothpaste on oral health-related quality of life in people with dentine hypersensitivity.
+BMC Oral Health 19, 226.
+DOI：https://doi.org/10.1186/s12903-019-0919-x
+原文：https://link.springer.com/article/10.1186/s12903-019-0919-x
+PDF：https://link.springer.com/content/pdf/10.1186/s12903-019-0919-x.pdf
+本站檔案：sensodyne-2019.pdf
+
+2. Jang et al. (2023).
+A randomized clinical trial for comparing the efficacy of desensitizing toothpastes on the relief of dentin hypersensitivity.
+Scientific Reports 13, 5271.
+DOI：https://doi.org/10.1038/s41598-023-31616-6
+原文：https://www.nature.com/articles/s41598-023-31616-6
+PDF：https://www.nature.com/articles/s41598-023-31616-6.pdf
+本站檔案：sensodyne-2023.pdf
+
+兩篇文章均採 Creative Commons Attribution 4.0 International（CC BY 4.0）。
+授權：https://creativecommons.org/licenses/by/4.0/
+PDF 按出版商原檔提供，未修改內容。著作權歸原作者；第三方素材的個別標示仍適用。
+用於閱讀研究方法與來源查證；兩篇研究使用的產品／配方不同，不可直接當成台灣現行產品的核准宣稱。
+
